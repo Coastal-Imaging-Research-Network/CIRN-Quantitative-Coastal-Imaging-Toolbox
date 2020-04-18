@@ -1,0 +1,17 @@
+since you are not familiar with the coordinate system....
+
+these are good places to start for extrinsic guesses and local rotations.
+The extrinsics i pulled right from the autopilot.
+
+localOrigin = [496206.1012  56561.9193 ]; % [ x y]
+localAngle =[134]; % Degrees +CCW from Original World X 
+
+
+extrinsicsInitialGuess= [ 495735.94600 56018.22500 90 deg2rad(327) deg2rad(90) deg2rad(0)]; % [ x y z yaw pitch roll]
+
+
+The projection is going to be garbage since the intrinsics are not for a fisheye. so just use what it gives you from above.
+
+
+
+
