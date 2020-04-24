@@ -110,41 +110,39 @@ gcpsUsed=[1 2 3 6 7];
 
 %% Section 4: User Input: Solution Information
 %  Enter the initial guess of extrinsics, the EO solution, for the corresponding
-%  camera image   Extrinsics is formatted as [ x y z yaw pitch roll] where xyz 
+%  camera image   Extrinsics is formatted as [ x y z azimuth tilt swing] where xyz 
 %  correspond to the same  world coordinate system as gcps entered in 
-%  gcpXyzPath in Section 3. Yaw Pitch Roll should be in radians. For UAS,
+%  gcpXyzPath in Section 3. Azimuth, tilt and swing should be in radians. For UAS,
 %  this information can be estimated from the autopilot. For fixed camera
 %  stations it is suggested you survey in the location of the cameras.
 
-extrinsicsInitialGuess= [ 901726 274606 100 deg2rad(80) deg2rad(60) deg2rad(0)]; % [ x y z yaw pitch roll]
+extrinsicsInitialGuess= [ 901726 274606 100 deg2rad(80) deg2rad(60) deg2rad(0)]; % [ x y z azimuth tilt swing]
 
 %  Enter the number of knowns, or what you would like fixed in your EO
 %  solution. 1 represents fixed where 0 represents floating (solvable) for
 %  each value in beta. 
-extrinsicsKnownsFlag= [ 0 0 0 0 0 0];  % [ x y z yaw pitch roll]
+extrinsicsKnownsFlag= [ 0 0 0 0 0 0];  % [ x y z azimuth tilt swing]
 
 
 % Section 4 Note: 
 %  The nlinfit solver is very sensitive to the initial guess; so it must be
-%  an educated guess. It is particularly sensitive to the guessed yaw,
-%  pitch, and roll. If incorrect, nlinfit will error or provide an
+%  an educated guess. It is particularly sensitive to the guessed azimuth,
+%  tilt, and swing. If incorrect, nlinfit will error or provide an
 %  nonsensical answer. Please check veracity of provided extrinsics. 
 
-%  To help provide better orientation guesses, Yaw, Pitch, and roll are
-%  defined below.
+%  To help provide better orientation guesses, azimuth,
+%  tilt, and swing are defined below.
 
-%  Yaw is the horizontal direction the camera is pointing and positive CW 
+%  Azimuth is the horizontal direction the camera is pointing and positive CW 
 %  from World Z Axis. 
 
-%  Pitch is the up/down tilt of the camera. 0 is the camera looking nadir,
+%  Tilt is the up/down tilt of the camera. 0 is the camera looking nadir,
 %  +90 is the camera looking at the horizon right side up. 180 is looking
 %  up at the sky and so on.
 
-%  Roll is the side to side tilt of the camera.  0 degrees is a horizontal 
-%  flat camera. Looking from behind the camera, CW rotation (horizon
-%  appearing lower on the right handside of the image) would provide a
-%  positve roll.
-
+%  Swing is the side to side tilt of the camera.  0 degrees is a horizontal 
+%  flat camera. Looking from behind the camera, CCW rotation of the camera
+%  would provide a positve swing.
 
 
 
@@ -213,9 +211,9 @@ disp('Solved Extrinsics and NLinfit Error')
 disp( [' x = ' num2str(extrinsics(1)) ' +- ' num2str(extrinsicsError(1))])
 disp( [' y = ' num2str(extrinsics(2)) ' +- ' num2str(extrinsicsError(2))])
 disp( [' z = ' num2str(extrinsics(3)) ' +- ' num2str(extrinsicsError(3))])
-disp( [' yaw = ' num2str(rad2deg(extrinsics(4))) ' +- ' num2str(rad2deg(extrinsicsError(4))) ' degrees'])
-disp( [' pitch = ' num2str(rad2deg(extrinsics(5))) ' +- ' num2str(rad2deg(extrinsicsError(5))) ' degrees'])
-disp( [' roll = ' num2str(rad2deg(extrinsics(6))) ' +- ' num2str(rad2deg(extrinsicsError(6))) ' degrees'])
+disp( [' azimuth = ' num2str(rad2deg(extrinsics(4))) ' +- ' num2str(rad2deg(extrinsicsError(4))) ' degrees'])
+disp( [' tilt = ' num2str(rad2deg(extrinsics(5))) ' +- ' num2str(rad2deg(extrinsicsError(5))) ' degrees'])
+disp( [' swing = ' num2str(rad2deg(extrinsics(6))) ' +- ' num2str(rad2deg(extrinsicsError(6))) ' degrees'])
 
 
 

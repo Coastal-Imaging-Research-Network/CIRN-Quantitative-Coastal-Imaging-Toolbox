@@ -12,10 +12,10 @@
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
-%  extrinsicsInitialGuess = 1x6 Vector representing [ x y z yaw pitch roll] of 
+%  extrinsicsInitialGuess = 1x6 Vector representing [ x y z azimuth tilt swing] of 
 %  the camera EO. Include both known and initial guesses of unknown values.
 %  x, y, and z should be in the same units and coordinate system of GCP xyz 
-%  points. Yaw, pitch, and roll should be in radians. 
+%  points. Azimuth, tilt, and swing should be in radians. 
 
 %  extrinsicsKnownFlags= 1x6 Vector of 1s and 0s marking whether values in
 %  betaInitialGuess are known or are initial guesses and should be solved
@@ -30,7 +30,7 @@
 
 
 %  Output:
-%  extrinsics = 1x6 Vector representing [ x y z yaw pitch roll] of the camera.
+%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of the camera.
 %  Units of values are same as entered extrinsicsInitialGuess
 
 %  extrinsics Error= 1x6 Vector of errors for value of beta. Units of values are

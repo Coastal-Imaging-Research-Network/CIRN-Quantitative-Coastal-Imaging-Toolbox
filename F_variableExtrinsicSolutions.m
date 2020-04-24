@@ -323,15 +323,15 @@ subplot(6,1,4)
 plot(t,rad2deg(extrinsicsVariable(:,4)-extrinsicsVariable(1,4)))
 ylabel('\Delta Azimuth [^o]')
 
-% Pitch
+% Tilt
 subplot(6,1,5)
 plot(t,rad2deg(extrinsicsVariable(:,5)-extrinsicsVariable(1,5)))
-ylabel('\Delta Pitch[^o]')
+ylabel('\Delta Tilt[^o]')
 
-% Roll
+% Swing
 subplot(6,1,6)
 plot(t,rad2deg(extrinsicsVariable(:,6)-extrinsicsVariable(1,6)))
-ylabel('\Delta Roll [^o]')
+ylabel('\Delta Swing [^o]')
 
 
 % Set grid and datetick if time is provided
@@ -378,8 +378,8 @@ disp(['X Standard Dev: ' num2str(variableCamSolutionMeta.solutionSTD(1))])
 disp(['Y Standard Dev: ' num2str(variableCamSolutionMeta.solutionSTD(2))])
 disp(['Z Standard Dev: ' num2str(variableCamSolutionMeta.solutionSTD(3))])
 disp(['Azimuth Standard Dev: ' num2str(rad2deg(variableCamSolutionMeta.solutionSTD(4))) ' deg'])
-disp(['Pitch Standard Dev: ' num2str(rad2deg(variableCamSolutionMeta.solutionSTD(5))) ' deg'])
-disp(['Roll Standard Dev: ' num2str(rad2deg(variableCamSolutionMeta.solutionSTD(6))) ' deg'])
+disp(['Tilt Standard Dev: ' num2str(rad2deg(variableCamSolutionMeta.solutionSTD(5))) ' deg'])
+disp(['Swing Standard Dev: ' num2str(rad2deg(variableCamSolutionMeta.solutionSTD(6))) ' deg'])
 
 
 

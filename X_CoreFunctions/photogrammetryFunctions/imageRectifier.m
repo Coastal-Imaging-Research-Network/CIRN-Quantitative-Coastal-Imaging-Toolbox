@@ -16,9 +16,9 @@
 
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
-%  extrinsics = 1x6 Vector representing [ x y z yaw pitch roll] of 
+%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of 
 %  the camera EO.  All values should be in the same units and coordinate 
-%  system of X,Y, and Z grids. Yaw, pitch, and roll should be in radians. 
+%  system of X,Y, and Z grids. Azimuth, Tilt and Swing should be in radians. 
 
 %  X = Vector or Grid of X coordinates to rectify. 
 %  Y = Vector or Grid of Y coordinates to rectify. 

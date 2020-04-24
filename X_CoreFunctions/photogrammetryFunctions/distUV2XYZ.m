@@ -13,9 +13,9 @@
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
 
-%  extrinsics = 1x6 Vector representing [ x y z yaw pitch roll] of the camera.
-%  XYZ should be in the same units as xyz points to be converted and yaw,
-%  pitch, and roll should be in radians. 
+%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of the camera.
+%  XYZ should be in the same units as xyz points to be converted and azimuth,
+%  tilt and swing should be in radians. 
 
 %  UVd = Nx2 list of distorted image UV coordinates of N points. Columns 
 %  represent U and V coordinates. 

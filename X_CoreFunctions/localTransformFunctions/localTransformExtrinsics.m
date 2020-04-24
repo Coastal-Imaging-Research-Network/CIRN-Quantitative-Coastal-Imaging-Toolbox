@@ -53,7 +53,7 @@ if directionFlag==1
     % Transform X and Y coordinate of extrinsics
     [ extrinsicsOut(:,1) extrinsicsOut(:,2)]= localTransformPoints(localOrigin,localAngle,1,extrinsicsIn(:,1),extrinsicsIn(:,2));
 
-    % Z, Pitch, and Roll are the Same Since Just Horizontal Rot. and Tran
+    % Z, Tilt and Swing are the Same Since Just Horizontal Rot. and Tran
     extrinsicsOut(:,[ 3 5 6])= extrinsicsIn(:,[3 5 6]);    
 
     % Rotate Azimuth 
@@ -71,7 +71,7 @@ if directionFlag==0
     % Transform X and Y coordinate of extrinsics
     [ extrinsicsOut(:,1) extrinsicsOut(:,2)]= localTransformPoints(localOrigin,localAngle,0,extrinsicsIn(:,1),extrinsicsIn(:,2));
 
-    % Z, Pitch, and Roll are the Same Since Just Horizontal Rot. and Tran
+    % Z, Tilt and Swing are the Same Since Just Horizontal Rot. and Tran
     extrinsicsOut(:,[ 3 5 6])= extrinsicsIn(:,[3 5 6]);    
 
     % Rotate Azimuth 

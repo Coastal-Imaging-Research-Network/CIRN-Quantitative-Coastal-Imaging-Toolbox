@@ -1,7 +1,7 @@
 %%intrinsicsExtrinsicsToP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  This function creates a camera P matrix from a specified camera EO and
-%  IO from beta and LCP respectively. 
+%  IO from extrinsics and intrinsics respectively. 
   
 
 %  Reference Slides:
@@ -10,9 +10,9 @@
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
-%  extrinsics = 1x6 Vector representing [ x y z yaw pitch roll] of the camera.
-%  XYZ should be in the same units as xyz points to be converted and yaw,
-%  pitch, and roll should be in radians. 
+%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of the camera.
+%  XYZ should be in the same units as xyz points to be converted and azimith,
+%  tilt, and swing should be in radians. 
 
 
 %  Output:
@@ -42,19 +42,19 @@ K = [fx 0 c0U;
  
  
 %% Section 2: Format EO into Rotation Matrix R
-yaw= extrinsics(4); 
-pitch=extrinsics(5);  
-roll=extrinsics(6);
+azimuth= extrinsics(4); 
+tilt=extrinsics(5);  
+swing=extrinsics(6);
 
-R(1,1) = cos(yaw) * cos(roll) + sin(yaw) * cos(pitch) * sin(roll);
-R(1,2) = -cos(roll) * sin(yaw) + sin(roll) * cos(pitch) * cos(yaw);
-R(1,3) = sin(roll) * sin(pitch);
-R(2,1) = -sin(roll) * cos(yaw) + cos(roll) * cos(pitch) * sin(yaw);
-R(2,2) = sin(roll) * sin(yaw) + cos(roll) * cos(pitch) * cos(yaw);
-R(2,3) = cos(roll) * sin(pitch);
-R(3,1) = sin(pitch) * sin(yaw);
-R(3,2) = sin(pitch) * cos(yaw);
-R(3,3) = -cos(pitch);
+R(1,1) = cos(azimuth) * cos(swing) + sin(azimuth) * cos(tilt) * sin(swing);
+R(1,2) = -cos(swing) * sin(azimuth) + sin(swing) * cos(tilt) * cos(azimuth);
+R(1,3) = sin(swing) * sin(tilt);
+R(2,1) = -sin(swing) * cos(azimuth) + cos(swing) * cos(tilt) * sin(azimuth);
+R(2,2) = sin(swing) * sin(azimuth) + cos(swing) * cos(tilt) * cos(azimuth);
+R(2,3) = cos(swing) * sin(tilt);
+R(3,1) = sin(tilt) * sin(azimuth);
+R(3,2) = sin(tilt) * cos(azimuth);
+R(3,3) = -cos(tilt);
 
 
 
