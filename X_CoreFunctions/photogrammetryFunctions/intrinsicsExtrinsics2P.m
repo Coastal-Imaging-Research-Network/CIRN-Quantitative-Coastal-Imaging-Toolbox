@@ -33,7 +33,7 @@ fy=intrinsics(6);
 c0U=intrinsics(3);
 c0V=intrinsics(4);
 
-K = [fx 0 c0U;
+K = [-fx 0 c0U;
      0 -fy c0V;
      0  0 1];
 
@@ -46,9 +46,9 @@ azimuth= extrinsics(4);
 tilt=extrinsics(5);  
 swing=extrinsics(6);
 
-R(1,1) = cos(azimuth) * cos(swing) + sin(azimuth) * cos(tilt) * sin(swing);
-R(1,2) = -cos(swing) * sin(azimuth) + sin(swing) * cos(tilt) * cos(azimuth);
-R(1,3) = sin(swing) * sin(tilt);
+R(1,1) = -cos(azimuth) * cos(swing) - sin(azimuth) * cos(tilt) * sin(swing);
+R(1,2) = cos(swing) * sin(azimuth) - sin(swing) * cos(tilt) * cos(azimuth);
+R(1,3) = -sin(swing) * sin(tilt);
 R(2,1) = -sin(swing) * cos(azimuth) + cos(swing) * cos(tilt) * sin(azimuth);
 R(2,2) = sin(swing) * sin(azimuth) + cos(swing) * cos(tilt) * cos(azimuth);
 R(2,3) = cos(swing) * sin(tilt);
