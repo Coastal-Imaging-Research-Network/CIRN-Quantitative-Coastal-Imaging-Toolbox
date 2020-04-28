@@ -147,7 +147,7 @@ localFlagInput=1;
 
 ixlim=[0 700];
 iylim=[0 1000];
-idxdy=1;
+idxdy=10;
 
 
 % Elevation Specification. Enter the elevation you would like your grid
