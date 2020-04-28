@@ -56,7 +56,10 @@ Vd=UVd(2,:);
 % Take Calibration Information, combine it into a sigular P matrix
 % containing both intrinsics and extrinsic information. Requires function
 % intrinsicsExtrinsics2P.
-P = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+[P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+P = P/P(3,4);   % Normalize for Homogeneous Coordinates.
+
+
 
 % We will find the world coordinates atributed to each UV point using the 
 % Direct Linear Transformation Equations.

@@ -19,12 +19,19 @@
 %  P= [4 x 4] transformation matrix to convert XYZ coordinates to distorted
 %  UV coordinates. 
 
+%  K=  [ 3 x 3] K matrix to convert XYZc Coordinates to distorted UV coordinates
+
+%  R = [3 x 3] Matrix to rotate XYZ world coordinates to Camera Coordinates XYZc
+
+%  IC =[ 4 x3] Translation matrix to translate XYZ world coordinates to Camera Coordinates XYZc
+
+
 
 %  Required CIRN Functions:
 %  None
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function P = intrinsicsExtrinsics2P( intrinsics, extrinsics )
+function [P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics )
 
 
 %% Section 1: Format IO into K matrix
@@ -33,7 +40,7 @@ fy=intrinsics(6);
 c0U=intrinsics(3);
 c0V=intrinsics(4);
 
-K = [fx 0 c0U;
+K = [-fx 0 c0U;
      0 -fy c0V;
      0  0 1];
 
@@ -42,20 +49,16 @@ K = [fx 0 c0U;
  
  
 %% Section 2: Format EO into Rotation Matrix R
+% Here, a rotation matrix from World XYZ to Camera (subscript C, not UV) is
+% needed. The following code uses CIRN defined angles to formulate an R
+% matrix. However, if a user would like to define R differently with
+% different angles, this is where that modifcation would occur. Any R that
+% converts World to XYZc would work correctly. 
+
 azimuth= extrinsics(4); 
 tilt=extrinsics(5);  
 swing=extrinsics(6);
-
-R(1,1) = cos(azimuth) * cos(swing) + sin(azimuth) * cos(tilt) * sin(swing);
-R(1,2) = -cos(swing) * sin(azimuth) + sin(swing) * cos(tilt) * cos(azimuth);
-R(1,3) = sin(swing) * sin(tilt);
-R(2,1) = -sin(swing) * cos(azimuth) + cos(swing) * cos(tilt) * sin(azimuth);
-R(2,2) = sin(swing) * sin(azimuth) + cos(swing) * cos(tilt) * cos(azimuth);
-R(2,3) = cos(swing) * sin(tilt);
-R(3,1) = sin(tilt) * sin(azimuth);
-R(3,2) = sin(tilt) * cos(azimuth);
-R(3,3) = -cos(tilt);
-
+[R] = CIRNangles2R(azimuth,tilt,swing);
 
 
 
@@ -73,7 +76,7 @@ IC = [eye(3) [-x -y -z]'];
 
 %% Section 4: Combine K, Rotation, and Translation Matrix into P 
 P = K*R*IC;
-P = P/P(3,4);   % unnecessary since we will also normalize UVs
+
 
 
 
