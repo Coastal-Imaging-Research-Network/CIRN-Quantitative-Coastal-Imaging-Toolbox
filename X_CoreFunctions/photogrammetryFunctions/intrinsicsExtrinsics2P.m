@@ -76,6 +76,7 @@ IC = [eye(3) [-x -y -z]'];
 
 %% Section 4: Combine K, Rotation, and Translation Matrix into P 
 P = K*R*IC;
+P = P/P(3,4);   % Normalize for Homogeneous Coordinates.
 
 
 

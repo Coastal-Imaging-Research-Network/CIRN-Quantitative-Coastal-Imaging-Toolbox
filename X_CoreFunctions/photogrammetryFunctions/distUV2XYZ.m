@@ -57,7 +57,6 @@ Vd=UVd(2,:);
 % containing both intrinsics and extrinsic information. Requires function
 % intrinsicsExtrinsics2P.
 [P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
-P = P/P(3,4);   % Normalize for Homogeneous Coordinates.
 
 
 
