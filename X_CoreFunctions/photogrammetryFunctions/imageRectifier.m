@@ -90,8 +90,13 @@ Vd=round(Vd);
     Ud(bind)=nan;
     Vd(bind)=nan;
     
-
-    
+    % Find Negative Zc Camera Coordinates
+    [P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+    xyzC = R*IC*[xyz'; ones(1,size(xyz,1))];
+    Zc=reshape(xyzC (3,:),s(1),s(2));
+    bind= find(Zc<0);
+    Ud(bind)=nan;
+    Vd(bind)=nan;
     
     
 %% Section 3: Pull Image Pixel Intensities from Image

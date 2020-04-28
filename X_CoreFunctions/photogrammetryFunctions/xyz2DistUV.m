@@ -35,7 +35,7 @@ function  [UVd] = xyz2DistUV(intrinsics,extrinsics,xyz)
 % Take Calibration Information, combine it into a sigular P matrix
 % containing both intrinsics and extrinsic information. Requires function
 % intrinsicsExtrinsicsToP.
-P = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+[P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
 
 % Find the Undistorted UV Coordinates atributed to each xyz point.
 UV = P*[xyz'; ones(1,size(xyz,1))];
