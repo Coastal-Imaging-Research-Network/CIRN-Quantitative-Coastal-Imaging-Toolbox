@@ -59,6 +59,10 @@
 close all
 clear all
 
+% User should make sure that X_CoreFunctions and subfolders are made active
+% in their MATLAB path. Below is the standard location for demo, user will
+% need to change if X_CoreFunctions is moved and/or the current script.
+addpath(genpath('./X_CoreFunctions/'))
 
 
 %% Section 1: User Input:  Output
