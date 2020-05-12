@@ -62,7 +62,7 @@ xyz=cat(2,x',y',z');
 %% Section 2: Determine Distorted UVd points for each xyz point
 
 % Determine UVd Points
-[UVd] = xyz2DistUV(intrinsics,extrinsics,xyz);
+[UVd, flag] = xyz2DistUV(intrinsics,extrinsics,xyz);
 
 
 % Reshape UVd Matrix so in size of input X,Y,Z
@@ -75,28 +75,10 @@ Vd=(reshape(UVd(:,2),s(1),s(2)));
 Ud=round(Ud);
 Vd=round(Vd);
 
-% Algorithm will find UV coordinates whether real or not ( xyz not in the
-% field of view) This gets rid of bad UV points that don' exist.
-
-    %Find negative UV coordinates
-    bind=find(Ud<=0 | Vd<=0); 
-    Ud(bind)=nan;
-    Vd(bind)=nan;
-    
-    % Find UVd coordinates greater than the image size
-    NU=intrinsics(1);
-    NV=intrinsics(2);
-    bind =find( Ud>=NU | Vd>= NV); 
-    Ud(bind)=nan;
-    Vd(bind)=nan;
-    
-    % Find Negative Zc Camera Coordinates
-    [P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
-    xyzC = R*IC*[xyz'; ones(1,size(xyz,1))];
-    Zc=reshape(xyzC (3,:),s(1),s(2));
-    bind= find(Zc<0);
-    Ud(bind)=nan;
-    Vd(bind)=nan;
+% Utalize Flag to remove invalid points. See xyzDistUV and distortUV to see
+% what is considered an invalid point.
+Ud(find(flag==0))=nan;
+Vd(find(flag==0))=nan;
     
     
 %% Section 3: Pull Image Pixel Intensities from Image
