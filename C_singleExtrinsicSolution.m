@@ -103,12 +103,12 @@ gcpCoord='North Carolina State Plane, NAVD88; meters';
 % Enter the path of the image you would like GCP reprojection checked
 % against (plotted in). This should be the same image used in
 % B_gcpSelection (imagePath) if you are doing a UAS collect or a moving camera.
-checkImage='.\X_UASDemoData\collectionImages\uasDemoFlight\00001000.jpg';
+checkImage='.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 %  Enter the numbers of GCPs you would like to use for the solution.
 %  Numbers must match gcp.num values found in gpcUvPath file. You do not
 %  have to use all of the clicked GCPS or GCPS listed in the file. 
-gcpsUsed=[1 2 3 6 7];
+gcpsUsed=[1 2 3 4 5];
 
 
 

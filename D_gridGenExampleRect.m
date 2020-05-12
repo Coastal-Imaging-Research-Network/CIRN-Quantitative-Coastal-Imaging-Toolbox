@@ -92,7 +92,7 @@ teachingMode=1;
 %  UAS, make sure it is the same image you did the initial solution for in
 %  C_singleExtrinsicsSolution (initialCamSolutionMeta.impath), for it will use the
 %  first extrinsics vector (extrinsics(1,:).
-impath= '.\X_UASDemoData\collectionImages\uasDemoFlight\00001000.jpg';
+impath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 

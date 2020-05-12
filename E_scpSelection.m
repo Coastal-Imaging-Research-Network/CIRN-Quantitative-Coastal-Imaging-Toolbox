@@ -90,7 +90,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 %  Enter the filepath of the saved image for clicking. For a collection
 %  where the camera moves, it should be the image used for IOEO initial
 %  calibration in C_singleExtrinsic Solution and B_gcpSelection(imagePath).
-imagePath= '.\X_UASDemoData\collectionImages\uasDemoFlight\00001000.jpg';
+imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
 

@@ -91,7 +91,7 @@ ioeopath= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  F_variableExtrinsicSolutions. For fixed cameras, the directory should
 %  only have images in it, nothing else. 
 
-obliqueImageDirectory='.\X_UASDemoData\collectionImages\uasDemoFlight\';
+obliqueImageDirectory='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
 
 

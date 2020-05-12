@@ -81,7 +81,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\';
 %  C_singleExtrinsicsSolution (initialCamSolutionMeta.impath). It should be
 %  in the same directory as your other colleciton images imagesDirectory.
 
-firstFrame= '00001000.jpg';
+firstFrame= 'uasDemo_1443742140000.tif';
 
 
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
@@ -103,9 +103,9 @@ scppath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_scpUVdIniti
 % (initailCamSolutionMeta.worldCoordSys)
 
 scpz=[ 1  7; % scp.num   z value
-       2  7;
-       3  7;
-       4  7];
+       4  7;
+       5  7;
+       6  7];
 
 %  Enter the coordinate system of the elevations entered in for scp. Z 
 %  value should be in same world coordinate system as IOEO
@@ -123,9 +123,11 @@ scpZcoord='NAVD88; m units';
 %  names of the images should be so that MATLAB lists them in order in the
 %  current directory window. To do this, images must be numbered with the
 %  same number of digits. Example: numbering should be 00001,00002,00003
-%  etc. NOT 1,2,3. Also, only have the images in the folder. Nothing else.
+%  etc. NOT 1,2,3. Also acceptible is any date number either in matlab
+%  datenum or epochtime as output in A0_move2frames. Also, only have the 
+%  images in the folder. Nothing else.
 
-imageDirectory='.\X_UASDemoData\collectionImages\uasDemoFlight\';
+imageDirectory='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
 
 %  Enter the dt in seconds of the collect. If not known, leave as {}. Under

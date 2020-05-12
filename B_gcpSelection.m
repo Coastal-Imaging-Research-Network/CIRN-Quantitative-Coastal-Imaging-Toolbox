@@ -69,7 +69,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 %% Section 2: User Input: GCP Image
 %  Enter the filepath of the saved image for clicking. For UAS, this should
 %  be the first image of the collect.
-imagePath= '.\X_UASDemoData\collectionImages\uasDemoFlight\00001000.jpg';
+imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
 
@@ -179,6 +179,9 @@ end
 
 
 %% Section 5: Display Results
+
+close all
+
 disp(['GCPs Entered for ' oname ':'])
 disp(' ')
 
