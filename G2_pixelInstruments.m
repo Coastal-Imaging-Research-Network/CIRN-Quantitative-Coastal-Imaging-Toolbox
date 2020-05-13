@@ -172,7 +172,7 @@ zFixedCam={};
 % local coordinate system, and pulling z elevation values. THus, if you
 % have a spatially variable Z grid, you may want grid dx,dy resolutions to be
 % similar to your instruments. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_1mResolution.mat';
+gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
         
         % Grid for Multi-Camera Fixed Demo
         %gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
