@@ -218,7 +218,7 @@ localFlag=1;
     pixInst(2).type='yTransect';
     pixInst(2).x= 225;
     pixInst(2).ylim=[450 900];
-    pixInst(2).dy =2;
+    pixInst(2).dy =1;
     pixInst(2).z ={};  % Leave empty if you would like it interpolated from input
                     % Z grid or zFixedCam. If entered here it is assumed constant
                     % across domain and in time. 
@@ -233,7 +233,7 @@ localFlag=1;
     pixInst(3).type='xTransect';
     pixInst(3).y= 600;
     pixInst(3).xlim=[70 125];
-    pixInst(3).dx =2;
+    pixInst(3).dx =1;
     pixInst(3).z ={};  % Leave empty if you would like it interpolated from input
                     % Z grid or zFixedCam. If entered here it is assumed constant
                     % across domain and in time. 
