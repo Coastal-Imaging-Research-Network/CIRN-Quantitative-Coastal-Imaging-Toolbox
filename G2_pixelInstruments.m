@@ -221,10 +221,10 @@ localFlag=1;
                     % Z grid or zFixedCam. If entered here it is assumed constant
                     % across domain and in time. 
 
-    
-
-
-
+%     
+% 
+% 
+% 
     %  Runup (Cross-shore Transects)
     %  Enter the following parameters for a run up vector. 
 

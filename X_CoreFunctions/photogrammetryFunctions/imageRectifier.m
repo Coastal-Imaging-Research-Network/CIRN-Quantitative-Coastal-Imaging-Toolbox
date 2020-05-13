@@ -136,7 +136,7 @@ for kk=1:s(1)
 end
 
 % Save Rectifications from Each Camera into A Matrix
-IrIndv(:,:,:,k)=(ir);
+IrIndv(:,:,:,k)=uint8(ir);
 
 % Save Ud Vd coordinates for Plotting in Teaching Mode
 if teachingMode==1
@@ -153,9 +153,13 @@ end
 
 
 %% Section 5: Merge rectifications of multiple cameras
-
+if camnum>1
+% If More than one Camera, feather seams
 Ir=cameraSeamBlend(IrIndv);
-
+else
+    % Otherwise Save As is
+Ir=IrIndv;
+end
   
 
 %% Section 4: Optional for Teaching Mode
