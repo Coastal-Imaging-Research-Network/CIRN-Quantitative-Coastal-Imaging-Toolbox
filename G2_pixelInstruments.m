@@ -7,8 +7,7 @@
 %  calculutions. Rectifications can be made in both world and a local
 %  rotated coordinate system. However, for ease and accuracy,
 %  if planned to use in cbathy,vbar or runup applications, it should occur
-%  in local coordinates. This can function can be used for a collection
-%  with variable (UAS) and fixed intriniscs. 
+%  in local coordinates. 
 
 %  This can function can be used for a collection with variable (UAS) 
 %  and fixed intriniscs in addition to single/multi camera capability. 
@@ -20,9 +19,7 @@
 
 %  Note: This function is not intended to replace the CIRN pixeltoolbox.
 %  That toolbox is for advanced users with more complicated fixed stations
-%  with multiple cameras. This function is just for teaching purposes. It
-%  will be refactored to include the pixel toolbox in the future for 
-%  operational stations. 
+%  with multiple cameras. This function is just for teaching purposes. 
 
 
 
