@@ -75,12 +75,12 @@ addpath(genpath('./X_CoreFunctions/'))
 
 oname='rect10x10m';
         % For Multi Cam
-        % oname='rect5x5m';
+         oname='rect5x5m';
 
 %  Enter the directory where the images will be saved.
 odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
         % For Multi Cam
-        % odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+         odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 
 %  Enter if you would like individual frames rectified and output. 1= yes,
 %  output individual frames. 0= no, only output image products.
@@ -99,10 +99,10 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 
         % %  If multi-Camera, enter each filepath as a cell entry for each camera.
         % %  Note, all extrinsics must be in same coordinate system.
-        % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
-        % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
-        % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
-        % ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
+         ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
+         ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
+         ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
+         ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
 
 
 
@@ -122,10 +122,10 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
         % can be altered for more complicated folder directories. Also, the order
         % of the obliqueImageDirectory{k) should match with the ieopath order so
         % the correct IOEO corresponds to the correct images.
-        % obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
-        % obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
-        % obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
-        % obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
+         obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
+         obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
+         obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
+         obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
 
 
 
@@ -138,7 +138,7 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
 
         % Grid for Multi-Camera Fixed Demo
-        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
+         gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
 
         
 % Enter if the user prefers local (localFlag==1) or world (localFlag==0)
@@ -155,7 +155,7 @@ localFlag=1;
 t={};
 
     % For Multi Cam
-    %t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
+    t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
         
 %  If a Fixed station, most likely images will span times where Z is no
 %  longer constant. We have to account for this in our Z grid. To do this,
