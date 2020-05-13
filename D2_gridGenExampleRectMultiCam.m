@@ -108,10 +108,10 @@ impath{4}= '.\X_FixedMultCamDemoData\collectionData\c8\1581706800.Fri.Feb.14_19_
 %  C_singleExtrinsicSolution. Note extrinsics for all K cameras should be 
 %  in same coordinate system.
 
-ieopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
-ieopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
-ieopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
-ieopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
+ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
+ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
+ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
+ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
 
 
 
@@ -201,7 +201,7 @@ for k=1:length(impath)
 I{k}=imread(impath{k});
 
 % Load Solution from C_singleExtrinsicSolution 
-load(ieopath{k})
+load(ioeopath{k})
 
 % Save IOEO into larger structure
 % Take First Solution (Can be altered if non-first frame imagery desired
@@ -226,7 +226,7 @@ intrinsics=Intrinsics;
 %  local coordinates, we must rotate our world extrinsics to local
 %  extrinsics.
 
-for k=1:length(ieopath)
+for k=1:length(ioeopath)
 %  World Extrinsics
 extrinsics{k}=extrinsics{k};
 

@@ -6,8 +6,12 @@
 %  rectified imagery for each image can be produced and saved as an png
 %  file. Rectified images and image products can be produced in world or
 %  local coordinates if specified in the grid provided by
-%  D_gridGenExampleRect. This can function can be used for a collection
-%  with variable (UAS) and fixed intriniscs. 
+%  D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. 
+%  This can function can be used for a collection with variable (UAS) 
+%  and fixed intriniscs in addition to single/multi camera capability. 
+
+%  The current code has input entered for UASDemoData. However, one can
+%  uncomment lines directly below input for a multi-camera processing.
 
 
 %  Reference Slides:
@@ -20,7 +24,7 @@
 %  directory of the oblique images and extrinsics solutions calculated by 
 %  C_singleExtrinsicSolution (Fixed Camera) or F_variableExtrinsicSolution
 %  (UAS). Section 3 will require rectification grid information produced by
-%  D_gridGenExampleRect. Section 4 will require any variation of z
+%  D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. Section 4 will require any variation of z
 %  elevation if known throughout the collect (only applicable for long term
 %  fixed stations with temporally varying z grids, not short UAS collects). 
 
@@ -28,7 +32,9 @@
 % Output:
 % 5 Image Products  as well as individual rectified frames if desired saved 
 % as pngs. The accompanying metadata will be saved along with grid
-% information in a mat file in the same ouputdirectory as the images.
+% information in a mat file in the same ouputdirectory as the images. If
+% multi-camera data is selected, the rectified individual frames will share
+% the same name as the fist cam. 
 
 
 %  Required CIRN Functions: 
@@ -68,10 +74,13 @@ addpath(genpath('./X_CoreFunctions/'))
 %  will be appended. Name should be descriptive of collection and grid.
 
 oname='uasDemo';
+        % For Multi Cam
+        % oname='fixedMultiCamDemo';
 
 %  Enter the directory where the images will be saved.
 odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
-
+        % For Multi Cam
+        % odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 
 %  Enter if you would like individual frames rectified and output. 1= yes,
 %  output individual frames. 0= no, only output image products.
@@ -86,27 +95,52 @@ outputFlag=1;
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
 %  C_singleExtrinsicSolution for fixed or F_variableExtrinsicSolutions for
 %  UAS.
-ioeopath= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
+ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
+
+        % %  If multi-Camera, enter each filepath as a cell entry for each camera.
+        % %  Note, all extrinsics must be in same coordinate system.
+        % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
+        % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
+        % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
+        % ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
+
+
+
+
+
 
 %  Enter the directory where your oblique imagery is stored. For UAS, the
 %  names of the images must match those in imageNames output produced by
 %  F_variableExtrinsicSolutions. For fixed cameras, the directory should
 %  only have images in it, nothing else. 
+obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
-obliqueImageDirectory='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
-
+        % If a Multi-camera station, provide the directory containing the images
+        % for each camera. Note in this example, each camera folder has the same amount
+        % and order of images (The first image for camera 1 was taken at the same time
+        % as the first image in camera 2 folder, etc). This code requires this but
+        % can be altered for more complicated folder directories. Also, the order
+        % of the obliqueImageDirectory{k) should match with the ieopath order so
+        % the correct IOEO corresponds to the correct images.
+        % obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
+        % obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
+        % obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
+        % obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
 
 
 
 %% Section 3: User Input: Grid Information
 
 % Enter the filepath of the saved rectification grid created in
-% D_gridGenExampleRect. Grid world coordinates need to be same coordinates
+% D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. Grid world coordinates need to be same coordinates
 % as those in the extrinsics in ieopath. Grid needs to be meshgrid format
 % with variables X,Y, and Z. 
 gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_1mResolution.mat';
 
+        % Grid for Multi-Camera Fixed Demo
+        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
 
+        
 % Enter if the user prefers local (localFlag==1) or world (localFlag==0)
 % coordinates. Not if localFlag==1, localAngle, localOrigin, and localX,Y,Z
 % in the ioeopath must all be non-empty.
@@ -129,42 +163,58 @@ zFixedCam={};
 
 %% Section 5: Load Files 
 
+% Load Grid File And Check if local is desired
+load(gridPath)
+if localFlag==1
+X=localX;
+Y=localY;
+Z=localZ;
+end
+
+% Load Camera IOEO and Image lists
+
+%  Determine Number of Cameras
+camnum=length(ioeopath);
+
+for k=1:camnum
 % Load List of Collection Images
-L=string(ls(obliqueImageDirectory));
-L=L(3:end); % First two are always empty
+L{k}=string(ls(obliqueImageDirectory{k}));
+L{k}=L{k}(3:end); % First two are always empty
 
 % Load Extrinsics
-load(ioeopath)
+load(ioeopath{k})
 
 % Check if fixed or variable. If fixed (length(extrinsics(:,1))==1), make
 % an extrinsic matrix the same length as L, just with initial extrinsics
 % repeated.
 if length(extrinsics(:,1))==1
-extrinsics=repmat(extrinsics,length(L),1);
+extrinsics=repmat(extrinsics,length(L{k}(:)),1);
 end
-
-% Load Grid File
-load(gridPath)
-
-% Check if Local  Desired
 if localFlag==1
 extrinsics=localTransformExtrinsics(localOrigin,localAngle,1,extrinsics);
-X=localX;
-Y=localY;
-Z=localZ;
 end
+
+% Aggreate Camera Extrinsics Together
+Extrinsics{k}=extrinsics;
+Intrinsics{k}=intrinsics;
+
+clear extrinsics
+clear intrinsics
+end
+
 
 
 
 %% Section 6: Initiate Loop
 
 
-for k=1:length(L)
+for j=1:length(L{1}(:))
 
-% Load Image
-I=imread(strcat(obliqueImageDirectory, '\', L(k)));
-
-
+    % For Each Camera
+    for k=1:camnum
+    % Load Image
+    I{k}=imread(strcat(obliqueImageDirectory{k}, '\', L{k}(j)));
+    end
 
 
 
@@ -174,18 +224,24 @@ I=imread(strcat(obliqueImageDirectory, '\', L(k)));
 % If fixed station and Z is not constant, assign a corresponding z
 % elevation.
 if isempty(zFixedCam)==0
-    Z=Z.*0+z(k);
+    Z=Z.*0+z(j);
 end
 
-%Rectify
-[Ir]= imageRectifier(I,intrinsics,extrinsics(k,:),X,Y,Z,0);
+%Pull Correct Extrinsics out, Corresponding In time
+for k=1:camnum 
+extrinsics{k}=Extrinsics{k}(j,:);
+end
+intrinsics=Intrinsics;
+
+
+[Ir]= imageRectifier(I,intrinsics,extrinsics,X,Y,Z,0);
 
 
 
 
 
 %% Section 8: Initiate Image Product variables of correct size and format
-if k==1
+if j==1
 iDark=double(Ir).*0+255; % Can't initialize as zero, will always be dark
 iTimex=double(Ir).*0;
 iBright=uint8(Ir).*0;
@@ -209,8 +265,8 @@ iBright=max(cat(4,iBright,Ir),[],4);
 
 
 % If Last Frame...finish the Timex Caculation
-if k==length(L)
-iTimex=uint8(iTimex./length(L));
+if j==length(L{k}(:))
+iTimex=uint8(iTimex./length(L{k}(:)));
 end
 
 
@@ -219,14 +275,19 @@ end
 %% Section 10: Output Frames (optional)
 % Remove oblique FileExtension So it can be appended to rectified image
 % name
-iname=strsplit(L(k),'.');
-iname=iname(end-1);
+[r t]=strtok(reverse(L{1}(j)),'.');
+iname=reverse(t);
+
+% Add a merged flag to the name if multi-camera
+if camnum>1
+    iname=strcat(iname,'Merged.');
+end
 
 % Save Image
-imwrite(flipud(Ir),strcat(odir, '\',oname, '_', iname,'.png'))
+imwrite(flipud(Ir),strcat(odir, '\',oname, '_', iname,'png'))
 
 % Display progress
-disp([ 'Frame ' num2str(k) ' out of ' num2str(length(L)) ' completed. ' num2str(round(k/length(L)*1000)/10) '%'])
+disp([ 'Frame ' num2str(j) ' out of ' num2str(length(L{k}(:))) ' completed. ' num2str(round(j/length(L{k}(:))*1000)/10) '%'])
 
 end
 
