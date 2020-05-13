@@ -158,7 +158,7 @@ if camnum>1
 Ir=cameraSeamBlend(IrIndv);
 else
     % Otherwise Save As is
-Ir=IrIndv;
+Ir=(IrIndv);
 end
   
 

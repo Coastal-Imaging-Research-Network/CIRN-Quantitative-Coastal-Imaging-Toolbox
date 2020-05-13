@@ -40,7 +40,7 @@ function [Ir] =cameraSeamBlend(IrIndv);
 [m,n,c,camnum]=size(IrIndv(:,:,:,:));  
 IrIndvW = zeros([m n c]);
 indvW = IrIndvW ;
-
+IrIndv=double(IrIndv);
 
 
 
@@ -49,8 +49,12 @@ indvW = IrIndvW ;
 for k=1:camnum
  
     % Pull Individual Rectification
-    ir=squeeze(double(IrIndv(:,:,:,k)));
+    ir=squeeze((IrIndv(:,:,:,k)));
     
+    % Find Points that Are [0 0 0] rgb and turn them to nan; Assuming if
+    % one channel has exactly 0, they all will. 
+    bind=find(ir(:)==0);
+    ir(bind)=nan;
     % Turn image into binary image (1 for nan, 0 for nonnan). 
     binI=isnan(ir(:,:,1));
     
@@ -76,7 +80,7 @@ for k=1:camnum
     W(isnan(W(:))) = 0;
 
     % Apply Weight to OrthoPhoto and save in Matrix
-    IrIndvW(:,:,:,k)=ir.*W;
+    IrIndvW(:,:,:,k)=ir.*double(W);
     % Save Weights to perform Weighted Average
     indvW(:,:,:,k)=W;
 end
