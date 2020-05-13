@@ -39,6 +39,7 @@
 
 %  Required CIRN Functions: 
 %  imageRectification
+%  -cameraSeamBlend
 %  xyz2DistUV
 %   distortUV
 %   intrinsicsExtrinsics2P

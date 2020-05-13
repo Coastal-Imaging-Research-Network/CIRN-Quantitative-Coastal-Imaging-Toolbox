@@ -135,8 +135,8 @@ for kk=1:s(1)
     end
 end
 
-% Make a uint8 for image formatting
-Ir(:,:,:,k)=(ir);
+% Save Rectifications from Each Camera into A Matrix
+IrIndv(:,:,:,k)=(ir);
 
 % Save Ud Vd coordinates for Plotting in Teaching Mode
 if teachingMode==1
@@ -152,19 +152,11 @@ end
 
 
 
-%% Section 5: Merge Seams together   
-% Find Number of Pixel Values at Each Spot
-numPix=nansum(isnan(Ir)*-1+1,4);
-Ir=uint8(nansum(Ir,4)./numPix); % Take Average and Format
+%% Section 5: Merge rectifications of multiple cameras
 
-    
+Ir=cameraSeamBlend(IrIndv);
 
-
-
-
-
-
-
+  
 
 %% Section 4: Optional for Teaching Mode
 
