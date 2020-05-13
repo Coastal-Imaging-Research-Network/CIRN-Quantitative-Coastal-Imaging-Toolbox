@@ -62,10 +62,15 @@ if chk==1
     camnum=length(intrinsics);
 else
     camnum=1;
-    I=num2cell(I,4);
-    intrinsics=num2cell(intrinsics,2);
-    extrinsics{1}=num2cell(extrinsics,2);
-    
+    Ip=I;
+    extrinsicsp=extrinsics;
+    intrinsicsp=intrinsics;
+
+    clear I extrinsics intrinsics
+    I{1}=Ip;
+    extrinsics{1}=extrinsicsp;
+    intrinsics{1}=intrinsicsp;
+
 end
 
 

@@ -69,12 +69,12 @@ addpath(genpath('./X_CoreFunctions/'))
 %  Name should be descriptive of the image timing, IOEO solution, and 
 %  camera name, and grid used.
 
-oname='uasDemo_InitialFrame_1mdxdy';
+oname='uasDemo_InitialFrame_10mdxdy';
 
 %  Enter the filename of the of the grid .mat file. Name should be
 %  descriptive of coordinate systems and resolution.
 
-gname='uasDemo_NCSP_1mResolution';
+gname='uasDemo_NCSP_10mResolution';
 
 %  Enter the directory where the grid and image files will be saved.
 odir= '.\X_UASDemoData\rectificationGrids';
@@ -249,7 +249,6 @@ extrinsics=extrinsics;
 
 %  Local Extrinsics
 localExtrinsics = localTransformExtrinsics(localOrigin,localAngle,1,extrinsics);
-
 
 
 

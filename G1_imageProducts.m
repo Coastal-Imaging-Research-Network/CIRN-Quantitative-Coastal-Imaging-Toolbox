@@ -73,9 +73,9 @@ addpath(genpath('./X_CoreFunctions/'))
 %  be appended to the name. For individual images, the oblique image name
 %  will be appended. Name should be descriptive of collection and grid.
 
-oname='uasDemo';
+oname='rect10x10m';
         % For Multi Cam
-        % oname='fixedMultiCamDemo';
+        % oname='rect5x5m';
 
 %  Enter the directory where the images will be saved.
 odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
@@ -135,7 +135,7 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 % D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. Grid world coordinates need to be same coordinates
 % as those in the extrinsics in ieopath. Grid needs to be meshgrid format
 % with variables X,Y, and Z. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_1mResolution.mat';
+gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
 
         % Grid for Multi-Camera Fixed Demo
         % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
@@ -154,6 +154,9 @@ localFlag=1;
 %  empty. This was covered in F_variableExrtrinsicSolutions
 t={};
 
+    % For Multi Cam
+    %t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
+        
 %  If a Fixed station, most likely images will span times where Z is no
 %  longer constant. We have to account for this in our Z grid. To do this,
 %  enter a z vector below that is the same length as t. For each frame, the
