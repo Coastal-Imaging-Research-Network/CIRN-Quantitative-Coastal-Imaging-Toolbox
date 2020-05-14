@@ -152,17 +152,11 @@ end
 
 
 
-%% Section 5: Merge rectifications of multiple cameras
-if camnum>1
-% If More than one Camera, feather seams
-Ir=cameraSeamBlend(IrIndv);
-else
-    % Otherwise Save As is
-Ir=(IrIndv);
-end
-  
 
-%% Section 4: Optional for Teaching Mode
+%% Section 5: Merge rectifications of multiple cameras
+Ir=cameraSeamBlend(IrIndv);
+
+%% Section 6: Optional for Teaching Mode
 
   if teachingMode==1
       for k=1:camnum

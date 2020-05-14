@@ -82,7 +82,7 @@ addpath(genpath('./X_CoreFunctions/'))
 oname='uasDemo';
         
         % For Multi Cam
-        %oname='fixedMultiCamDemo';
+        % oname='fixedMultiCamDemo';
         
         
         
@@ -90,7 +90,7 @@ oname='uasDemo';
 odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
         
         % For Multi Cam
-        %odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+        % odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
         
 
 
@@ -103,10 +103,10 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
  
         % %  If multi-Camera, enter each filepath as a cell entry for each camera.
         % %  Note, all extrinsics must be in same coordinate system.
-        %ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
-        %ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
-        %ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
-        %ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
+        % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
+        % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
+        % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
+        % ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
         
         
 
@@ -124,10 +124,10 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
         % can be altered for more complicated folder directories. Also, the order
         % of the obliqueImageDirectory{k) should match with the ieopath order so
         % the correct IOEO corresponds to the correct images.
-        %obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
-        %obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
-        %obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
-        %obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
+        % obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
+        % obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
+        % obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
+        % obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
 
 
 
@@ -140,7 +140,7 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 %  F_variableExrtrinsicSolutions.
 t={};
         % For Multi Cam
-        %t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
+        % t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
         
 
 
@@ -173,7 +173,7 @@ zFixedCam={};
 gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
         
         % Grid for Multi-Camera Fixed Demo
-        %gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
+        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
 
 % Enter if the user prefers local (localFlag==1) or world (localFlag==0)
 % coordinates as input. Not if localFlag==1, localAngle, localOrigin, and localX,Y,Z
@@ -420,7 +420,7 @@ for j=1:length(L{1}(:))
         end
         % If a Transect Grid Add in the second dimension
         if nDim==1
-        pixInst(p).Irgb=cat(2,pixInst(p).Irgb,Irgb); % Add on last dimension (Always Fourth)
+        pixInst(p).Irgb=cat(2,pixInst(p).Irgb,Irgb); 
         end   
 
     end

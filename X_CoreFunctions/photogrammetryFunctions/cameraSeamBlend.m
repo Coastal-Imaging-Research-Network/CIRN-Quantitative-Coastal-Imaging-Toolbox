@@ -38,7 +38,7 @@ function [Ir] =cameraSeamBlend(IrIndv);
 
 % Intialize Weighting Functions For seams
 [m,n,c,camnum]=size(IrIndv(:,:,:,:));  
-IrIndvW = zeros([m n c]);
+IrIndvW = zeros([m n c camnum]);
 indvW = IrIndvW ;
 IrIndv=double(IrIndv);
 
@@ -49,7 +49,7 @@ IrIndv=double(IrIndv);
 for k=1:camnum
  
     % Pull Individual Rectification
-    ir=squeeze((IrIndv(:,:,:,k)));
+    ir=((IrIndv(:,:,:,k)));
     
     % Find Points that Are [0 0 0] rgb and turn them to nan; Assuming if
     % one channel has exactly 0, they all will. 
@@ -67,20 +67,21 @@ for k=1:camnum
     % Weight all Pixels Equally if all are non-zero (W is inf, No edges or nanned areas).
     if( isinf(max(D(:))) ) 
        W = ones(size(D));
-    end
+    else
     
     % Normalize Distances by max Distance to create Weighting Function for pixels.
     % Pixels furthest away from the edges (Largest D) will have maximum
     % weights near 1. Pixels near edges(smallest D), weighed less.
     W = D ./ max(D(:)); 
-
+    end
+    
     % Replicate the Weighting Function for Each Color Channel, Remove any
     % nans
     W = repmat(W, [1 1 c]);
     W(isnan(W(:))) = 0;
 
     % Apply Weight to OrthoPhoto and save in Matrix
-    IrIndvW(:,:,:,k)=ir.*double(W);
+    IrIndvW(:,:,:,k)=ir.*(W);
     % Save Weights to perform Weighted Average
     indvW(:,:,:,k)=W;
 end
