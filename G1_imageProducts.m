@@ -139,7 +139,7 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
 
         % Grid for Multi-Camera Fixed Demo
-        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_1mResolution.mat';
+        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_5mResolution.mat';
 
         
 % Enter if the user prefers local (localFlag==1) or world (localFlag==0)

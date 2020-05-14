@@ -80,7 +80,7 @@ oname='fixedMultiCamDemo_5mdxdy';
 %  Enter the filename of the of the grid .mat file. Name should be
 %  descriptive of coordinate systems and resolution.
 
-gname='fixedMultiCamDemo_H3SP_1mResolution';
+gname='fixedMultiCamDemo_H3SP_5mResolution';
 
 %  Enter the directory where the grid and image files will be saved.
 odir= '.\X_FixedMultCamDemoData\rectificationGrids';
