@@ -200,10 +200,10 @@ iz=0;
 % % Each value in the CAM structure represents a different camera. It is up to
 % %  the user to ensure CAMERA IOEO and impaths match for the correct camera
 % %  as well as images are taken simultaneously. 
-% impath{1}= '.\X_FixedMultCamDemoData\collectionData\c1\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c1.timex.jpg';
-% impath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c2.timex.jpg';
-% impath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c3.timex.jpg';
-% impath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c4.timex.jpg';
+% impath{1}= '.\X_FixedMultCamDemoData\collectionData\c1\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c1.timex.jpg';
+% impath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c2.timex.jpg';
+% impath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c3.timex.jpg';
+% impath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c4.timex.jpg';
 % 
 % %  IOEO Solutions
 % %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
