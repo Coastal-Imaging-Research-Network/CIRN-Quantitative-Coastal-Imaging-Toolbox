@@ -13,8 +13,8 @@
 %  and fixed intriniscs in addition to single/multi camera capability. 
 
 %  The current code has input entered for UASDemoData. However, one can
-%  uncomment lines directly below input for a multi-camera processing.
-%  Users will have to uncomment lines in Sections 1-4.
+%  uncomment lines directly below input for a multi-camera processing in
+%  Sections X.
 
 
 %  Note: This function is not intended to replace the CIRN pixeltoolbox.
@@ -81,16 +81,12 @@ addpath(genpath('./X_CoreFunctions/'))
 
 oname='uasDemo';
         
-        % For Multi Cam
-        % oname='fixedMultiCamDemo';
+
         
         
         
 %  Enter the directory where the instrument file will be saved.
 odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
-        
-        % For Multi Cam
-        % odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
         
 
 
@@ -101,13 +97,7 @@ odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
 %  UAS.
 ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
  
-        % %  If multi-Camera, enter each filepath as a cell entry for each camera.
-        % %  Note, all extrinsics must be in same coordinate system.
-        % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
-        % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
-        % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
-        % ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
-        
+
         
 
 %  Enter the directory where your oblique imagery is stored. For UAS, the
@@ -116,19 +106,6 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  only have images in it, nothing else. 
 
 obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
-
-        % If a Multi-camera station, provide the directory containing the images
-        % for each camera. Note in this example, each camera folder has the same amount
-        % and order of images (The first image for camera 1 was taken at the same time
-        % as the first image in camera 2 folder, etc). This code requires this but
-        % can be altered for more complicated folder directories. Also, the order
-        % of the obliqueImageDirectory{k) should match with the ieopath order so
-        % the correct IOEO corresponds to the correct images.
-        % obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
-        % obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
-        % obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
-        % obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
-
 
 
 
@@ -139,9 +116,6 @@ obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 %  empty. If a UAS collect this varibale is defined in 
 %  F_variableExrtrinsicSolutions.
 t={};
-        % For Multi Cam
-        % t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
-        
 
 
 %  If a Fixed station, most likely images will span times where Z is no
@@ -170,10 +144,9 @@ zFixedCam={};
 % local coordinate system, and pulling z elevation values. THus, if you
 % have a spatially variable Z grid, you may want grid dx,dy resolutions to be
 % similar to your instruments. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
+gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_10mResolution.mat';
         
-        % Grid for Multi-Camera Fixed Demo
-        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_5mResolution.mat';
+        
 
 % Enter if the user prefers local (localFlag==1) or world (localFlag==0)
 % coordinates as input. Not if localFlag==1, localAngle, localOrigin, and localX,Y,Z
@@ -240,7 +213,44 @@ localFlag=1;
 
 
 
-    
+%% Section X: Multi-Cam Demo input
+% %  The Mult-Camera Demo will share the same grid , but use
+% %  different images, extrinsics, and save in a different location, and have
+% %  varying time and elevation.
+% 
+ % For Multi Cam
+ oname='fixedMultCamDemo_rect10x10m';
+       
+% For Multi Cam
+ odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+
+
+% %  If multi-Camera, enter each filepath as a cell entry for each camera.
+% %  Note, all extrinsics must be in same coordinate system.
+ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
+ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
+ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
+ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
+        
+
+
+ % If a Multi-camera station, provide the directory containing the images
+ % for each camera. Note in this example, each camera folder has the same amount
+ % and order of images (The first image for camera 1 was taken at the same time
+ % as the first image in camera 2 folder, etc). This code requires this but
+ % can be altered for more complicated folder directories. Also, the order
+ % of the obliqueImageDirectory{k) should match with the ieopath order so
+ % the correct IOEO corresponds to the correct images.
+ obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
+ obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
+ obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
+ obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
+
+% Time Vector
+ t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
+ 
+% Elevation Vector (From NOAA STATION, Tidal level NAVD88)
+z=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];    
 
                     
                     
