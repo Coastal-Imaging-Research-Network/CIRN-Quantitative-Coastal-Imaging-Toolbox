@@ -86,7 +86,7 @@ oname='uasDemo';
         
         
 %  Enter the directory where the instrument file will be saved.
-odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
+odir= '.\X_UASDemoData\output\';
         
 
 
@@ -213,44 +213,44 @@ localFlag=1;
 
 
 
-%% Section X: Multi-Cam Demo input
-% %  The Mult-Camera Demo will share the same grid , but use
-% %  different images, extrinsics, and save in a different location, and have
-% %  varying time and elevation.
+% %% Section X: Multi-Cam Demo input
+% % %  The Mult-Camera Demo will share the same grid , but use
+% % %  different images, extrinsics, and save in a different location, and have
+% % %  varying time and elevation.
+% % 
+%  % For Multi Cam
+%  oname='fixedMultCamDemo_rect10x10m';
+%        
+% % For Multi Cam
+%  odir= '.\X_FixedMultCamDemoData\output\';
 % 
- % For Multi Cam
- oname='fixedMultCamDemo_rect10x10m';
-       
-% For Multi Cam
- odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
-
-
-% %  If multi-Camera, enter each filepath as a cell entry for each camera.
-% %  Note, all extrinsics must be in same coordinate system.
-ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
-ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
-ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
-ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
-        
-
-
- % If a Multi-camera station, provide the directory containing the images
- % for each camera. Note in this example, each camera folder has the same amount
- % and order of images (The first image for camera 1 was taken at the same time
- % as the first image in camera 2 folder, etc). This code requires this but
- % can be altered for more complicated folder directories. Also, the order
- % of the obliqueImageDirectory{k) should match with the ieopath order so
- % the correct IOEO corresponds to the correct images.
- obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
- obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
- obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
- obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
-
-% Time Vector
- t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
- 
-% Elevation Vector (From NOAA STATION, Tidal level NAVD88)
-z=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];    
+% 
+% % %  If multi-Camera, enter each filepath as a cell entry for each camera.
+% % %  Note, all extrinsics must be in same coordinate system.
+% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
+% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
+% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
+% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
+%         
+% 
+% 
+%  % If a Multi-camera station, provide the directory containing the images
+%  % for each camera. Note in this example, each camera folder has the same amount
+%  % and order of images (The first image for camera 1 was taken at the same time
+%  % as the first image in camera 2 folder, etc). This code requires this but
+%  % can be altered for more complicated folder directories. Also, the order
+%  % of the obliqueImageDirectory{k) should match with the ieopath order so
+%  % the correct IOEO corresponds to the correct images.
+%  obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
+%  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
+%  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
+%  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
+% 
+% % Time Vector
+%  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
+%  
+% % Elevation Vector (From NOAA STATION, Tidal level NAVD88)
+% z=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];    
 
                     
                     
