@@ -99,7 +99,7 @@ end
 % Initialize Loop
 k=1;
 count=1;
-numFrames=v.Duration*v.FrameRate;
+numFrames= v.Duration.*v.FrameRate;
 
  while k<=numFrames
     
