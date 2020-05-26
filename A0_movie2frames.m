@@ -121,7 +121,7 @@ numFrames=v.Duration*v.FrameRate;
     imwrite(I,[odir oname '_' num2str(ts) '.tif'])
            
     % Display Completion Rate
-    disp([ num2str( k./v.NumFrames*100) '% Extraction Complete']) 
+    disp([ num2str( k./numFrames*100) '% Extraction Complete']) 
 
     % Get Indicie of Next Frame
     k=k+round(v.FrameRate./frameRate);
