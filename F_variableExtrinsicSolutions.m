@@ -54,6 +54,10 @@
 close all
 clear all
 
+% User should make sure that X_CoreFunctions and subfolders are made active
+% in their MATLAB path. Below is the standard location for demo, user will
+% need to change if X_CoreFunctions is moved and/or the current script.
+addpath(genpath('./X_CoreFunctions/'))
 
 
 %% Section 1: User Input:  Output
@@ -77,7 +81,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\';
 %  C_singleExtrinsicsSolution (initialCamSolutionMeta.impath). It should be
 %  in the same directory as your other colleciton images imagesDirectory.
 
-firstFrame= '00001000.jpg';
+firstFrame= 'uasDemo_1443742140000.tif';
 
 
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
@@ -99,9 +103,9 @@ scppath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_scpUVdIniti
 % (initailCamSolutionMeta.worldCoordSys)
 
 scpz=[ 1  7; % scp.num   z value
-       2  7;
-       3  7;
-       4  7];
+       4  7;
+       5  7;
+       6  7];
 
 %  Enter the coordinate system of the elevations entered in for scp. Z 
 %  value should be in same world coordinate system as IOEO
@@ -119,9 +123,11 @@ scpZcoord='NAVD88; m units';
 %  names of the images should be so that MATLAB lists them in order in the
 %  current directory window. To do this, images must be numbered with the
 %  same number of digits. Example: numbering should be 00001,00002,00003
-%  etc. NOT 1,2,3. Also, only have the images in the folder. Nothing else.
+%  etc. NOT 1,2,3. Also acceptible is any date number either in matlab
+%  datenum or epochtime as output in A0_move2frames. Also, only have the 
+%  images in the folder. Nothing else.
 
-imageDirectory='.\X_UASDemoData\collectionImages\uasDemoFlight\';
+imageDirectory='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
 
 %  Enter the dt in seconds of the collect. If not known, leave as {}. Under
@@ -384,30 +390,6 @@ disp(['Swing Standard Dev: ' num2str(rad2deg(variableCamSolutionMeta.solutionSTD
 
 
 
-
-%% Copyright Information
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Copyright (C) 2017  Coastal Imaging Research Network
-%                       and Oregon State University
-
-%    This program is free software: you can redistribute it and/or  
-%    modify it under the terms of the GNU General Public License as 
-%    published by the Free Software Foundation, version 3 of the 
-%    License.
-
-%    This program is distributed in the hope that it will be useful,
-%    but WITHOUT ANY WARRANTY; without even the implied warranty of
-%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%    GNU General Public License for more details.
-
-%    You should have received a copy of the GNU General Public License
-%    along with this program.  If not, see
-%                                <http://www.gnu.org/licenses/>.
-
-% CIRN: https://coastal-imaging-research-network.github.io/
-% CIL:  http://cil-www.coas.oregonstate.edu
-%
-%key UAVProcessingToolbox
 
 
 

@@ -55,6 +55,10 @@
 close all
 clear all
 
+% User should make sure that X_CoreFunctions and subfolders are made active
+% in their MATLAB path. Below is the standard location for demo, user will
+% need to change if X_CoreFunctions is moved and/or the current script.
+addpath(genpath('./X_CoreFunctions/'))
 
 
 %% Section 1: User Input: Metadata Output
@@ -99,12 +103,12 @@ gcpCoord='North Carolina State Plane, NAVD88; meters';
 % Enter the path of the image you would like GCP reprojection checked
 % against (plotted in). This should be the same image used in
 % B_gcpSelection (imagePath) if you are doing a UAS collect or a moving camera.
-checkImage='.\X_UASDemoData\collectionImages\uasDemoFlight\00001000.jpg';
+checkImage='.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 %  Enter the numbers of GCPs you would like to use for the solution.
 %  Numbers must match gcp.num values found in gpcUvPath file. You do not
 %  have to use all of the clicked GCPS or GCPS listed in the file. 
-gcpsUsed=[1 2 3 6 7];
+gcpsUsed=[1 2 3 4 5];
 
 
 
@@ -321,26 +325,3 @@ disp(initialCamSolutionMeta)
 
 
 
-%% Copyright Information
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Copyright (C) 2017  Coastal Imaging Research Network
-%                       and Oregon State University
-
-%    This program is free software: you can redistribute it and/or  
-%    modify it under the terms of the GNU General Public License as 
-%    published by the Free Software Foundation, version 3 of the 
-%    License.
-
-%    This program is distributed in the hope that it will be useful,
-%    but WITHOUT ANY WARRANTY; without even the implied warranty of
-%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%    GNU General Public License for more details.
-
-%    You should have received a copy of the GNU General Public License
-%    along with this program.  If not, see
-%                                <http://www.gnu.org/licenses/>.
-
-% CIRN: https://coastal-imaging-research-network.github.io/
-% CIL:  http://cil-www.coas.oregonstate.edu
-%
-%key UAVProcessingToolbox

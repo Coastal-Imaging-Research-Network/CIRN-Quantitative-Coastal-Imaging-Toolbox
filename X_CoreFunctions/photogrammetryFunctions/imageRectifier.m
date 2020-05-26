@@ -5,21 +5,27 @@
 %  xyz2DistUV to find corresponding UVd values to the input grid and pulls 
 %  the rgb pixel intensity for each value. If the teachingMode flag is =1, 
 %  the function will plot corresponding steps (xyz-->UV transformation) as 
-%  well as rectified output. 
+%  well as rectified output. If a multi-camera rectification is desired, I,
+%  intrinsics, and extrinsics can be input as cell values for each camera.
+%  The function will then call on cameraSeamBlend to merge the values.
   
 %  Reference Slides:
 %  
 
 %  Input:
-%  I= NxMx3 image to be rectified. Should have been taken when entered
+%  Note k can be 1:K, where K is the number of cameras. 
+
+%  I{k}= NxMx3 image to be rectified. Should have been taken when entered
 %  intrinsics and extrinsics are valid and be distorted.
 
-%  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
+%  intrinsics{k} = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
-%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of 
+%  extrinsics{k} = 1x6 Vector representing [ x y z azimuth tilt swing] of 
 %  the camera EO.  All values should be in the same units and coordinate 
 %  system of X,Y, and Z grids. Azimuth, Tilt and Swing should be in radians. 
+%  Note extrinsics for all K cameras should be in same coordinate system.
 
+%  Note, all K cameras will share the same grid. 
 %  X = Vector or Grid of X coordinates to rectify. 
 %  Y = Vector or Grid of Y coordinates to rectify. 
 %  Z = Vector or Grid of Z coordinates to rectify. 
@@ -47,8 +53,31 @@
 
 function [Ir]= imageRectification(I,intrinsics,extrinsics,X,Y,Z,teachingMode)
 
+%% Section 1: Determine if MultiCam or Single Cam
+% If input is for a singular camera and not already a cell, it will make it
+% a single entry cell so the loops below will work.
 
-%% Section 1: Format Grid for xyz2DistUV
+chk=iscell(intrinsics);
+if chk==1
+    camnum=length(intrinsics);
+else
+    camnum=1;
+    Ip=I;
+    extrinsicsp=extrinsics;
+    intrinsicsp=intrinsics;
+
+    clear I extrinsics intrinsics
+    I{1}=Ip;
+    extrinsics{1}=extrinsicsp;
+    intrinsics{1}=intrinsicsp;
+
+end
+
+
+
+
+
+%% Section 2: Format Grid for xyz2DistUV
 
 x=reshape(X,1,numel(X)); 
 y=reshape(Y,1,numel(Y));
@@ -59,10 +88,12 @@ xyz=cat(2,x',y',z');
 
 
 
-%% Section 2: Determine Distorted UVd points for each xyz point
+%% Section 3: Determine Distorted UVd points for each xyz point
+% For Each Camera
+for k=1:camnum
 
 % Determine UVd Points
-[UVd] = xyz2DistUV(intrinsics,extrinsics,xyz);
+[UVd, flag] = xyz2DistUV(intrinsics{k},extrinsics{k},xyz);
 
 
 % Reshape UVd Matrix so in size of input X,Y,Z
@@ -75,37 +106,20 @@ Vd=(reshape(UVd(:,2),s(1),s(2)));
 Ud=round(Ud);
 Vd=round(Vd);
 
-% Algorithm will find UV coordinates whether real or not ( xyz not in the
-% field of view) This gets rid of bad UV points that don' exist.
-
-    %Find negative UV coordinates
-    bind=find(Ud<=0 | Vd<=0); 
-    Ud(bind)=nan;
-    Vd(bind)=nan;
-    
-    % Find UVd coordinates greater than the image size
-    NU=intrinsics(1);
-    NV=intrinsics(2);
-    bind =find( Ud>=NU | Vd>= NV); 
-    Ud(bind)=nan;
-    Vd(bind)=nan;
-    
-    % Find Negative Zc Camera Coordinates
-    [P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
-    xyzC = R*IC*[xyz'; ones(1,size(xyz,1))];
-    Zc=reshape(xyzC (3,:),s(1),s(2));
-    bind= find(Zc<0);
-    Ud(bind)=nan;
-    Vd(bind)=nan;
-    
-    
-%% Section 3: Pull Image Pixel Intensities from Image
+% Utalize Flag to remove invalid points. See xyzDistUV and distortUV to see
+% what is considered an invalid point.
+Ud(find(flag==0))=nan;
+Vd(find(flag==0))=nan;
     
 
 
+
+    
+%% Section 4: Pull Image Pixel Intensities from Image
+    
 % Initiate Ir matrix as same size as input X,Y,Z but with aditional third
 % dimension for rgb values.
-    Ir=nan(s(1),s(2),3);
+    ir=nan(s(1),s(2),3);
 
 % Pull rgb pixel intensities for each point in XYZ
 for kk=1:s(1)
@@ -116,29 +130,44 @@ for kk=1:s(1)
             % rows, U to columns. V is 1 at top of matrix, and grows as it
             % goes down. U is 1 at left side of matrix and grows from left
             % to right.
-            Ir(kk,j,:)=I(Vd(kk,j),Ud(kk,j),:);
+            ir(kk,j,:)=I{k}(Vd(kk,j),Ud(kk,j),:);
         end
     end
 end
 
-% Make a uint8 for image formatting
-Ir=uint8(Ir);
+% Save Rectifications from Each Camera into A Matrix
+IrIndv(:,:,:,k)=uint8(ir);
+
+% Save Ud Vd coordinates for Plotting in Teaching Mode
+if teachingMode==1
+Udp{k}=Ud;
+Vdp{k}=Vd;
+end
 
 
-    
-    
+clear ir
+end
 
-%% Section 4: Optional for Teaching Mode
+
+
+
+
+
+%% Section 5: Merge rectifications of multiple cameras
+Ir=cameraSeamBlend(IrIndv);
+
+%% Section 6: Optional for Teaching Mode
 
   if teachingMode==1
+      for k=1:camnum
       f1=figure;
       
       % Plot UVd values for each XYZ point on oblique image
       % Colorize by X coordinate
       subplot(2,2,1)
-      imshow(I)
+      imshow(I{k})
       hold on
-      scatter(Ud(:),Vd(:),10,X(:),'filled')
+      scatter(Udp{k}(:),Vdp{k}(:),10,X(:),'filled')
       xlabel( 'U')
       ylabel( 'V')
       colorbar 
@@ -146,9 +175,9 @@ Ir=uint8(Ir);
       
       % Colorize by Y coordinate
       subplot(2,2,3)
-      imshow(I)
+      imshow(I{k})
       hold on
-      scatter(Ud(:),Vd(:),10,Y(:),'filled')
+      scatter(Udp{k}(:),Vdp{k}(:),10,Y(:),'filled')
       xlabel( 'U')
       ylabel( 'V')
       colorbar 
@@ -161,7 +190,7 @@ Ir=uint8(Ir);
       subplot(2,2,[2 4])
       rectificationPlotter(Ir,X,Y,1) 
       end
-
+      end
 
   end
 
