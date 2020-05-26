@@ -99,8 +99,9 @@ end
 % Initialize Loop
 k=1;
 count=1;
+numFrames=v.Duration*v.FrameRate;
 
- while k<=v.NumFrames
+ while k<=numFrames
     
     % Read Frame
     I=read(v,k);
