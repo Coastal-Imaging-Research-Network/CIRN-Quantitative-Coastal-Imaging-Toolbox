@@ -152,38 +152,38 @@ zFixedCam={};
 %  different images, extrinsics, and save in a different location, and have
 %  varying time and elevation.
 
-%  For Multi Cam
+% %  For Multi Cam
 %  oname='fixedMultCamDemo_rect10x10m';
 %        
-% For Multi Cam
+% % For Multi Cam
 %  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 % 
 % 
 % %  If multi-Camera, enter each filepath as a cell entry for each camera.
 % %  Note, all extrinsics must be in same coordinate system.
-% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
-% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
-% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
-% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
+% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
+% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
+% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
+% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
 %         
 % 
+% % 
+% %  If a Multi-camera station, provide the directory containing the images
+% %  for each camera. Note in this example, each camera folder has the same amount
+% %  and order of images (The first image for camera 1 was taken at the same time
+% %  as the first image in camera 2 folder, etc). This code requires this but
+% %  can be altered for more complicated folder directories. Also, the order
+% %  of the obliqueImageDirectory{k) should match with the ieopath order so
+% %  the correct IOEO corresponds to the correct images.
+%  obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c2';
+%  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c3';
+%  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c4';
+%  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c5';
 % 
-%  If a Multi-camera station, provide the directory containing the images
-%  for each camera. Note in this example, each camera folder has the same amount
-%  and order of images (The first image for camera 1 was taken at the same time
-%  as the first image in camera 2 folder, etc). This code requires this but
-%  can be altered for more complicated folder directories. Also, the order
-%  of the obliqueImageDirectory{k) should match with the ieopath order so
-%  the correct IOEO corresponds to the correct images.
-%  obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
-%  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
-%  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
-%  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
-% 
-% Time Vector
+% % Time Vector
 %  t=[datenum(2015,10,1,11,30,0):.5/24:datenum(2015,10,1,22,00,0)];
 %  
-% Elevation Vector (From NOAA STATION, Tidal level NAVD88)
+% % Elevation Vector (From NOAA STATION, Tidal level NAVD88)
 % z=[.346 .527 .725 .872 .961 1.062 1.058  1.105 1.063 .983 .856 .743 .594 .429 .282 .118 -.037 -.101 -.149 -.168 -.122 -.1 ];
 %  
 %% Section 5: Load Files 

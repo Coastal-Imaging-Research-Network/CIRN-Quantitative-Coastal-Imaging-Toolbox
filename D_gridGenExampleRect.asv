@@ -200,20 +200,20 @@ odir='.\X_FixedMultCamDemoData\rectificationGrids';
 % Each value in the CAM structure represents a different camera. It is up to
 %  the user to ensure CAMERA IOEO and impaths match for the correct camera
 %  as well as images are taken simultaneously. 
-impath{1}= '.\X_FixedMultCamDemoData\collectionData\c2\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c2.timex.jpg';
-impath{2}= '.\X_FixedMultCamDemoData\collectionData\c3\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c3.timex.jpg';
-impath{3}= '.\X_FixedMultCamDemoData\collectionData\c4\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c4.timex.jpg';
-impath{4}= '.\X_FixedMultCamDemoData\collectionData\c5\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c5.timex.jpg';
+impath{1}= '.\X_FixedMultCamDemoData\collectionData\c1\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c1.timex.jpg';
+impath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c2.timex.jpg';
+impath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c3.timex.jpg';
+impath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1443699001.Thu.Oct.01_11_30_01.GMT.2015.argus02b.c4.timex.jpg';
 
 %  IOEO Solutions
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
 %  C_singleExtrinsicSolution. Note extrinsics for all K cameras should be 
 %  in same coordinate system.
 
-ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
-ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
-ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
-ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
+ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
+ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
+ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
+ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
 
 %% Section 4: Load Required Files for Rectification
 
