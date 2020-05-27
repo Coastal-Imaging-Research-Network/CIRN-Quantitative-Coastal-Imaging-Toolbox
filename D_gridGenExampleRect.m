@@ -188,9 +188,9 @@ idxdy=10;
 iz=0;
 
 %% Section 5: Uncomment for Multi-Camera Demo
-% %  The Mult-Camera Demo will share the same grid parameters, but use
-% %  different images, extrinsics, and save in a different location.
-% 
+%  The Mult-Camera Demo will share the same grid parameters, but use
+%  different images, extrinsics, and save in a different location.
+
 % % Output Name
 % oname='fixedMultCamDemo_10mdxdy';
 % % OutPut Directory
@@ -204,6 +204,8 @@ iz=0;
 % impath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c2.timex.jpg';
 % impath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c3.timex.jpg';
 % impath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c4.timex.jpg';
+% impath{5}= '.\X_FixedMultCamDemoData\collectionData\c5\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c5.timex.jpg';
+% impath{6}= '.\X_FixedMultCamDemoData\collectionData\c6\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c6.timex.jpg';
 % 
 % %  IOEO Solutions
 % %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
@@ -214,6 +216,8 @@ iz=0;
 % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
 % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
 % ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
+% ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
+% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';
 
 %% Section 4: Load Required Files for Rectification
 

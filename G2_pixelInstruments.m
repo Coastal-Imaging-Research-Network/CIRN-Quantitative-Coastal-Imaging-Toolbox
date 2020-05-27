@@ -213,11 +213,11 @@ localFlag=1;
 
 
 
-% %% Section X: Multi-Cam Demo input
-% % %  The Mult-Camera Demo will share the same grid , but use
-% % %  different images, extrinsics, and save in a different location, and have
-% % %  varying time and elevation.
-% % 
+%% Section X: Multi-Cam Demo input
+% %  The Mult-Camera Demo will share the same grid , but use
+% %  different images, extrinsics, and save in a different location, and have
+% %  varying time and elevation.
+% 
 %  % For Multi Cam
 %  oname='fixedMultCamDemo_rect10x10m';
 %        
@@ -231,7 +231,9 @@ localFlag=1;
 % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
 % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
 % ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
-%         
+% ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
+% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';
+%          
 % 
 % 
 %  % If a Multi-camera station, provide the directory containing the images
@@ -245,6 +247,8 @@ localFlag=1;
 %  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
 %  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
 %  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
+%  obliqueImageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
+%  obliqueImageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
 % 
 % % Time Vector
 %  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
@@ -324,12 +328,12 @@ end
 
 
 %% Section 7: Plot Pixel Instruments 
-f1=figure;
-hold on
+
 for k=1:camnum
 % Load and Display initial Oblique Distorted Image
 I=imread(strcat(obliqueImageDirectory{k}, '\', L{k}(1)));
-subplot(1,camnum,k)
+figure
+hold on
 
 imshow(I)
 hold on
