@@ -11,7 +11,8 @@
 %  and fixed intriniscs in addition to single/multi camera capability. 
 
 %  The current code has input entered for UASDemoData. However, one can
-%  uncomment lines directly below input for a multi-camera processing.
+%  uncomment lines directly below input for a multi-camera processing in
+%  Section X. 
 
 
 %  Reference Slides:
@@ -75,13 +76,11 @@ addpath(genpath('./X_CoreFunctions/'))
 %  will be appended. Name should be descriptive of collection and grid.
 
 oname='uasDemo_rect10x10m';
-         % For Multi Cam
-         % oname='fixedMultCamDemo_rect5x5m';
+
 
 %  Enter the directory where the images will be saved.
 odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
-         % For Multi Cam
-         % odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+         
 
 %  Enter if you would like individual frames rectified and output. 1= yes,
 %  output individual frames. 0= no, only output image products.
@@ -98,12 +97,6 @@ outputFlag=1;
 %  UAS.
 ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 
-        % %  If multi-Camera, enter each filepath as a cell entry for each camera.
-        % %  Note, all extrinsics must be in same coordinate system.
-        % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c5_202003032100Photo_20200429Calib.mat';
-        % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c6_202003032100Photo_20200429Calib.mat';
-        % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c7_202003032100Photo_20200429Calib.mat';
-        % ioeopath{4}= '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\c8_202003032100Photo_20200429Calib.mat';
 
 
 
@@ -116,30 +109,17 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  only have images in it, nothing else. 
 obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
-        % If a Multi-camera station, provide the directory containing the images
-        % for each camera. Note in this example, each camera folder has the same amount
-        % and order of images (The first image for camera 1 was taken at the same time
-        % as the first image in camera 2 folder, etc). This code requires this but
-        % can be altered for more complicated folder directories. Also, the order
-        % of the obliqueImageDirectory{k) should match with the ieopath order so
-        % the correct IOEO corresponds to the correct images.
-        % obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c5';
-        % obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c6';
-        % obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c7';
-        % obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c8';
 
 
 
 %% Section 3: User Input: Grid Information
 
 % Enter the filepath of the saved rectification grid created in
-% D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. Grid world coordinates need to be same coordinates
+% D1_gridGenExampleRectSingleCam  Grid world coordinates need to be same coordinates
 % as those in the extrinsics in ieopath. Grid needs to be meshgrid format
 % with variables X,Y, and Z. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_uasDemo_NCSP_10mResolution.mat';
+gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_10mResolution.mat';
 
-        % Grid for Multi-Camera Fixed Demo
-        % gridPath='.\X_FixedMultCamDemoData\rectificationGrids\GRID_fixedMultiCamDemo_H3SP_5mResolution.mat';
 
         
 % Enter if the user prefers local (localFlag==1) or world (localFlag==0)
@@ -155,8 +135,7 @@ localFlag=1;
 %  empty. This was covered in F_variableExrtrinsicSolutions
 t={};
 
-    % For Multi Cam
-    % t=[737835.791666667,737835.833333333,737835.875, 737835.916666667,737835.958333333];
+   
         
 %  If a Fixed station, most likely images will span times where Z is no
 %  longer constant. We have to account for this in our Z grid. To do this,
@@ -165,6 +144,51 @@ t={};
 %  leave empty. It is assumed elevation is constant during a short collect.
 zFixedCam={};
 
+
+
+
+%% Section X: Multi-Cam Demo input
+% %  The Mult-Camera Demo will share the same grid , but use
+% %  different images, extrinsics, and save in a different location, and have
+% %  varying time and elevation.
+% 
+%  % For Multi Cam
+%  oname='fixedMultCamDemo_rect10x10m';
+%        
+% % For Multi Cam
+%  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+% 
+% 
+% % %  If multi-Camera, enter each filepath as a cell entry for each camera.
+% % %  Note, all extrinsics must be in same coordinate system.
+% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
+% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
+% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
+% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
+% ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
+% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';%         
+% 
+% 
+%  % If a Multi-camera station, provide the directory containing the images
+%  % for each camera. Note in this example, each camera folder has the same amount
+%  % and order of images (The first image for camera 1 was taken at the same time
+%  % as the first image in camera 2 folder, etc). This code requires this but
+%  % can be altered for more complicated folder directories. Also, the order
+%  % of the obliqueImageDirectory{k) should match with the ieopath order so
+%  % the correct IOEO corresponds to the correct images.
+%  obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
+%  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
+%  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
+%  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
+%  obliqueImageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
+%  obliqueImageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
+% 
+% % Time Vector
+%  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
+%  
+% % Elevation Vector (From NOAA STATION, Tidal level NAVD88)
+% z=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];
+ 
 %% Section 5: Load Files 
 
 % Load Grid File And Check if local is desired
