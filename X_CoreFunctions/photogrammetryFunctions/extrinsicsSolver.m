@@ -5,10 +5,6 @@
 %  unknown values of extrinsics, camera IO (intrinsics), real world GCP coordinates 
 %  (xyz), and corresponding distorted UV coordinates of GCPs (UV). 
   
-
-%  Reference Slides:
-%  
-
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
@@ -21,10 +17,10 @@
 %  betaInitialGuess are known or are initial guesses and should be solved
 %  for.
 
-%  xyz = Nx3 list of world coordinates of N GCP points. Columns represent 
+%  xyz = Px3 list of world coordinates of P GCP points. Columns represent 
 %  GCP x,y, and z coordinates. 
 
-%  UV = Nx2 list of image UV coordinates of N GCP points. Columns represent 
+%  UV = Px2 list of image UV coordinates of P GCP points. Columns represent 
 %  GCP U and V coordinates. Rows should correspond to same GCP point as
 %  xyz.
 

@@ -1,10 +1,6 @@
 %% A_formatIntrinsics
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function initializes the intrinsics (IO) matrix for a given 
-%  camera for use in the CIRN BOOTCAMP TOOLBOX.  
-
-%  Reference Slides:
-%  
+%  This function initializes the intrinsics matrix for a given camera. 
 
 %  Input:
 %  Entered by user below in Sections 1,2, and possibly 3. User can either 
@@ -21,9 +17,11 @@
 %  Required MATLAB Toolboxes:
 %  none
 
-%  This function is to be run first in the CIRN BOOTCAMP TOOLBOX
-%  progression. It should be run for each camera in a multi-camera fixed
-%  station or for each recording mode for a UAS platform. 
+%  It is to be run first in the progression. It should be run for each 
+%  camera in a multi-camera fixed station, every time the focus is 
+%  adjusted, a new lens is added, or a new enclosure is introduced.  For a 
+%  UAS camera, it should be run for each type of recording mode (4K Video, 
+%  12MP snapshot, etc). 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -38,7 +36,9 @@ addpath(genpath('./X_CoreFunctions/'))
 
 
 
-%% Section 1: User Input: Metadata Output
+
+
+%% Section 1: User Input: Loading and Saving Information
 
 %  Enter the filename of the  .mat file that will be saved as. Name 
 %  should be descriptive of the camera such as 'Solo_4KVideo' or 'Duck_C1.' 
@@ -84,7 +84,6 @@ intrinsics(10) = {};    % Tangential distortion coefficient (t1)
 intrinsics(11) = {};    % Tangential distortion coefficient (t2) 
 end
     
-
 
 
 

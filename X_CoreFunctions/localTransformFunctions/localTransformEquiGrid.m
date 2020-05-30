@@ -11,8 +11,6 @@
 %  will have same square resolution as input grid.
   
 
-%  Reference Slides:
-%  
 
 %  Input:
 

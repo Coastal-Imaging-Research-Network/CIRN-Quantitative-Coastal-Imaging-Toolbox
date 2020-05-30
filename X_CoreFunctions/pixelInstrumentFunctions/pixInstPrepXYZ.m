@@ -11,7 +11,7 @@
 
 %  Input:
 %  pixInst structure with each entry having the following format.
-%   pixInst.type = A string either 'cbathyGrid','yTransect',or 'xTransect'.
+%   pixInst.type = A string either 'Grid','yTransect',or 'xTransect'.
 %   pixInst.xlim= Xlimits of grid or vector.
 %   pixInst.ylim = Ylimits of grid or vector
 %   pixInst.dx = X resolution
@@ -52,8 +52,8 @@ function [pixInst]=pixInstPrepXYZ(pixInst);
 for k=1:length(pixInst)
     
    
-%% Section 2: Create Grid for Cbathy
-if strcmp(pixInst(k).type,'cbathyGrid')==1
+%% Section 2: Create Grid 
+if strcmp(pixInst(k).type,'Grid')==1
     x=pixInst(k).xlim(1):pixInst(k).dx:pixInst(k).xlim(2);
     y=pixInst(k).ylim(1):pixInst(k).dy:pixInst(k).ylim(2);
     [pixInst(k).X pixInst(k).Y]=meshgrid(x,y);

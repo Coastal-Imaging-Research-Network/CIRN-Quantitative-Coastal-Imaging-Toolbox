@@ -1,14 +1,23 @@
 %% F_variableExtrinsicSolutions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function generates extrinsics for a series of subsequent images for
-%  where the extrinsic solution of the first frame is known, calculated in
-%  C_singleExtrinsicSoltuion. Given a list of images, (Stabilization
-%  Control Points, and SCP elevations, this function will determine the
-%  extrinsics of each subsequent frame.
+% This function generates extrinsics for a series of subsequent images for 
+% where the extrinsic solution of the first frame is known, calculated in 
+% C_singleExtrinsicSoltuion. Given a list of images, Stabilization Control 
+% Points UVd coordinates (from E_scpSelection), and SCP elevations, this 
+% function will determine the extrinsics of each subsequent frames. 
 
-
-%  Reference Slides:
-%  
+% Similarly to C_singleExtrinsicSolution, the script uses a nonlinear 
+% solver to minimize the error between the reprojected XYZ values 
+% reprojected in UV space and those indentified in the imagery. However, 
+% the images are not ‘clicked’ but rather found by the threshold center of 
+% area calculations. The XYZ SCP files are not provided by a text file, but 
+% rather determined from georectifying the UV coordinates using the 
+% previous frames extrinsics (the user does specify a SCP elevation 
+% estimate in the script). The script runs autonomously with no user-
+% interaction, calculated SCP center of areas are plotted for each new 
+% frame in a figure; the function outputs a mat file with IOEO solutions 
+% for each frame as well as figure plotting the camera extrinsics as a 
+% function of time.
 
 %  Input:
 %  Entered by user below in Sections 1-3. In Section 1 the user will input
@@ -45,8 +54,8 @@
 %  statistics Toolbox
 
 
-%  This function is to be run sixth in the CIRN BOOTCAMP TOOLBOX
-%  progression to solve extrinsics for a moving camera. 
+%  This function is to be run sixth in the progression to solve extrinsics 
+%  for a moving camera.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -60,7 +69,10 @@ clear all
 addpath(genpath('./X_CoreFunctions/'))
 
 
-%% Section 1: User Input:  Output
+
+
+
+%% Section 1: User Input:  Saving Information
 
 %  Enter the filename the georectified images/figures will be saved as. 
 %  Name should be descriptive of the image timing, IOEO solution, and 
@@ -70,6 +82,7 @@ oname='uasDemo';
 
 %  Enter the directory where the IOEO file will be saved.
 odir= '.\X_UASDemoData\extrinsicsIntrinsics\';
+
 
 
 
@@ -142,6 +155,8 @@ to=datenum(2015,10,1,23,29,0);
 
 
 
+
+
 %% Section 4: Load IOEO and SCP files 
 
 % Load IOEO
@@ -161,6 +176,8 @@ for k=1:length(scp)
 scpZ(k)=scp(k).z;
 scpUVd(:,k)=[scp(k).UVdo'];
 end
+
+
 
 
 
@@ -187,6 +204,7 @@ else if isempty(dts)==1
     t=(1:length(ind))-1;
 end
 end
+
 
 
 
@@ -304,6 +322,8 @@ end
 
 
 
+
+
 %% Section 8: Plot Change in Extrinsics from Initial Frame
 
 f2=figure;
@@ -353,6 +373,7 @@ end
 
 
 
+
 %% Section 9: Saving Extrinsics and Metadata
 %  Saving Extrinsics and corresponding image names
 extrinsics=extrinsicsVariable;
@@ -373,7 +394,7 @@ variableCamSolutionMeta.to=to;
 variableCamSolutionMeta.solutionSTD= sqrt(var(extrinsics));
 
 %  Save File
-save([odir '/' oname '_IOEOVariable' ],'initialCamSolutionMeta','extrinsics','variableCamSolutionMeta','imageNames','t','intrinsics')
+save([odir '/' oname '_IOEOVariable' ],'extrinsics','variableCamSolutionMeta','imageNames','t','intrinsics')
 
 
 %  Display

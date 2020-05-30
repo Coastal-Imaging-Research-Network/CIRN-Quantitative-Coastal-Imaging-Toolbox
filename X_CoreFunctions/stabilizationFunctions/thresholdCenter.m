@@ -4,11 +4,8 @@
 %  threshold in a region of interest (ROI) in a given image. This function is
 %  useful for finding the center of a bright area of pixels.
   
-%  Reference Slides:
-%  
-
 %  Input:
-%  I= NxMx3 image where points of interest (SCPs, etc) reside.
+%  I= NNxMMx3 image where points of interest (SCPs, etc) reside.
 
 %  Udo= Initial Ud center coordinate of Region of interest of shape. [1x1] 
 %       Value must be withing size(2) of I.
@@ -20,7 +17,7 @@
 %  the length of a square. [1x1] Value should be in pixels and greater than
 %  1.
 
-%  T= Threshold Lower Limit for selected bright pixel intensities. Is a [1x1]
+%  Th= Threshold Lower Limit for selected bright pixel intensities. Is a [1x1]
 %  value that can be 0-255.
 
 
@@ -43,7 +40,7 @@
 %  none
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,Udo,Vdo,R,T)
+function [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,Udo,Vdo,R,Th)
 
 
 %% Section 1: Limit Area to ROI
@@ -83,9 +80,10 @@ i=rgb2gray(i);
 %% Section 2: Calculate New Center of Region using Threshold
 
 % Calculate Center of Area of Thresholded Value
+% Changes these to < if you want to find darkest features. 
 [U V]=meshgrid(udi,vdi);
-Udn = mean(U(i>T)); 
-Vdn = mean(V(i>T));
+Udn = mean(U(i>Th)); 
+Vdn = mean(V(i>Th));
 
 
 

@@ -1,35 +1,32 @@
-%% D1_gridGenExampleRectSingleCam
+%% D_gridGenExampleRect
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function generates grids for rectification in both world and a 
-%  rotated local coordinate system. The function rectifies a single oblique 
-%  image into rectified imagery for a one or multiple cameras. The user will load an 
-%  intrinsic and extrinsicsolution (IOEO) for each camera via input 
-%  files. The user will specify the resolution and limits of the 
-%  rectified grid and local rotation parameters. The function
-%  will produce figures and  images of the georectified imagery. In
-%  addition, the prescribed grids will be saved as well in a mat file. 
+% This function generates grids for rectification in both world and a 
+% rotated local coordinate system. The function rectifies a single oblique 
+% image into rectified imagery for a one or multiple cameras. The user will 
+% load an intrinsic and extrinsicsolution (IOEO) for each camera via input  
+% files. The user will specify the resolution and limits of the rectified 
+% grid and local rotation parameters for a local coordinate system. The 
+% user can enter the grid parameters in local or world coordinates; the 
+% function will make a corresponding grid encompassing the other system.  
+% The function will produce figures and  save png images of the 
+% georectified imagery in both coordinate systems. In addition, the 
+% prescribed grids will be saved as well in a mat file.
 
-
-%  The current code has input entered for UASDemoData. However, one can
-%  uncomment lines directly below input for a multi-camera processing in
-%  Section X.
-
-%  Reference Slides:
-%  
 
 %  Input:
-%  Entered by user below in Sections 1-3. In Section 1 the user will input
+%  Entered by user below in Sections 1-4. In Section 1 the user will input
 %  output names. Section 2 will require specified oblique imagery and  
 %  corresponding intiailIOEO output from C_singleExtrinsicSolution. User will 
 %  specify grid specifications in Section 3 along with specifying if 
 %  georectification in local coordinates is desired in addtion to world.
-
+% The user input of the code is prescribed for UASDemoData. However, one 
+% can uncomment lines in Section 4 for the FixedMultiCamDemoData.
 
 %  Output:
-%  1-2 Figures and .pngs saved as directory/filename as specified by the 
+%  Figures and .pngs saved as directory/filename as specified by the 
 %  user in Section 1. 'ExampleRect' will be appended to the names.  A .mat 
 %  file saved as directory/filename as specified by the 
-%  user in Section 1. The file will be prepended with Grid and
+%  user in Section 1. The file will be prepended with GRID and
 %  will contain the grids corresponding to the rectified imagery.
 
 %  Required CIRN Functions:
@@ -50,11 +47,10 @@
 %  none
 
 
-%  This function is to be run fourth in the CIRN BOOTCAMP TOOLBOX
-%  progression to evaluate camera solutions and georectification grids. For
-%  UAS it should be run on the first image used for camera IOEO
-%  calibration. For fixed camera stations it can be ran on any imagery with
-%  the corresponding IOEO.
+% This function is to be run fourth in the progression to evaluate camera  
+% extrinsic solutions and georectification grids. For UAS it should be run 
+% on the first image used for camera IOEO calibration. For fixed camera 
+% stations it can be ran on any imagery with the corresponding IOEO.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -68,7 +64,10 @@ clear all
 addpath(genpath('./X_CoreFunctions/'))
 
 
-%% Section 1: User Input:  Output
+
+
+
+%% Section 1: User Input:  Saving  + Output Information
 
 %  Enter the filename the georectified images/figures will be saved as. 
 %  Name should be descriptive of the image timing, IOEO solution, and 
@@ -94,22 +93,31 @@ odir= '.\X_UASDemoData\rectificationGrids';
 teachingMode=1;
 
 
-%% Section 2: User Input: File Paths
-
-%  Enter the filepath of the image to be rectified. Note, the image should
-%  have been taken when the IOEO calibration entered below is current. For
-%  UAS, make sure it is the same image you did the initial solution for in
-%  C_singleExtrinsicsSolution (initialCamSolutionMeta.impath), for it will use the
-%  first extrinsics vector (extrinsics(1,:).
-impath{1}= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
-%  Enter the filepath of the saved CIRN IOEO calibration results produced by 
+
+%% Section 2: User Input: Loading Information
+
+%  Filepath of the image you would like rectified. This should be the same 
+%  image used in B_gcpSelection and C_singleExtrinsicSolution (imagePath) 
+%  if you are doing a UAS collect or a moving camera. For a fixed camera, 
+%  it can be any image where intrinsics and extrinsics are valid. 
+imagePath{1}= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
+
+
+%  Enter the filepath of the saved  IOEO calibration results produced by 
 %  C_singleExtrinsicSolution. 
 ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_IOEOInitial.mat';
 
+% NOTE: For multiple cameras, these values are entered as cell entries for 
+% each camera. The extrinsics for each camera should all be in the same 
+% world coordinate system. It is up to the user to make sure the entries 
+% for both variables correspond to the same cameras.Even for a single 
+% camera, both imagePath and ioeopath need to be entered as cell functions
+% with one entry.
+ 
 
-   
+
 
 
 %% Section 3: User Input: Rectification Information
@@ -122,20 +130,14 @@ worldCoord='North Carolina State Plane, NAVD88; meters';
 
 
 
-%  Enter the origin and angle if you would prefer rectified output to be in 
-%  a local rotated right hand coordinate system. CIRN local coordinate 
-%  systems typically have the new local X pointed positive offshore, Y 
-%  oriented alongshore, and the origin onshore of the shoreline. 
-%  localOrigin should be in the same coordinate system of GCPs 
-%  entered in gcpXyzPath. The localAngle should be the relative angle 
-%  between the new (local) X axis  and old (RW) X axis, positive counter-
-%  clockwise from the old (RW) X. If fields are entered, user will still
-%  be able to rectify in both local and world coordinates. The coordinate
-%  system  and units of these inputs should be the same as the 
-%  IOEO specified in C_singleExtrinsicSolution (gpsCoord, 
-%  camSolutionMeta.worldCoordSys). Note, if user already specified their
-%  world coordinates as a local system, or do not desire a rotation, set
-%  localOrigin and localAngle to [0,0] and 0.
+% Coordinate System Info: Enter the origin and angle if you would prefer 
+% rectified output to be in a local rotated right hand coordinate system.
+% CIRN local coordinate  systems typically have the new local X pointed 
+% positive offshore, Y  oriented alongshore, and the origin onshore of the 
+% shoreline. If fields are entered, user will still  be able to rectify in 
+% both local and world coordinates. Note, if user already specified their 
+% world coordinates as a local system, or do not desire a rotation, set  
+% localOrigin and localAngle to [0,0] and 0. 
 
 localOrigin = [901951.6805  274093.1562 ]; % [ x y]
 localAngle =[20.0253]; % Degrees +CCW from Original World X 
@@ -168,29 +170,35 @@ idxdy=10;
 % Elevation Specification. Enter the elevation you would like your grid
 % rectified as. Typically, CIRN specifies an constant elevation across the
 % entire XY grid consistent with the corresponding tidal level the world
-% coordinate system. For more accurate results a spatially variable elevation grid
-% should be entered if available. However, this code is not designed for
-% that. If you would like to enter a spatially variable elevation, say from
-% SFM along with tidal elevation, enter your grid as iZ in line 190. It is
-% up to the user to make sure it is same size as iX and iY.Spatially variable 
-% Z values are more significant for run up calculations than for cbathy or 
-% vbar calculations.  It can also affect image rectifications if
-% concerned with topography representation.
+% coordinate system. For more accurate results a spatially variable 
+% elevation grid should be entered if available. However, this code is not 
+% designed for that. If you would like to enter a spatially variable 
+% elevation, say from SFM along with tidal elevation, enter your grid as iZ 
+% It is up to the user to make sure it is same size as iX and iY.Spatially 
+% variable  Z values are more significant for run up calculations than for 
+% surface current or bathymetric inversion calculations at a distance.  
+% It can also affect image rectifications if concerned with topography 
+% representation.
 
-% What does alter cbathy, vbar, and run-up calculations is a temporally
-% varible z elevation. So make sure the elevation value corresponds to the
-% correct tidal value in time and location. For short UAS collects, we can
-% assume the elevation is relatively constant during the collect. However
-% for fixed stations we would need a variable z in time. This function is
-% designed for rectification of a single frame, so z is considered constant
-% in time. 
+% What does alter bathymetric inversion, surface current, and run-up 
+% calculations is a temporally variable z elevation. So make sure the 
+% elevation value corresponds to the correct tidal value in time and 
+% location. For short UAS collects, we can assume the elevation is 
+% relatively constant during the collect. However for fixed stations we 
+% would need a variable z in time. This function is designed for 
+% rectification of a single frame, so z is considered constant in time. 
+% Value should be entered in the World Coordinate system and units.
 
 iz=0;
 
-%% Section 5: Uncomment for Multi-Camera Demo
-%  The Mult-Camera Demo will share the same grid parameters, but use
-%  different images, extrinsics, and save in a different location.
 
+
+
+
+%% Section 4: Uncomment for Multi-Camera Demo
+% %  The Mult-Camera Demo will share the same grid parameters, but use
+% %  different images, extrinsics, and save in a different location.
+% 
 % % Output Name
 % oname='fixedMultCamDemo_10mdxdy';
 % % OutPut Directory
@@ -198,14 +206,14 @@ iz=0;
 %  
 % % Image paths
 % % Each value in the CAM structure represents a different camera. It is up to
-% %  the user to ensure CAMERA IOEO and impaths match for the correct camera
+% %  the user to ensure CAMERA IOEO and imagePaths match for the correct camera
 % %  as well as images are taken simultaneously. 
-% impath{1}= '.\X_FixedMultCamDemoData\collectionData\c1\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c1.timex.jpg';
-% impath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c2.timex.jpg';
-% impath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c3.timex.jpg';
-% impath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c4.timex.jpg';
-% impath{5}= '.\X_FixedMultCamDemoData\collectionData\c5\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c5.timex.jpg';
-% impath{6}= '.\X_FixedMultCamDemoData\collectionData\c6\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c6.timex.jpg';
+% imagePath{1}= '.\X_FixedMultCamDemoData\collectionData\c1\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c1.timex.jpg';
+% imagePath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c2.timex.jpg';
+% imagePath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c3.timex.jpg';
+% imagePath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c4.timex.jpg';
+% imagePath{5}= '.\X_FixedMultCamDemoData\collectionData\c5\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c5.timex.jpg';
+% imagePath{6}= '.\X_FixedMultCamDemoData\collectionData\c6\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c6.timex.jpg';
 % 
 % %  IOEO Solutions
 % %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
@@ -219,11 +227,15 @@ iz=0;
 % ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
 % ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';
 
-%% Section 4: Load Required Files for Rectification
 
-for k=1:length(impath)
+
+
+
+%% Section 5: Load Required Files for Rectification
+
+for k=1:length(imagePath)
 %Load Image
-I{k}=imread(impath{k});
+I{k}=imread(imagePath{k});
 
 % Load Solution from C_singleExtrinsicSolution 
 load(ioeopath{k})
@@ -240,7 +252,7 @@ extrinsics=Extrinsics;
 intrinsics=Intrinsics;
 
 
-%% Section 5: Load and Assign Extrinsics
+%% Section 6: Load and Assign Extrinsics
 %  For accurate rectification, the grid and the extrinsics solution must be
 %  in the same coordinate system and units. The extrinsic output from
 %  C_singleGeometrySolution is in world coordinates. Thus, to rectify in
@@ -257,7 +269,7 @@ end
 
 
 
-%% Section 5: Generate Grids 
+%% Section 7: Generate Grids 
 %  This function will rectify the specified image in both world and local
 %  (if specified) coordinates. The image rectification for each coordinate
 %  system requires an equidistant grid. This cannot be done by simply
@@ -307,7 +319,7 @@ iZ=iX*0+iz;
 
 
 
-%% Section 7: Rectification
+%% Section 8: Rectification
 
 % The function imageRectification will perform the rectification for both
 % world and local coordinates. The function utalizes xyz2DistUV to find
@@ -338,7 +350,7 @@ end
 
 
 
-%% Section 8: Output/Saving
+%% Section 9: Output/Saving
 % Save Grids
 save([odir '/GRID_' gname  ],'X','Y','Z','worldCoord','localAngle','localOrigin','localX','localY','localZ')
 

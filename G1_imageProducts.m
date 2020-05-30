@@ -1,34 +1,30 @@
-%% G_imageProducts
+%% G1_imageProducts
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function generates statistical image products for a given set of
-%  images and corresponding extrinsics/intrinsics. The statistical image
-%  products are the timex, brightest, variance, darkest. If specified,
-%  rectified imagery for each image can be produced and saved as an png
-%  file. Rectified images and image products can be produced in world or
-%  local coordinates if specified in the grid provided by
-%  D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. 
-%  This can function can be used for a collection with variable (UAS) 
-%  and fixed intriniscs in addition to single/multi camera capability. 
+% This function generates statistical image products for a given set of 
+% images and corresponding extrinsics/intrinsics. The statistical image 
+% products are the timex, brightest, variance, darkest. If specified, 
+% rectified imagery for each image/frame can be produced and saved as an 
+% png file. Rectified images and image products can be produced in world 
+% or local coordinates if specified in the grid provided by 
+% D_gridGenExampleRect. This can function can be used for a collection with 
+% variable (UAS)  and fixed intrinsics in addition to single/multi camera 
+% capability. 
 
-%  The current code has input entered for UASDemoData. However, one can
-%  uncomment lines directly below input for a multi-camera processing in
-%  Section X. 
-
-
-%  Reference Slides:
-%  
 
 %  Input:
-%  Entered by user below in Sections 1-4. In Section 1 the user will input
+%  Entered by user below in Sections 1-5. In Section 1 the user will input
 %  output names and whether individual rectified frames will be output.  
 %  Section 2 will require information for the collection, i.e. the 
 %  directory of the oblique images and extrinsics solutions calculated by 
-%  C_singleExtrinsicSolution (Fixed Camera) or F_variableExtrinsicSolution
-%  (UAS). Section 3 will require rectification grid information produced by
-%  D1_gridGenExampleRectSingleCam or D2_gridGenExampleRectMultiCam. Section 4 will require any variation of z
-%  elevation if known throughout the collect (only applicable for long term
+%  C_singleExtrinsicSolution) or F_variableExtrinsicSolution. Section 3 
+%  will require rectification grid information produced by 
+%  D_gridGenExampleRect. Section  4 will require any variation of z 
+%  elevation if known throughout the collect (only applicable for long term 
 %  fixed stations with temporally varying z grids, not short UAS collects). 
 
+
+% The user input of the code is prescribed for UASDemoData. However, one 
+% can uncomment lines in Section 5 for the FixedMultiCamDemoData.
 
 % Output:
 % 5 Image Products  as well as individual rectified frames if desired saved 
@@ -68,7 +64,7 @@ clear all
 addpath(genpath('./X_CoreFunctions/'))
 
 
-%% Section 1: User Input:  Output
+%% Section 1: User Input:  Saving Information
 
 %  Enter the filename the georectified images/figures will be saved as. 
 %  For image products, a descriptor of the product type ('timex', etc) will
@@ -107,7 +103,7 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  names of the images must match those in imageNames output produced by
 %  F_variableExtrinsicSolutions. For fixed cameras, the directory should
 %  only have images in it, nothing else. 
-obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
+imageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
 
 
@@ -128,7 +124,7 @@ gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_10mResolution.mat';
 localFlag=1;
 
 
-%% Section 4: User Input: Fixed Station 
+%% Section 4: User Input: Manual Entry of Time and Elevation
 %  If a fixed station a time vector can be provided in the datenum format.
 %  The length of the vector must match the number of images rectified and
 %  coorectly correspond to each image. If using UAS or not desired, leave
@@ -142,25 +138,36 @@ t={};
 %  enter a z vector below that is the same length as t. For each frame, the
 %  entire z grid will be assigned to this value. If UAS or not desired,
 %  leave empty. It is assumed elevation is constant during a short collect.
-zFixedCam={};
+
+% Function can either have a temporally constant elevation grid with 
+% spatially varying Z or a spatially constant elevation grid with a 
+% temporally varying elevation value. The code needs to be modified to 
+% have both. If zVariable is non-empty, this will take precedent and make 
+% a spatially constant but temporally varying Z grid to rectify to
+zVariable={};
 
 
 
 
-%% Section X: Multi-Cam Demo input
-% %  The Mult-Camera Demo will share the same grid , but use
-% %  different images, extrinsics, and save in a different location, and have
-% %  varying time and elevation.
-% 
-%  % For Multi Cam
+
+%% Section 5: Multi-Cam Demo input
+% Uncomment this section for the multi-camera demo. ImageDirectory and 
+% ioeopath should be entered as cells, with each entry representing a 
+% different camera. It is up to the user that entries between the two 
+% variables correspond. Extrinsics between all cameras should be in the 
+% same World Coordinate System. Note that no new grid is specified, the 
+% cameras and images are all rectified to the same grid and time varying 
+% elevation. Also it is important to note for imageDirectory, each camera 
+% should have its own directory for images. The number of images in each 
+% directory should be the same (T) as well as ordered by MATLAB so images 
+% in the same order are simultaneous across cameras (i.e. the third image 
+% in c1 is taken at t=1s, the third image in c2 is taken at t=1s, etc). 
+% zVariable is from NOAA Tide Station at NAVD88 in meters.
+
 %  oname='fixedMultCamDemo_rect10x10m';
 %        
-% % For Multi Cam
 %  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 % 
-% 
-% % %  If multi-Camera, enter each filepath as a cell entry for each camera.
-% % %  Note, all extrinsics must be in same coordinate system.
 % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
 % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
 % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
@@ -168,28 +175,23 @@ zFixedCam={};
 % ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
 % ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';%         
 % 
+%  imageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
+%  imageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
+%  imageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
+%  imageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
+%  imageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
+%  imageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
 % 
-%  % If a Multi-camera station, provide the directory containing the images
-%  % for each camera. Note in this example, each camera folder has the same amount
-%  % and order of images (The first image for camera 1 was taken at the same time
-%  % as the first image in camera 2 folder, etc). This code requires this but
-%  % can be altered for more complicated folder directories. Also, the order
-%  % of the obliqueImageDirectory{k) should match with the ieopath order so
-%  % the correct IOEO corresponds to the correct images.
-%  obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
-%  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
-%  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
-%  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
-%  obliqueImageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
-%  obliqueImageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
-% 
-% % Time Vector
+
 %  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
 %  
-% % Elevation Vector (From NOAA STATION, Tidal level NAVD88)
-% z=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];
+% zVariable=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];
  
-%% Section 5: Load Files 
+
+
+
+
+%% Section 6: Load Files 
 
 % Load Grid File And Check if local is desired
 load(gridPath)
@@ -206,7 +208,7 @@ camnum=length(ioeopath);
 
 for k=1:camnum
 % Load List of Collection Images
-L{k}=string(ls(obliqueImageDirectory{k}));
+L{k}=string(ls(imageDirectory{k}));
 L{k}=L{k}(3:end); % First two are always empty
 
 % Load Extrinsics
@@ -233,7 +235,8 @@ end
 
 
 
-%% Section 6: Initiate Loop
+
+%% Section 7: Initiate Loop
 
 
 for j=1:length(L{1}(:))
@@ -241,18 +244,19 @@ for j=1:length(L{1}(:))
     % For Each Camera
     for k=1:camnum
     % Load Image
-    I{k}=imread(strcat(obliqueImageDirectory{k}, '\', L{k}(j)));
+    I{k}=imread(strcat(imageDirectory{k}, '\', L{k}(j)));
     end
 
 
 
 
-%% Section 7: Perform Rectification
+    
+%% Section 8: Perform Rectification
 
 % If fixed station and Z is not constant, assign a corresponding z
 % elevation.
-if isempty(zFixedCam)==0
-    Z=Z.*0+z(j);
+if isempty(zVariable)==0
+    Z=Z.*0+zVariable(j);
 end
 
 %Pull Correct Extrinsics out, Corresponding In time
@@ -268,7 +272,7 @@ intrinsics=Intrinsics;
 
 
 
-%% Section 8: Initiate Image Product variables of correct size and format
+%% Section 9: Initiate Image Product variables of correct size and format
 if j==1
 iDark=double(Ir).*0+255; % Can't initialize as zero, will always be dark
 iTimex=double(Ir).*0;
@@ -279,7 +283,7 @@ end
 
 
 
-%% Section 9: Perform Statistical Calcutions
+%% Section 10: Perform Statistical Calcutions
 % Timex: Sum Values, will divide by total number at last frame.
 iTimex=iTimex+double(Ir);
 
@@ -300,7 +304,8 @@ end
 
 
 
-%% Section 10: Output Frames (optional)
+
+%% Section 11: Output Frames (optional)
 %  Name will be oname with epoch time in milliseconds appended to end. If t
 %  is empty and not specified, it will be an indicie. 
 
@@ -326,7 +331,7 @@ end
 
 
 
-%% Section 11: Plot  Image Products
+%% Section 12: Plot  Image Products
 
 f1=figure;
 rectificationPlotter(iTimex,X,Y,1)
@@ -346,7 +351,7 @@ title('Dark')
 
 
 
-%% Section 12: Save Image Products + Meta Data
+%% Section 13: Save Image Products + Meta Data
 % Save Products
 imwrite(flipud(iTimex),strcat(odir, '\',oname, '_timex.png'))
 imwrite(flipud(iBright),strcat(odir, '\',oname, '_bright.png'))
@@ -363,11 +368,11 @@ Z=flipud(Z);
 
 % Save metaData and Grid Data
 rectMeta.solutionPath=ioeopath;
-rectMeta.obliqueImageDirectory=obliqueImageDirectory;
+rectMeta.imageDirectory=imageDirectory;
 rectMeta.gridPath=gridPath;
 rectMeta.imageNames=L;
 rectMeta.t=t;
-
+rectMeta.zVariable=zVariable;
 % If A local Grid Add Information
 if localFlag==1
 rectMeta.localFlag=1;

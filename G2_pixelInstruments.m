@@ -1,45 +1,33 @@
-%% I_pixelInstruments
+%% G2_pixelInstruments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function generates pixel instruments for a given set of images and
-%  corresponding extrinsics/extrinsics. It works very similar to
-%  G_imageProducts however instead of rectifying a uniform grid for
-%  rectified images, we rectify a set of points for runup, vbar, and cbathy
-%  calculutions. Rectifications can be made in both world and a local
-%  rotated coordinate system. However, for ease and accuracy,
-%  if planned to use in cbathy,vbar or runup applications, it should occur
-%  in local coordinates. 
+%This function generates pixel instruments for a given set of images and 
+% corresponding extrinsics/intrinsics. It works very similar to 
+% G1_imageProducts however instead of rectifying a uniform grid for 
+% rectified images, we rectify a set of points for bathymetric inversion, 
+% surface current, or run-up calculations. Rectifications can be made in 
+% both world and a local rotated coordinate system. However, for ease and 
+% accuracy, if planned to use in bathymetric inversion, surface current, 
+% or run-up applications, it should occur in local coordinates.
 
 %  This can function can be used for a collection with variable (UAS) 
 %  and fixed intriniscs in addition to single/multi camera capability. 
 
-%  The current code has input entered for UASDemoData. However, one can
-%  uncomment lines directly below input for a multi-camera processing in
-%  Sections X.
-
-
-%  Note: This function is not intended to replace the CIRN pixeltoolbox.
-%  That toolbox is for advanced users with more complicated fixed stations
-%  with multiple cameras. This function is just for teaching purposes. 
-
-
-
-%  Reference Slides:
-%  
 
 %  Input:
 %  Entered by user below in Sections 1-3. In Section 1 the user will input
-%  output names.  Section 2 will require information for the collection, i.e. the 
-%  directory of the images and extrinsics solutions calculated by 
-%  C_singleExtrinsicSolution (Fixed Camera) or F_variableExtrinsicSolution
-%  (UAS). Section 3 will require information concerning the pixel
-%  instruments such as type, coordinate systems, and dimensions. For
-%  multi-camera processing, users will have to uncomment lines in Sections
-%  1-4.
+%  output names.  Section 2 will require information for the collection, 
+%  i.e. the directory of the images and extrinsics/intrinsics calculated by 
+%  C_singleExtrinsicSolution or F_variableExtrinsicSolution. Section 3 will 
+%  require information concerning the pixel instruments such as type, 
+%  coordinate systems, and dimensions. 
+
+% The user input of the code is prescribed for UASDemoData. However, one can 
+% uncomment lines in Section 5 for the FixedMultiCamDemoData.
 
 
 % Output:
-% A .mat file with the pixel instruments as well as images with the
-% instruments plotted as well as run up and vbar stack images.
+% A .mat file appended with _pixInst with the pixel instruments as well as
+% images with the instruments plotted as well as instrument stack images.
 % Rectification metadata will be included in the matfile.
 
 
@@ -58,8 +46,8 @@
 %  none
 
 
-%  This function is to be run sixth (eigth) in the CIRN BOOTCAMP TOOLBOX
-%  progression for fixed (UAS) collections.
+% This function is to be run sixth or fifth in the progression for fixed 
+% and UAS collections.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -73,7 +61,7 @@ clear all
 addpath(genpath('./X_CoreFunctions/'))
 
 
-%% Section 1: User Input:  Output
+%% Section 1: User Input:  Saving Information
 
 %  Enter the filename the instruments will be saved as. Name should be
 %  descriptive of the collection and the instruments. 'pixInstruments' will
@@ -105,11 +93,11 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  F_variableExtrinsicSolutions. For fixed cameras, the directory should
 %  only have images in it, nothing else. 
 
-obliqueImageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
+imageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 
 
 
-%% Section 3: User Input: Fixed Station 
+%% Section 3: User Input: Manual Entry of Time and Elevation
 %  If a fixed station a time vector can be provided in the datenum format.
 %  The length of the vector must match the number of images rectified and
 %  coorectly correspond to each image. If using UAS or not desired, leave
@@ -168,10 +156,10 @@ localFlag=1;
 
 
 
-%  Example CBathy Grid
-%  Enter the following parameters for a cbathy grid. Note, dx and dy do not
+%  Example Grid
+%  Enter the following parameters for a grid. Note, dx and dy do not
 %  need to be equal. 
-    pixInst(1).type='cbathyGrid';
+    pixInst(1).type='Grid';
     pixInst(1). dx =5;
     pixInst(1). dy =5;
     pixInst(1). xlim =[80 400];
@@ -214,47 +202,44 @@ localFlag=1;
 
 
 %% Section X: Multi-Cam Demo input
-% %  The Mult-Camera Demo will share the same grid , but use
-% %  different images, extrinsics, and save in a different location, and have
-% %  varying time and elevation.
-% 
-%  % For Multi Cam
+% % Uncomment this section for the multi-camera demo. Impath and ioeopath 
+% % should be entered as cells, with each entry representing a different 
+% % camera. It is up to the user that entries between the two variables 
+% % correspond. Extrinsics between all cameras should be in the same World 
+% % Coordinate System. Note that no new grid or instrument file is specified, 
+% % the cameras and images are all rectified to the same grid, instrument 
+% % points, and time varying elevation. Also it is important to note for 
+% % ImageDirectory, each camera should have its own directory for images. 
+% % The number of images in each directory should be the same (T) as well as 
+% % ordered by MATLAB so images in the same order are simultaneous across 
+% % cameras (i.e. the third image in c1 is taken at t=1s, the third image in 
+% % c2 is taken at t=1s, etc). zVariable is from NOAA Tide Station at 
+% % NAVD88 in meters.
+
 %  oname='fixedMultCamDemo_rect10x10m';
 %        
-% % For Multi Cam
-%  odir= '.\X_FixedMultCamDemoData\output\';
+%  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 % 
-% 
-% % %  If multi-Camera, enter each filepath as a cell entry for each camera.
-% % %  Note, all extrinsics must be in same coordinate system.
 % ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
 % ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
 % ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
 % ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
 % ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
-% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';
-%          
+% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';%         
+% 
+%  imageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
+%  imageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
+%  imageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
+%  imageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
+%  imageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
+%  imageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
 % 
 % 
-%  % If a Multi-camera station, provide the directory containing the images
-%  % for each camera. Note in this example, each camera folder has the same amount
-%  % and order of images (The first image for camera 1 was taken at the same time
-%  % as the first image in camera 2 folder, etc). This code requires this but
-%  % can be altered for more complicated folder directories. Also, the order
-%  % of the obliqueImageDirectory{k) should match with the ieopath order so
-%  % the correct IOEO corresponds to the correct images.
-%  obliqueImageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
-%  obliqueImageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
-%  obliqueImageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
-%  obliqueImageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
-%  obliqueImageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
-%  obliqueImageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
-% 
-% % Time Vector
 %  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
 %  
-% % Elevation Vector (From NOAA STATION, Tidal level NAVD88)
-% z=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];    
+% zVariable=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];
+%  
+%  
 
                     
                     
@@ -275,7 +260,7 @@ camnum=length(ioeopath);
 
 for k=1:camnum
 % Load List of Collection Images
-L{k}=string(ls(obliqueImageDirectory{k}));
+L{k}=string(ls(imageDirectory{k}));
 L{k}=L{k}(3:end); % First two are always empty
 
 % Load Extrinsics
@@ -331,7 +316,7 @@ end
 
 for k=1:camnum
 % Load and Display initial Oblique Distorted Image
-I=imread(strcat(obliqueImageDirectory{k}, '\', L{k}(1)));
+I=imread(strcat(imageDirectory{k}, '\', L{k}(1)));
 figure
 hold on
 
@@ -382,7 +367,7 @@ for j=1:length(L{1}(:))
     % For Each Camera
     for k=1:camnum
     % Load Image
-    I{k}=imread(strcat(obliqueImageDirectory{k}, '\', L{k}(j)));
+    I{k}=imread(strcat(imageDirectory{k}, '\', L{k}(j)));
     end
 
 %  Loop for Each Pixel Instrument
@@ -421,14 +406,14 @@ for j=1:length(L{1}(:))
     % If not First frame, tack on as last dimension (time).
     if j~=1
     s=size(Igray);
-    nDim= length(find(s~=1)); % Finds number of actual dimension is =1 (transects) or 2 (cbathy)nDim
+    nDim= length(find(s~=1)); % Finds number of actual dimension is =1 (transects) or 2 (grid)nDim
     
     % For Gray Scale it is straight forward
-    pixInst(p).Igray=cat(nDim+1,pixInst(p).Igray,Igray); % Add on last dimension (third if cbathy, second if transects)
+    pixInst(p).Igray=cat(nDim+1,pixInst(p).Igray,Igray); % Add on last dimension (third if Grid, second if transects)
     
         % For RGB it is trickier since MATLAB always likes rgb values in
         % third dimension.
-        % If a cbathyGrid Add in the fourth dimension
+        % If a GridGrid Add in the fourth dimension
         if nDim==2
         pixInst(p).Irgb=cat(nDim+2,pixInst(p).Irgb,Irgb); % Add on last dimension (Always Fourth)
         end
@@ -448,7 +433,7 @@ end
 
 
 %% Section 8: Plot Instrument Data
-% For Each Instrument Plot the Data, note, if cbathy data only the first
+% For Each Instrument Plot the Data, note, if Grid data only the first
 % frame will be plotted.
 
 for p=1:length(pixInst)
@@ -458,8 +443,8 @@ for p=1:length(pixInst)
    title([num2str(p) ' ' pixInst(p).type ])
    hold on
    
-   % If cbathy use rectificationPlotter
-   if strcmp(pixInst(p).type,'cbathyGrid')==1
+   % If Grid use rectificationPlotter
+   if strcmp(pixInst(p).type,'Grid')==1
    rectificationPlotter(pixInst(p).Irgb(:,:,:,1),pixInst(p).X,pixInst(p).Y,1); % Plot First Frame RGB    
    end
    
@@ -499,7 +484,7 @@ end
 
 % Save metaData and Grid Data
 rectMeta.solutionPath=ioeopath;
-rectMeta.obliqueImageDirectory=obliqueImageDirectory;
+rectMeta.imageDirectory=imageDirectory;
 rectMeta.imageNames=L;
 rectMeta.t=t;
 rectMeta.worldCoord=worldCoord;

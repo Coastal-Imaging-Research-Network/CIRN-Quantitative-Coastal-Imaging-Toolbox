@@ -1,19 +1,17 @@
-%% plotRectification
+%% rectificationPlotter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  This function plots a rectified image in Matlab given a corresponding X 
 %  and Y  meshgrid on the current axes. The user can plot it as an RGB
 %  image using imagesc or a grayscale image using pcolor depending on the
-%  flag. Take note of how the matrices align for each, and how Matlab plots
-%  images versus matrices. When loading an image, and then using this
-%  function be sure to use the XYZ grid output by G_imageProducts. If using
-%  this from imageRectifier directly with no flipping, Ir, use the grid 
-%  used as input to imageRectifier.
-  
-%  Reference Slides:
-%  
+%  flag. Take note of how the matrices align for each, and how Matlab plots 
+%  images versus matrices. When loading an image, and then using this 
+%  function be sure to use the XYZ grid output by G1_imageProducts or 
+%  flipud your grid. If using this to plot products directly from 
+%  imageRectifier,  use the same grid you input in imageRectifier. 
+
 
 %  Input:
-%  I= NxMx3 rectified image with rgb values or NxM Matrix with grayscale
+%  I= NNxMMx3 rectified image with rgb values or NxM Matrix with grayscale
 %  values (will be gray for both options of imageFlag).
 
 %  X = MeshGrid of X coordinates of NxM size.

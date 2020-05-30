@@ -21,13 +21,13 @@
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
 
-%  Ud = Nx1 vector of distorted U coordinates for N points.
-%  Vd = Nx1 vector of distorted V coordinates for N points.
+%  Ud = Px1 vector of distorted U coordinates for P points.
+%  Vd = Px1 vector of distorted V coordinates for P points.
 
 
 %  Output:
-%  U= Nx1 vector of undistorted U coordinates for N points.
-%  V= Nx1 vector of undistorted V coordinates for N points.
+%  U= Px1 vector of undistorted U coordinates for P points.
+%  V= Px1 vector of undistorted V coordinates for P points.
 
 
 %  Required CIRN Functions:

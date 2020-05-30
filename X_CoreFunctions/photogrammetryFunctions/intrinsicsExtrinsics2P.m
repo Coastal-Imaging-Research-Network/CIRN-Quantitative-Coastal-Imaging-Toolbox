@@ -1,11 +1,9 @@
 %%intrinsicsExtrinsicsToP
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function creates a camera P matrix from a specified camera EO and
-%  IO from extrinsics and intrinsics respectively. 
+%  This function creates a camera P matrix from a specified camera 
+%  extrinsics and intrinsics. Note, output P is normalized for homogenous 
+%  coordinates. 
   
-
-%  Reference Slides:
-%  
 
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
