@@ -7,9 +7,6 @@
 %  rectification.
   
 
-%  Reference Slides:
-%  
-
 %  Input:
 %  IrIndv= A NxMxCxK matrix where N and M are the grid lengths for the
 %  rectified image. C is the number of color channels (3 for rgb, 1 for bw)

@@ -6,11 +6,14 @@
 %  referenced and explained below. The camera axes are defined as Zc
 %  positive out of the lens, positive Yc pointing towards the top of the
 %  image plane, and positive Xc pointing from right to left if looking from
-%  behind the camera. 
+%  behind the camera. .  The R is created from a ZXZ rotation of these 
+%  angles in the order of azimuth, tilt, and swing. 
   
+% If angles are defined another way (omega,kappa,phi, etc) this function 
+% will have to be replaced or altered for a new R definition. Note, the R 
+% should be the same between angle definitions, it is the order of rotations 
+% and signage to achieve this R that differs.
 
-%  Reference Slides:
-%  
 
 %  Input:
 %  All Values should be in radians.

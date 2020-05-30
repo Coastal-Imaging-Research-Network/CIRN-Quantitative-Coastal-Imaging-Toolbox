@@ -6,21 +6,17 @@
 %  distortion values bigger than what is at the corners and being within
 %  the image).
   
-
-%  Reference Slides:
-%  
-
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
-%  U = Nx1 vector of undistorted U coordinates for N points.
-%  V = Nx1 vector of undistorted V coordinates for N points.
+%  U = Px1 vector of undistorted U coordinates for N points.
+%  V = Px1 vector of undistorted V coordinates for N points.
 
 
 %  Output:
-%  Ud= Nx1 vector of distorted U coordinates for N points.
-%  Vd= Nx1 vector of distorted V coordinates for N points.
-%  flag= Nx1 vector marking if the UVd coordinate is valid(1) or not(0)
+%  Ud= Px1 vector of distorted U coordinates for N points.
+%  Vd= Px1 vector of distorted V coordinates for N points.
+%  flag= Px1 vector marking if the UVd coordinate is valid(1) or not(0)
 
 
 %  Required CIRN Functions:

@@ -7,9 +7,6 @@
 %  reverse. Note, this only performs horizontal rotations/transformations.
   
 
-%  Reference Slides:
-%  
-
 %  Input:
 
 %  localAngle = The local.angle should be the relative angle 
@@ -60,6 +57,9 @@ if directionFlag==1
     extrinsicsOut(:,4)= extrinsicsIn(:,4)+[deg2rad(localAngle)];  
     
 end
+
+
+
 
 
 %% Section 2: Local to World

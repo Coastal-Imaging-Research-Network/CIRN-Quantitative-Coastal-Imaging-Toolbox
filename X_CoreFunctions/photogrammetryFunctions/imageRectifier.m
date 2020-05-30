@@ -9,13 +9,10 @@
 %  intrinsics, and extrinsics can be input as cell values for each camera.
 %  The function will then call on cameraSeamBlend to merge the values.
   
-%  Reference Slides:
-%  
-
 %  Input:
 %  Note k can be 1:K, where K is the number of cameras. 
 
-%  I{k}= NxMx3 image to be rectified. Should have been taken when entered
+%  I{k}= NNxMMx3 image to be rectified. Should have been taken when entered
 %  intrinsics and extrinsics are valid and be distorted.
 
 %  intrinsics{k} = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics

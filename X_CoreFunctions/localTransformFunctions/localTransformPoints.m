@@ -9,8 +9,6 @@
 %  transformations.
   
 
-%  Reference Slides:
-%  
 
 %  Input:
 
@@ -55,6 +53,11 @@ Xout=ep.*cosd(localAngle)+np.*sind(localAngle);
 Yout=np.*cosd(localAngle)-ep.*sind(localAngle);
 
 end
+
+
+
+
+
 
 %% Section 2: Transformation from Local  (XY) -->  Geo (EN) 
 

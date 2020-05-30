@@ -3,9 +3,6 @@
 %  This function output frames (images) from a movie file with a specified 
 %  frame rate. 
 
-%  Reference Slides:
-%  
-
 %  Input:
 %  Entered by user below in Sections 1 and 2. User will input movie file
 %  location as well as output filenames etc in Section 1 and in Section 2
@@ -14,9 +11,9 @@
 %  Output:
 %  A series of images(.tif) in the specified output folder. Timing
 %  information will be saved in the name of the file in epoch time. If
-%  initial time not specified, timing will be referenced to the
-%  first frame at 0s. Times will be rounded to the nearest milliscond and
-%  expressed in milliseconds.
+%  initial time not specified, timing will be referenced to the first frame 
+%  at 0s. Times will be rounded to the nearest milliscond and expressed in 
+%  milliseconds.
 
 %  Required CIRN Functions:
 %  none
@@ -25,10 +22,10 @@
 %  Required MATLAB Toolboxes:
 %  none
 
-%  This function may or may not need to be run first in the CIRN BOOTCAMP
-%  TOOLBOX progression. It will typically be needed for movie files from
-%  UAS collects to obtain images for analysis. However, it can be utalized
-%  for any movie file even from a fixed station.
+%  This function may or may not need to be run first in the progression. 
+%  It will typically be needed for movie files from UAS collects to obtain 
+%  images for analysis. However, it can be utilized for any movie file even 
+%  from a fixed station.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -65,8 +62,8 @@ odir= './X_UASDemoData/collectionData/uasDemo_2Hz/';
 %% Section 2: User Input: Timing Information and Framerate
 
 % Enter the time of the first frame in [year,month,day,hr,min,sec] format.
-% If unknown leave as all zeros. Timing will just refer the the first frame as
-% t=0s.
+% If unknown leave as all zeros. Timing will just refer the the first frame 
+% as t=0s.
 to= datenum(2015,10,1,23,29,0);
 
 

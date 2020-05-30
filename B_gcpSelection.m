@@ -1,31 +1,30 @@
 %% B_gcpSelection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function initializes the GCP structure for a given camera for
-%  use in the CIRN BOOTCAMP TOOLBOX.  The user will load a given DISTORTED 
-%  image, click on GCPS, and the function will save the DISTORTED UVd 
-%  coordinates and image metadata for a given camera.
+% This function initializes the GCP structure for a given camera.  The user 
+% will load a distorted image, click on GCPS, and the function will save 
+% the distorted UVd coordinates and image metadata for a given camera.
 
-%  How to use clicking mechanism: The user can zoom and move the image how
-%  they please and then hit 'Enter' to begin clicking mode. A left click
-%  will select a point, a right click will delete the nearest point to the
-%  click. After a left click, the user will be asked to enter a GCP number
-%  to identify the GCP in the command window. The user can then zoom again
-%  until hitting enter to select the next point. To end the collection, hit
-%  enter to enter clicking mode (the cross hairs) and click below the image
-%  where it says 'Click Here to End Collection.' The user can click GCPs in
-%  any order they would like.
+% How to use clicking mechanism: The user can zoom and move the image how 
+% they please and then hit 'Enter' to begin clicking mode. A left click 
+% will select a point, a right click will delete the nearest point to the 
+% click. After a left click, the user will be asked to enter a GCP number 
+% to identify the GCP in the command window. The user can then zoom again  
+% until hitting enter to select the next point. To end the collection, hit 
+% enter to enter clicking mode (the cross hairs) and click below the image 
+% where it says 'Click Here to End Collection.'  Be sure to be zoomed out 
+% completely when ending a collection. The user can click GCPs in any order 
+% they would like.
 
-%  Reference Slides:
-%  
 
 %  Input:
-%  Entered by user below in Sections 1-2. User will enter naming and 
-%  location of output in Section 1 and which DISTORTED image to use for GCP
-%  clicking. 
+% Input is entered by user into the script in Sections 1 and 2. Users will 
+% then enter information by clicking GCPs and entering an identifying 
+% number in the command window. 
 
 %  Output:
-%  A .mat file saved as directory/filename as specified by the user.'gcpUVdInitial'
-%  will be appended to the name. Will contain gcp structure.
+%  A .mat file saved as directory/filename as specified by the user.
+%  'gcpUVdInitial' will be appended to the name. Will contain gcp 
+%  structure.
 
 %  Required CIRN Functions:
 %  None
@@ -33,11 +32,11 @@
 %  Required MATLAB Toolboxes:
 %  None
 
-%  This function is to be run second in the CIRN BOOTCAMP TOOLBOX
-%  progression for each camera in a multi-camera fixed station or for each 
-%  recording mode for a UAS platform. GCP calibration should occur any time 
-%  a camera has moved for a fixed  station, the first frame in a new UAS 
-%  collect, or IO has changed.
+% This function is to be run second in the progression for each camera in a 
+% multi-camera fixed station or UAS flight (or if a recording mode was 
+% changed midflight). GCP calibration should occur any time a camera has 
+% moved for a fixed station, the first frame in a new UAS collect, or 
+% intrinsics have changed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -52,7 +51,9 @@ addpath(genpath('./X_CoreFunctions/'))
 
 
 
-%% Section 1: User Input: Metadata Output
+
+
+%% Section 1: User Input: Saving Information
 
 %  Enter the filename of the gcp .mat file that will be saved as. Name 
 %  should be descriptive of the camera/recording mode as well as GCP 
@@ -68,7 +69,8 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 
 %% Section 2: User Input: GCP Image
 %  Enter the filepath of the saved image for clicking. For UAS, this should
-%  be the first image of the collect.
+%  be the first image of the collect.For fixed station, it should be any 
+%  frame where GCPs are visible. 
 imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 

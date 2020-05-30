@@ -17,8 +17,8 @@
 %  radius (in pixels) to search for the point. It is best to be as small as 
 %  possible and not include bright pixels of other objects. For example, if
 %  on a pier, the radius should be small enough to exclude any water
-%  pixels. The radius should  appear in the figure after entry. Hit enter with an empty input when
-%  done. 
+%  pixels. The radius should  appear in the figure after entry. Hit enter 
+%  with an empty input when done. 
 %  
 %  Then the user will enter a threshold value  in the command window
 %  deliminating bright points from dark points, it is the center of the
@@ -30,8 +30,10 @@
 %  mode and click below the X axis. The user should pick at least 4 points.
 %  Note, if GCPs selected, SCP point numbers do not have to match.
 
-%  Reference Slides:
-%  
+% Note: Users can choose to use dark features as well with modifications 
+% to the code.  Ultimately ‘>’ in the code are changed to ‘<’. This occurs 
+% in marked lines of the script and in the sub-function thresholdCenter.
+
 
 %  Input:
 %  Entered by user below in Sections 1-2. In Section 1 the user will input
@@ -45,20 +47,19 @@
 %  name.
 
 %  Required CIRN Functions:
-%  none
-
+%  thresholdCenter
 
 
 %  Required MATLAB Toolboxes:
 %  none
 
 
-%  This function is to be run fifth in the CIRN BOOTCAMP TOOLBOX
-%  progression to identify stabilization control points (SCP) for collections
-%  of imagery where the camera may have moved. For UAS it should be run on 
-%  the first image used for camera IOEO calibration. For fixed camera 
-%  stations, tyring to correct for movement, it should be run on the last 
-%  known image where the IOEO is known to be valid. 
+% This function is to be run fifth in the progression to identify 
+% stabilization control points (SCP) for collections of imagery where the 
+% camera may have moved. For UAS it should be run on the first image used 
+% for camera IOEO calibration. For fixed camera stations, trying to correct 
+% for movement, it should be run on the last  known image where the IOEO is
+% known to be valid.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -73,7 +74,7 @@ addpath(genpath('./X_CoreFunctions/'))
 
 
 
-%% Section 1: User Input:  Output
+%% Section 1: User Input:  Saving Information
 
 %  Enter the filename of the gcp .mat file that will be saved as. Name 
 %  should be descriptive of the collection.
@@ -87,16 +88,17 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 
 
 %% Section 2: User Input: SCP Image
-%  Enter the filepath of the saved image for clicking. For a collection
-%  where the camera moves, it should be the image used for IOEO initial
-%  calibration in C_singleExtrinsic Solution and B_gcpSelection(imagePath).
+% Filepath of the saved image for clicking. For UAS processing this should 
+% be the first image of the collection used in C-SingelExtrinsicSolution 
+% and B_gcpSelection (imagePath). For fixed station, it should be any frame 
+% where SCPs are visible and the previously known solution is viable. 
 imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
 
 
 
-%% Section 4: Clicking and Saving SCPS.
+%% Section 3: Clicking and Saving SCPS.
     
 if isempty(imagePath)==0
 
@@ -203,7 +205,7 @@ if isempty(imagePath)==0
                     % Plot Calculated Subset, Image, and new Centers of ROI
                     % In Thresholded image
                     subplot(122)
-                    imagesc(udi,vdi,i>T), set(gca,'ydir','reverse')
+                    imagesc(udi,vdi,i>T), set(gca,'ydir','reverse')  % Change to < if you want dark features
                     title(['SCP: ' num2str(num) '. Threshold:' num2str(Tn)])
                     p2=plot(Udn,Vdn,'ko','markersize',10,'markerfacecolor','w');
                     p2.XData=Udn;
@@ -279,7 +281,7 @@ end
 
 
 
-%% Section 5: Display Results
+%% Section 4: Display Results
 disp(['SCPs Entered for ' oname ':'])
 disp(' ')
 
@@ -295,7 +297,7 @@ end
 
 
 
-%% Section 6: Save File
+%% Section 5: Save File
 
 % Incorporate imagePath in structure
 for k=1:length(scp)

@@ -6,9 +6,6 @@
 %  one dimension of xyz must be specified and provided for each point.
   
 
-%  Reference Slides:
-%  
-
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
@@ -17,18 +14,18 @@
 %  XYZ should be in the same units as xyz points to be converted and azimuth,
 %  tilt and swing should be in radians. 
 
-%  UVd = Nx2 list of distorted image UV coordinates of N points. Columns 
+%  UVd = Px2 list of distorted image UV coordinates of N points. Columns 
 %  represent U and V coordinates. 
 
 %  knownDim= string of either 'x','y', or 'z' specifiying which dimension
 %  is known and provide by the user
 
-%  knownVal=Nx1 vector of known world coordinates of UV points specified.
+%  knownVal=Px1 vector of known world coordinates of UV points specified.
 %  World dimension is that of knownDim and rows should correspond to same
 %  points as UVd.
 
 %  Output:
-%  xyz = Nx3 list of world coordinates of N points. Columns represent X,Y, 
+%  xyz = Px3 list of world coordinates of N points. Columns represent X,Y, 
 %  and Z coordinates and rows should correspond to UVd points. 
 
 

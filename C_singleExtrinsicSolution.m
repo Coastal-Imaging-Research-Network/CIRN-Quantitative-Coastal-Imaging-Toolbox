@@ -1,27 +1,31 @@
-%% C_singleGeometrySolution
+%% C_singleExtrinsicSolution
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This function solves the extrinsics (EO) for a given camera for
-%  use in the CIRN BOOTCAMP TOOLBOX.  The user will load gcp and intrinsic  
-%  (IO) information via input files. The user will specify coordinate 
-%  system information as well as initial EO guesses. The function will 
-%  output the solved EO in the form of the vector extrinsics, metadata 
-%  information in initialCamSolutionMeta, and a reprojection error figure.
+% This function solves the extrinsics (EO) for a given camera for use in 
+% the toolbox.  The user will load gcp and intrinsic  (IO) information via 
+% input files. The user will specify coordinate system information as well 
+% as initial extrinsic guesses. The function will output the solved 
+% extrinsics in the form of the vector extrinsics, metadata  information in 
+% initialCamSolutionMeta, and a reprojection error figure.
 
-%  Reference Slides:
-%  
 
 %  Input:
-%  Entered by user below in Sections 1-5. Function requires output from
-%  A_ioInitialization (Section 2) and B_gcpSelection (Section 3). In 
+%  Entered by user below in Sections 1-4. Function requires output from
+%  A_ioInitialization (Section 2) and B_gcpSelection (Section 3).  In 
 %  addition, function requires corresponding GCP world coordinates via a 
-%  text file created and specified by the user in Section 3. The user will
-%  provide guessed EO (Section 4). Note, a user can enter World GCPS and 
-%  guessed EO in local coordinates or geographical world coordinates.
-%  Whatever will be entered here will be referred to as world, users will
-%  have the option to rotate the coordinate system further in subsequent
-%  fucntions (D_gridGenExampleRect). Although not necessary, it is
-%  suggested the user enter GCPs and EO guesses in geographical world
-%  coordinates in this function and rotate the coordinate system later. 
+%  text file created and specified by the user in Section 3.The user will
+%  provide an initial guess for extrinsics in Section 4. 
+
+%  Note, the extrinsics solution will be in the same coordinate system as 
+%  the GCPs. Regardless of what the user enters, this will be referred to 
+%  as the world coordinate system. It is encouraged that the user 
+%  enter GCPs in a geographic coordinate system (State Plane, UTM, etc). 
+%  The toolbox will complete a coordinate system rotation in subsequent 
+%  functions. Also, the nlinfit solver is very sensitive to the initial 
+%  guess; so it must be an educated guess. It is particularly sensitive to 
+%  the guessed azimuth, tilt, and swing. If incorrect, nlinfit will error 
+%  or provide an nonsensical answer. Please check veracity of provided 
+%  extrinsics. 
+
 
 %  Output:
 %  A .mat file saved as directory/filename as specified by the user in 
@@ -43,11 +47,11 @@
 %  Statistical Toolbox (for nlinfit)
 
 
-%  This function is to be run third in the CIRN BOOTCAMP TOOLBOX
-%  progression for each camera in a multi-camera fixed station or for each 
-%  recording mode for a UAS platform. GCP calibration and geometry solution
-%  calculation should occur any time a camera has moved for a fixed  
-%  station, the first frame in a new UAS collect, or IO has changed.
+% This function is to be run third in the progression for each camera in a 
+% multi-camera fixed station or for each  collection for a UAS platform. 
+% GCP calibration and geometry solution calculation should occur any time a 
+% camera has moved for a fixed  station, the first frame in a new UAS 
+% collect, or intrinsics has changed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -61,7 +65,10 @@ clear all
 addpath(genpath('./X_CoreFunctions/'))
 
 
-%% Section 1: User Input: Metadata Output
+
+
+
+%% Section 1: User Input: Saving Information
 
 %  Enter the filename of the IOEO .mat file that will be saved as. Name 
 %  should be descriptive of the camera/recording mode, GCP 
@@ -76,8 +83,10 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\';
 
 
 %% Section 2: User Input: Intrinsics 
-%  Enter the filepath of the saved CIRN IO calibration results produced by 
-%  A_ioInitialization. 
+%  Filepath of the intrinsics matfile output by A_formatIntrinsics. Matfile 
+%  should contain at minimum the following variable. Note, the intrinsics 
+%  should correspond to the recording mode and camera/lens for the image 
+%  taken in B_gcpSelection, imagePath.
 iopath= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations\uasDemo_IO.mat';
 
 
@@ -85,8 +94,8 @@ iopath= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations\uasDemo_IO.m
 
 
 %% Section 3: User Input: GCP Information 
-%  Enter the filepath of the GCP UV Coordinates produced by
-%  B_gcpSelection. The IO of the corresponding image from which the UV GCP
+%  Enter the filepath of the GCP UVd Coordinates produced by B_gcpSelection. 
+%  The intinsics of the corresponding image from which the UVd GCP
 %  coordinates were derived from should match that entered in Section 2.
 gcpUvdPath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_gcpUVdInitial.mat';
 
@@ -97,13 +106,15 @@ gcpUvdPath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_gcpUVdIn
 %  B_gcpSelection ((gcp().num)). 
 gcpXyzPath='.\X_UASDemoData\extrinsicsIntrinsics\uasDemoFlight_NCSP_GCPS.txt';
 
-%  Enter a description of the GCP World coordinate system for your own records.
+%  Enter a description of the GCP World coordinate system for your own 
+%  records.
 gcpCoord='North Carolina State Plane, NAVD88; meters';
 
 % Enter the path of the image you would like GCP reprojection checked
-% against (plotted in). This should be the same image used in
-% B_gcpSelection (imagePath) if you are doing a UAS collect or a moving camera.
-checkImage='.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
+% against (plotted in). This should be the same image used in 
+% B_gcpSelection (imagePath) if you are doing a UAS collect or a moving 
+% camera.
+imagePath='.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 %  Enter the numbers of GCPs you would like to use for the solution.
 %  Numbers must match gcp.num values found in gpcUvPath file. You do not
@@ -112,13 +123,16 @@ gcpsUsed=[1 2 3 4 5];
 
 
 
+
+
 %% Section 4: User Input: Solution Information
-%  Enter the initial guess of extrinsics, the EO solution, for the corresponding
-%  camera image   Extrinsics is formatted as [ x y z azimuth tilt swing] where xyz 
-%  correspond to the same  world coordinate system as gcps entered in 
-%  gcpXyzPath in Section 3. Azimuth, tilt and swing should be in radians. For UAS,
-%  this information can be estimated from the autopilot. For fixed camera
-%  stations it is suggested you survey in the location of the cameras.
+%  Enter the initial guess of extrinsics, for the corresponding camera 
+%  image. Extrinsics is formatted as [ x y z azimuth tilt swing] where xyz 
+%  correspond to the same  world coordinate system as GCPs entered in 
+%  gcpXyzPath in Section 3. Azimuth, tilt and swing should be in radians. 
+%  For UAS, this information can be estimated from the autopilot. For fixed 
+%  camera stations it is suggested you survey in the location of the 
+%  cameras.
 
 extrinsicsInitialGuess= [ 901726 274606 100 deg2rad(80) deg2rad(60) deg2rad(0)]; % [ x y z azimuth tilt swing]
 
@@ -147,6 +161,9 @@ extrinsicsKnownsFlag= [ 0 0 0 0 0 0];  % [ x y z azimuth tilt swing]
 %  Swing is the side to side tilt of the camera.  0 degrees is a horizontal 
 %  flat camera. Looking from behind the camera, CCW rotation of the camera
 %  would provide a positve swing.
+
+%  Diagrams of these defintions are in Section 6 of the user manual. 
+
 
 
 
@@ -180,6 +197,8 @@ end
 disp(' ')
 disp('Added GCP Information')
 disp(gcp)
+
+
 
 
 
@@ -223,12 +242,12 @@ disp( [' swing = ' num2str(rad2deg(extrinsics(6))) ' +- ' num2str(rad2deg(extrin
 
 
 
-%% Section 7: Reproject GCPs into UV Space
+%% Section 7: Reproject GCPs into UVd Space
 %  Use the newly solved  extrinsics to calculate new UVd coordinates for the
 %  GCP xyz points and compare to original clicked UVd. All GCPs will be
 %  evaluated, not just those used for the solution.
 
-% Format All GCP World and UV coordinates into correctly sized matrices for
+% Format All GCP World and UVd coordinates into correctly sized matrices for
 % non-linear solver and transformation functions (xyzToDistUV).
 xCheck=[gcp(:).x];
 yCheck=[gcp(:).y];
@@ -244,7 +263,7 @@ UVdReproj = reshape(UVdReproj ,[],2);
 
 % Load Specified Image and Plot Clicked and Reprojected UV GCP Coordinates
 f1=figure;
-imshow(checkImage)
+imshow(imagePath)
 hold on
 
 for k=1:length(gcp)
@@ -259,13 +278,16 @@ end
 legend([h1 h2],'Clicked UVd','Reprojected UVd')
 
 
+
+
+
 %% Section 8: Determine Reprojection Error
 %  Use the newly solved  extrinsics to calculate new xyz coordinates for the
-%  clicked UV points and compare to original gcp xyzs. All GCPs will be
+%  clicked UVd points and compare to original gcp xyzs. All GCPs will be
 %  evaluated, not just those used for the solution.
 for k=1:length(gcp)
 
-% Assumes Z is the known value; Reproject World XYZ from Clicked UV    
+% Assumes Z is the known value; Reproject World XYZ from Clicked UVd    
 [xyzReproj(k,:)] = distUV2XYZ(intrinsics,extrinsics,[gcp(k).UVd(1); gcp(k).UVd(2)],'z',gcp(k).z);
 
 % Calculate Difference from Surveyd GCP World Coordinates

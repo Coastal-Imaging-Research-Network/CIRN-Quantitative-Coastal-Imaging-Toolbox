@@ -14,10 +14,10 @@
 %  
 
 %  Input:
-%  I= NxTx3  rgb pixel intensities or NxT matrix of grayscael pixel 
+%  Ir= PxTx3  rgb pixel intensities or PxT matrix of grayscael pixel 
 %  intensities 
 
-%  d= Vector of spatial coordinate (X or Y). Should be length 1xN.
+%  d= Vector of spatial coordinate (X or Y). Should be length 1xP.
 
 %  t= Vector of time in in user desired units.
 
@@ -36,10 +36,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function stackPlotter(I,d,t, typ, imageFlag)
+function stackPlotter(Ir,d,t, typ, imageFlag)
 
 %% Section 1: Assign t if not done so already
-s=size(I);
+s=size(Ir);
 
 %If t is empty, just assign it an integer index
 if isempty(t)==1
@@ -61,8 +61,8 @@ if strcmp(typ,'x')==1
     vVect=t;
     
     % Need to Make Rows Time and Columns X for imagesc to work.
-    for k=1:length(I(1,1,:)) % For each RGB value
-        Ip(:,:,k)=I(:,:,k)';
+    for k=1:length(Ir(1,1,:)) % For each RGB value
+        Ip(:,:,k)=Ir(:,:,k)';
     end
 end
 
@@ -78,7 +78,7 @@ if strcmp(typ,'y')==1
     
     % Rows need to be Y and columns need to be time, Already in this
     % format.
-    Ip=I;
+    Ip=Ir;
 end
 
 

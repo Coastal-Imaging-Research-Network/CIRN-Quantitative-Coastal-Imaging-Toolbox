@@ -3,8 +3,6 @@
 %  This function converts the intrinsics calcuated from the caltech toolbox
 %  to nomenclature congruent with the CRIN architecture. 
 
-%  Slide References:
-%  Presentation: X ; Slides X-10
 
 %  Input:
 %  caltechpath = filepath of saved calibration results from Caltech Toolbox
