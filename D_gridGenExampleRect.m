@@ -126,7 +126,7 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_IOEOIni
 %  records. The world coordinate system of these should be the same as the 
 %  IOEO specified in C_singleExtrinsicSolution (gpsCoord, 
 %  camSolutionMeta.worldCoordSys).
-worldCoord='North Carolina State Plane, NAVD88; meters';
+worldCoord='NCSP, NAVD88; meters';
 
 
 
