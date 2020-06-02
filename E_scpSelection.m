@@ -1,12 +1,16 @@
 %% E_stabilizationSelection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  This function initializes the SCP (stabilization control points) 
-%  structure for a given camera.  
-%  The user will load a given DISTORTED image for where the IOEO has been
-%  calcuated already using C_singleExtrinsicSolution and then select at
-%  least X  bright points that will be used to stabilize the image. 
-%  Additional parameters such as expected movement radius and intensity 
-%  threshold will also be entered.
+%  structure for a given camera.  The user will load a given DISTORTED 
+%  image for where the IOEO has been calcuated already using 
+%  C_singleExtrinsicSolution and then select at least 4  bright or dark 
+%  points that will be used to stabilize the image. Additional parameters 
+%  such as expected movement radius and intensity threshold will also be 
+%  entered.
+
+%  Note: SCP 1 for uasDemoData is small and slightly difficult to see.
+%  However it is important to get a spread in SCPs across the image just
+%  like GCPs. This is why it is selected. 
 
 %  The clicking mechansism works similar to B_gcpSelection. The user can
 %  zoom and move the image until they hit enter to go into clicking mode
@@ -30,15 +34,15 @@
 %  mode and click below the X axis. The user should pick at least 4 points.
 %  Note, if GCPs selected, SCP point numbers do not have to match.
 
-% Note: Users can choose to use dark features as well with modifications 
-% to the code.  Ultimately ‘>’ in the code are changed to ‘<’. This occurs 
-% in marked lines of the script and in the sub-function thresholdCenter.
+
+
 
 
 %  Input:
 %  Entered by user below in Sections 1-2. In Section 1 the user will input
 %  output names. Section 2 will require the location of the oblique imagery
-%  to be stabilized. 
+%  to be stabilized as well as specify whether dark or bright features will
+%  be identified. 
 
 
 %  Output:
@@ -95,7 +99,10 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
-
+% Flag for whether 'dark' or 'bright' SCPs will be identified. White
+% objects on dark bacgrounds should be 'bright' where dark objects on light
+% backgrounds should be 'dark'.
+brightFlag='dark';
 
 
 %% Section 3: Clicking and Saving SCPS.
@@ -191,7 +198,7 @@ if isempty(imagePath)==0
                     %Initiate Values
                     T=Tn;
                     % Calculate New Center of Area (Udn,Vdn) given Threshold T
-                    [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,x,y,R,T);
+                    [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,x,y,R,T,brightFlag);
                     
                     % Plot Calculated Subset, Image, and new Centers of
                     % ROI in regular image
@@ -205,7 +212,14 @@ if isempty(imagePath)==0
                     % Plot Calculated Subset, Image, and new Centers of ROI
                     % In Thresholded image
                     subplot(122)
-                    imagesc(udi,vdi,i>T), set(gca,'ydir','reverse')  % Change to < if you want dark features
+                    if strcmp(brightFlag,'bright')==1
+                        imagesc(udi,vdi,i>T), set(gca,'ydir','reverse')  
+                    end
+                    if strcmp(brightFlag,'dark')==1
+                        imagesc(udi,vdi,i<T), set(gca,'ydir','reverse')  
+                    end
+                    
+
                     title(['SCP: ' num2str(num) '. Threshold:' num2str(Tn)])
                     p2=plot(Udn,Vdn,'ko','markersize',10,'markerfacecolor','w');
                     p2.XData=Udn;
@@ -305,7 +319,7 @@ for k=1:length(scp)
 end
 
 % Save Results
-save([odir '/' oname '_scpUVdInitial' ],'scp')
+save([odir '/' oname '_scpUVdInitial' ],'scp','brightFlag')
 
 
 

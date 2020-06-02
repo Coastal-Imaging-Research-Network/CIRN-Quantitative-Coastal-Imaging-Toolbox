@@ -2,7 +2,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  This function finds the center of area of pixels above a specified
 %  threshold in a region of interest (ROI) in a given image. This function is
-%  useful for finding the center of a bright area of pixels.
+%  useful for finding the center of a bright or dark area of pixels.
   
 %  Input:
 %  I= NNxMMx3 image where points of interest (SCPs, etc) reside.
@@ -20,6 +20,8 @@
 %  Th= Threshold Lower Limit for selected bright pixel intensities. Is a [1x1]
 %  value that can be 0-255.
 
+%  brightFlag= String of either 'dark' or 'bright' to determine if finding
+%  dark objects or bright objects for SCPs. 
 
 %  Output:
 %  Udn = Ud coordinate of New Center of Region of Interest considering only 
@@ -40,7 +42,7 @@
 %  none
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,Udo,Vdo,R,Th)
+function [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,Udo,Vdo,R,Th,brightFlag)
 
 
 %% Section 1: Limit Area to ROI
@@ -80,11 +82,16 @@ i=rgb2gray(i);
 %% Section 2: Calculate New Center of Region using Threshold
 
 % Calculate Center of Area of Thresholded Value
-% Changes these to < if you want to find darkest features. 
 [U V]=meshgrid(udi,vdi);
+
+if strcmp(brightFlag,'bright')==1
 Udn = mean(U(i>Th)); 
 Vdn = mean(V(i>Th));
-
+end
+if strcmp(brightFlag,'dark')==1
+Udn = mean(U(i<Th)); 
+Vdn = mean(V(i<Th));
+end
 
 
 
