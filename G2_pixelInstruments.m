@@ -132,7 +132,7 @@ zFixedCam={};
 % local coordinate system, and pulling z elevation values. THus, if you
 % have a spatially variable Z grid, you may want grid dx,dy resolutions to be
 % similar to your instruments. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_10mResolution.mat';
+gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_2mResolution.mat';
         
         
 
@@ -177,7 +177,7 @@ localFlag=1;
     pixInst(2).type='yTransect';
     pixInst(2).x= 225;
     pixInst(2).ylim=[450 900];
-    pixInst(2).dy =1;
+    pixInst(2).dy =.2;
     pixInst(2).z ={};  % Leave empty if you would like it interpolated from input
                     % Z grid or zFixedCam. If entered here it is assumed constant
                     % across domain and in time. 
@@ -191,8 +191,8 @@ localFlag=1;
 
     pixInst(3).type='xTransect';
     pixInst(3).y= 600;
-    pixInst(3).xlim=[70 125];
-    pixInst(3).dx =1;
+    pixInst(3).xlim=[70 200];
+    pixInst(3).dx =.2;
     pixInst(3).z ={};  % Leave empty if you would like it interpolated from input
                     % Z grid or zFixedCam. If entered here it is assumed constant
                     % across domain and in time. 
@@ -216,7 +216,7 @@ localFlag=1;
 % % c2 is taken at t=1s, etc). zVariable is from NOAA Tide Station at 
 % % NAVD88 in meters.
 
-%  oname='fixedMultCamDemo_rect10x10m';
+%  oname='fixedMultCamDemo_rect2mResolution';
 %        
 %  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 % 

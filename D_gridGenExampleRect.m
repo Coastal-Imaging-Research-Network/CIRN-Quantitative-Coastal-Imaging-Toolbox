@@ -73,14 +73,14 @@ addpath(genpath('./X_CoreFunctions/'))
 %  Name should be descriptive of the image timing, IOEO solution, and 
 %  camera name, and grid used.
 
-oname='uasDemo_InitialFrame_10mdxdy';
+oname='uasDemo_InitialFrame_2mdxdy';
         
         
           
 %  Enter the filename of the of the grid .mat file. Name should be
 %  descriptive of coordinate systems and resolution.
 
-gname='demo_NCSP_10mResolution';
+gname='demo_NCSP_2mResolution';
 
 %  Enter the directory where the grid and image files will be saved.
 odir= '.\X_UASDemoData\rectificationGrids';
@@ -164,7 +164,7 @@ localFlagInput=1;
 
 ixlim=[0 700];
 iylim=[0 1000];
-idxdy=10;
+idxdy=2;
 
 
 % Elevation Specification. Enter the elevation you would like your grid
@@ -200,7 +200,7 @@ iz=0;
 % %  different images, extrinsics, and save in a different location.
 % 
 % % Output Name
-% oname='fixedMultCamDemo_10mdxdy';
+% oname='fixedMultCamDemo_2mdxdy';
 % % OutPut Directory
 % odir='.\X_FixedMultCamDemoData\rectificationGrids';
 %  
@@ -226,7 +226,7 @@ iz=0;
 % ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
 % ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
 % ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';
-
+% 
 
 
 
