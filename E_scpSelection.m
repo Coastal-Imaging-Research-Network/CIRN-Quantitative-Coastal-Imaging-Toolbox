@@ -15,20 +15,20 @@
 %  The clicking mechansism works similar to B_gcpSelection. The user can
 %  zoom and move the image until they hit enter to go into clicking mode
 %  (cross-hairs). Note, the click does not have to be as precise as
-%  B_gcpSelection. The user should click a bright target that is brighter
-%  than what is around it and does not move. (Not in the water with
+%  B_gcpSelection. The user should click a bright (dark) target that is
+%  brighter (darker) than what is around it and does not move. (Not in the water with
 %  breaking waves rushing past). The user will enter a SCP number, and 
 %  radius (in pixels) to search for the point. It is best to be as small as 
-%  possible and not include bright pixels of other objects. For example, if
-%  on a pier, the radius should be small enough to exclude any water
+%  possible and not include bright (dark) pixels of other objects. For example, if
+%  on a pier, the radius should be small enough to exclude any foamy water
 %  pixels. The radius should  appear in the figure after entry. Hit enter 
 %  with an empty input when done. 
 %  
 %  Then the user will enter a threshold value  in the command window
 %  deliminating bright points from dark points, it is the center of the
-%  bright points that will be considered the SCP point. This will be
+%  bright (dark) points that will be considered the SCP point. This will be
 %  updated in anew figure to show the estimated SCP center. If the threshold 
-%  is very high, it is probably not a good SCP point and may error if any 
+%  is very high (low), it is probably not a good SCP point and may error if any 
 %  slight changes in pixel value (>245). Hit enter with
 %  an empty value when complete. When done with selection go in to clicking
 %  mode and click below the X axis. The user should pick at least 4 points.
@@ -100,9 +100,9 @@ imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif
 
 
 % Flag for whether 'dark' or 'bright' SCPs will be identified. White
-% objects on dark bacgrounds should be 'bright' where dark objects on light
+% objects on dark backgrounds should be 'bright' where dark objects on light
 % backgrounds should be 'dark'.
-brightFlag='dark';
+brightFlag='bright';
 
 
 %% Section 3: Clicking and Saving SCPS.
@@ -286,6 +286,7 @@ if isempty(imagePath)==0
         scp(k).num=UVsave(k,1);
         scp(k).R=UVsave(k,4);
         scp(k).T=UVsave(k,5);
+        scp(k).brightFlag=brightFlag;
     end
     
 
@@ -319,7 +320,7 @@ for k=1:length(scp)
 end
 
 % Save Results
-save([odir '/' oname '_scpUVdInitial' ],'scp','brightFlag')
+save([odir '/' oname '_scpUVdInitial' ],'scp')
 
 
 

@@ -271,7 +271,7 @@ for j=1:length(scp)
 % Using the Previous scpUVdo as a guess, find the new SCP with prescribed
 % Radius and Threshold
 
-[ Udn, Vdn, i, udi,vdi] = thresholdCenter(In,scpUVdo(1,j),scpUVdo(2,j),scp(j).R,scp(j).T,brightFlag);
+[ Udn, Vdn, i, udi,vdi] = thresholdCenter(In,scpUVdo(1,j),scpUVdo(2,j),scp(j).R,scp(j).T,scp(j).brightFlag);
     % If the function errors here, most likely your threshold was too high or
     % your radius too small for  a scp. Look at scpUVdo to see if there is a
     % nan value, if so  you will have to redo E_scpSelection with bigger
@@ -388,7 +388,6 @@ variableCamSolutionMeta.ioeopath=ioeopath;
 variableCamSolutionMeta.imageDirectory=imageDirectory;
 variableCamSolutionMeta.dts=dts;
 variableCamSolutionMeta.to=to;
-variableCamSolutionMeta.brightFlag=brightFlag;
 
 
 % Calculate Some Statsitics
