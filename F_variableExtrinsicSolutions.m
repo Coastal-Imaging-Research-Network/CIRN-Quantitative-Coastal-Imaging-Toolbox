@@ -116,9 +116,9 @@ scppath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_scpUVdIniti
 % (initailCamSolutionMeta.worldCoordSys)
 
 scpz=[ 1  7; % scp.num   z value
-       4  7;
-       5  7;
-       6  7];
+       2  7;
+       3  7;
+       4  7];
 
 %  Enter the coordinate system of the elevations entered in for scp. Z 
 %  value should be in same world coordinate system as IOEO

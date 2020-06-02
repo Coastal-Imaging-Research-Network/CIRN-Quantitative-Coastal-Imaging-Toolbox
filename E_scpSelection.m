@@ -1,7 +1,7 @@
 %% E_stabilizationSelection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  This function initializes the SCP (stabilization control points) 
-%  structure for a given camera for use in the CIRN BOOTCAMP TOOLBOX.  
+%  structure for a given camera.  
 %  The user will load a given DISTORTED image for where the IOEO has been
 %  calcuated already using C_singleExtrinsicSolution and then select at
 %  least X  bright points that will be used to stabilize the image. 
