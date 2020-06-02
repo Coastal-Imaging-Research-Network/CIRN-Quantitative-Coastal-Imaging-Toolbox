@@ -176,7 +176,7 @@ if isempty(imagePath)==0
                     % Image as is.
                     subplot(121)
                     hold on
-                    title(['SCP: ' num2str(num) 'Intensities'])
+                    title(['SCP: ' num2str(num) ' Intensities'])
                     colorbar
                     colormap jet
                     axis equal
@@ -209,6 +209,8 @@ if isempty(imagePath)==0
                     p1.YData=Vdn;
                     xlim([udi(1) udi(end)])
                     ylim([vdi(1) vdi(end)])
+                    xlabel('Ud')
+                    ylabel('Vd')
                     % Plot Calculated Subset, Image, and new Centers of ROI
                     % In Thresholded image
                     subplot(122)
@@ -226,7 +228,13 @@ if isempty(imagePath)==0
                     p2.YData=Vdn;
                     xlim([udi(1) udi(end)])
                     ylim([vdi(1) vdi(end)])
-                    
+                    xlabel('Ud')
+                    ylabel('Vd')
+                    hh=colorbar;
+                    cmap=jet(100);
+                    cmap=cmap([1 100],:);
+                    colormap(gca,cmap)
+                    hh.Ticks=[0 1];
                     % Have user Enter New Value
                     Tn=input('Color Threshold,leave empty if previous entry satisfactory:');
                 end
