@@ -71,7 +71,7 @@ addpath(genpath('./X_CoreFunctions/'))
 %  be appended to the name. For individual images, the oblique image name
 %  will be appended. Name should be descriptive of collection and grid.
 
-oname='uasDemo_rect10x10m';
+oname='uasDemo_rect2mResolution';
 
 
 %  Enter the directory where the images will be saved.
@@ -114,7 +114,7 @@ imageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 % D1_gridGenExampleRectSingleCam  Grid world coordinates need to be same coordinates
 % as those in the extrinsics in ieopath. Grid needs to be meshgrid format
 % with variables X,Y, and Z. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_10mResolution.mat';
+gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_2mResolution.mat';
 
 
         
@@ -164,7 +164,7 @@ zVariable={};
 % in c1 is taken at t=1s, the third image in c2 is taken at t=1s, etc). 
 % zVariable is from NOAA Tide Station at NAVD88 in meters.
 
-%  oname='fixedMultCamDemo_rect10x10m';
+%  oname='fixedMultCamDemo_rect2mResolution';
 %        
 %  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
 % 
@@ -182,12 +182,12 @@ zVariable={};
 %  imageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
 %  imageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
 % 
-
+% 
 %  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
 %  
 % zVariable=[-.248 -.26 -.252 -.199 -.138 -.1 -.04 .112 .2 .315 .415 .506 .57 .586 .574 .519];
- 
-
+%  
+% 
 
 
 

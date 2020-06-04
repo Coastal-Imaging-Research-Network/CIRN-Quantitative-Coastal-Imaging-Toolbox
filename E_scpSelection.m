@@ -1,44 +1,48 @@
 %% E_stabilizationSelection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %  This function initializes the SCP (stabilization control points) 
-%  structure for a given camera for use in the CIRN BOOTCAMP TOOLBOX.  
-%  The user will load a given DISTORTED image for where the IOEO has been
-%  calcuated already using C_singleExtrinsicSolution and then select at
-%  least X  bright points that will be used to stabilize the image. 
-%  Additional parameters such as expected movement radius and intensity 
-%  threshold will also be entered.
+%  structure for a given camera.  The user will load a given DISTORTED 
+%  image for where the IOEO has been calcuated already using 
+%  C_singleExtrinsicSolution and then select at least 4  bright or dark 
+%  points that will be used to stabilize the image. Additional parameters 
+%  such as expected movement radius and intensity threshold will also be 
+%  entered.
+
+%  Note: SCP 1 for uasDemoData is small and slightly difficult to see.
+%  However it is important to get a spread in SCPs across the image just
+%  like GCPs. This is why it is selected. 
 
 %  The clicking mechansism works similar to B_gcpSelection. The user can
 %  zoom and move the image until they hit enter to go into clicking mode
 %  (cross-hairs). Note, the click does not have to be as precise as
-%  B_gcpSelection. The user should click a bright target that is brighter
-%  than what is around it and does not move. (Not in the water with
+%  B_gcpSelection. The user should click a bright (dark) target that is
+%  brighter (darker) than what is around it and does not move. (Not in the water with
 %  breaking waves rushing past). The user will enter a SCP number, and 
 %  radius (in pixels) to search for the point. It is best to be as small as 
-%  possible and not include bright pixels of other objects. For example, if
-%  on a pier, the radius should be small enough to exclude any water
+%  possible and not include bright (dark) pixels of other objects. For example, if
+%  on a pier, the radius should be small enough to exclude any foamy water
 %  pixels. The radius should  appear in the figure after entry. Hit enter 
 %  with an empty input when done. 
 %  
 %  Then the user will enter a threshold value  in the command window
 %  deliminating bright points from dark points, it is the center of the
-%  bright points that will be considered the SCP point. This will be
+%  bright (dark) points that will be considered the SCP point. This will be
 %  updated in anew figure to show the estimated SCP center. If the threshold 
-%  is very high, it is probably not a good SCP point and may error if any 
+%  is very high (low), it is probably not a good SCP point and may error if any 
 %  slight changes in pixel value (>245). Hit enter with
 %  an empty value when complete. When done with selection go in to clicking
 %  mode and click below the X axis. The user should pick at least 4 points.
 %  Note, if GCPs selected, SCP point numbers do not have to match.
 
-% Note: Users can choose to use dark features as well with modifications 
-% to the code.  Ultimately ‘>’ in the code are changed to ‘<’. This occurs 
-% in marked lines of the script and in the sub-function thresholdCenter.
+
+
 
 
 %  Input:
 %  Entered by user below in Sections 1-2. In Section 1 the user will input
 %  output names. Section 2 will require the location of the oblique imagery
-%  to be stabilized. 
+%  to be stabilized as well as specify whether dark or bright features will
+%  be identified. 
 
 
 %  Output:
@@ -95,7 +99,10 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
 
 
-
+% Flag for whether 'dark' or 'bright' SCPs will be identified. White
+% objects on dark backgrounds should be 'bright' where dark objects on light
+% backgrounds should be 'dark'.
+brightFlag='bright';
 
 
 %% Section 3: Clicking and Saving SCPS.
@@ -169,7 +176,7 @@ if isempty(imagePath)==0
                     % Image as is.
                     subplot(121)
                     hold on
-                    title(['SCP: ' num2str(num) 'Intensities'])
+                    title(['SCP: ' num2str(num) ' Intensities'])
                     colorbar
                     colormap jet
                     axis equal
@@ -191,7 +198,7 @@ if isempty(imagePath)==0
                     %Initiate Values
                     T=Tn;
                     % Calculate New Center of Area (Udn,Vdn) given Threshold T
-                    [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,x,y,R,T);
+                    [ Udn, Vdn, i, udi,vdi] = thresholdCenter(I,x,y,R,T,brightFlag);
                     
                     % Plot Calculated Subset, Image, and new Centers of
                     % ROI in regular image
@@ -202,17 +209,32 @@ if isempty(imagePath)==0
                     p1.YData=Vdn;
                     xlim([udi(1) udi(end)])
                     ylim([vdi(1) vdi(end)])
+                    xlabel('Ud')
+                    ylabel('Vd')
                     % Plot Calculated Subset, Image, and new Centers of ROI
                     % In Thresholded image
                     subplot(122)
-                    imagesc(udi,vdi,i>T), set(gca,'ydir','reverse')  % Change to < if you want dark features
+                    if strcmp(brightFlag,'bright')==1
+                        imagesc(udi,vdi,i>T), set(gca,'ydir','reverse')  
+                    end
+                    if strcmp(brightFlag,'dark')==1
+                        imagesc(udi,vdi,i<T), set(gca,'ydir','reverse')  
+                    end
+                    
+
                     title(['SCP: ' num2str(num) '. Threshold:' num2str(Tn)])
                     p2=plot(Udn,Vdn,'ko','markersize',10,'markerfacecolor','w');
                     p2.XData=Udn;
                     p2.YData=Vdn;
                     xlim([udi(1) udi(end)])
                     ylim([vdi(1) vdi(end)])
-                    
+                    xlabel('Ud')
+                    ylabel('Vd')
+                    hh=colorbar;
+                    cmap=jet(100);
+                    cmap=cmap([1 100],:);
+                    colormap(gca,cmap)
+                    hh.Ticks=[0 1];
                     % Have user Enter New Value
                     Tn=input('Color Threshold,leave empty if previous entry satisfactory:');
                 end
@@ -272,6 +294,7 @@ if isempty(imagePath)==0
         scp(k).num=UVsave(k,1);
         scp(k).R=UVsave(k,4);
         scp(k).T=UVsave(k,5);
+        scp(k).brightFlag=brightFlag;
     end
     
 
