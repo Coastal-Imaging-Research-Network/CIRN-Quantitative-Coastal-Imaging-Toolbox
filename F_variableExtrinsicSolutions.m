@@ -116,9 +116,9 @@ scppath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_scpUVdIniti
 % (initailCamSolutionMeta.worldCoordSys)
 
 scpz=[ 1  7; % scp.num   z value
-       4  7;
-       5  7;
-       6  7];
+       2  7;
+       3  7;
+       4  7];
 
 %  Enter the coordinate system of the elevations entered in for scp. Z 
 %  value should be in same world coordinate system as IOEO
@@ -271,7 +271,7 @@ for j=1:length(scp)
 % Using the Previous scpUVdo as a guess, find the new SCP with prescribed
 % Radius and Threshold
 
-[ Udn, Vdn, i, udi,vdi] = thresholdCenter(In,scpUVdo(1,j),scpUVdo(2,j),scp(j).R,scp(j).T);
+[ Udn, Vdn, i, udi,vdi] = thresholdCenter(In,scpUVdo(1,j),scpUVdo(2,j),scp(j).R,scp(j).T,scp(j).brightFlag);
     % If the function errors here, most likely your threshold was too high or
     % your radius too small for  a scp. Look at scpUVdo to see if there is a
     % nan value, if so  you will have to redo E_scpSelection with bigger
