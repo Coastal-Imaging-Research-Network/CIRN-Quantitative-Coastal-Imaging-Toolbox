@@ -85,7 +85,7 @@ addpath(genpath('./X_CoreFunctions/'))
 oname='uasDemo';
 
 %  Enter the directory where the mat file will be saved.
-odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
+odir= './X_UASDemoData/extrinsicsIntrinsics/InitialValues';
 
 
 
@@ -96,7 +96,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues';
 % be the first image of the collection used in C-SingelExtrinsicSolution 
 % and B_gcpSelection (imagePath). For fixed station, it should be any frame 
 % where SCPs are visible and the previously known solution is viable. 
-imagePath= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
+imagePath= './X_UASDemoData/collectionData/uasDemo_2Hz/uasDemo_1443742140000.tif';
 
 
 % Flag for whether 'dark' or 'bright' SCPs will be identified. White

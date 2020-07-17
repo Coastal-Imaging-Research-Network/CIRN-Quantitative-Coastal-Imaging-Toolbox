@@ -76,7 +76,7 @@ addpath(genpath('./X_CoreFunctions/'))
 oname='uasDemo';
 
 %  Enter the directory where the IOEO file will be saved.
-odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\';
+odir= './X_UASDemoData/extrinsicsIntrinsics/InitialValues/';
 
 
 
@@ -87,7 +87,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\';
 %  should contain at minimum the following variable. Note, the intrinsics 
 %  should correspond to the recording mode and camera/lens for the image 
 %  taken in B_gcpSelection, imagePath.
-iopath= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations\uasDemo_IO.mat';
+iopath= './X_UASDemoData/extrinsicsIntrinsics/IntrinsicCalculations/uasDemo_IO.mat';
 
 
 
@@ -97,14 +97,14 @@ iopath= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations\uasDemo_IO.m
 %  Enter the filepath of the GCP UVd Coordinates produced by B_gcpSelection. 
 %  The intinsics of the corresponding image from which the UVd GCP
 %  coordinates were derived from should match that entered in Section 2.
-gcpUvdPath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_gcpUVdInitial.mat';
+gcpUvdPath= './X_UASDemoData/extrinsicsIntrinsics/InitialValues/uasDemo_gcpUVdInitial.mat';
 
 %  Enter the filepath of the GCP World coordinates. File should be a
 %  four column comma delimted txt file with columns representing gcp
 %  number, x coordinate, y coordinate, and z coordinate. Rows will
 %  correspond to each GCP. GCP numbers should match with those entered in
 %  B_gcpSelection ((gcp().num)). 
-gcpXyzPath='.\X_UASDemoData\extrinsicsIntrinsics\uasDemoFlight_NCSP_GCPS.txt';
+gcpXyzPath='./X_UASDemoData/extrinsicsIntrinsics/uasDemoFlight_NCSP_GCPS.txt';
 
 %  Enter a description of the GCP World coordinate system for your own 
 %  records.
@@ -114,7 +114,7 @@ gcpCoord='North Carolina State Plane, NAVD88; meters';
 % against (plotted in). This should be the same image used in 
 % B_gcpSelection (imagePath) if you are doing a UAS collect or a moving 
 % camera.
-imagePath='.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
+imagePath='./X_UASDemoData/collectionData/uasDemo_2Hz/uasDemo_1443742140000.tif';
 
 %  Enter the numbers of GCPs you would like to use for the solution.
 %  Numbers must match gcp.num values found in gpcUvPath file. You do not
@@ -152,7 +152,7 @@ extrinsicsKnownsFlag= [ 0 0 0 0 0 0];  % [ x y z azimuth tilt swing]
 %  tilt, and swing are defined below.
 
 %  Azimuth is the horizontal direction the camera is pointing and positive CW 
-%  from World Z Axis. 
+%  from World Y Axis. 
 
 %  Tilt is the up/down tilt of the camera. 0 is the camera looking nadir,
 %  +90 is the camera looking at the horizon right side up. 180 is looking
@@ -162,7 +162,7 @@ extrinsicsKnownsFlag= [ 0 0 0 0 0 0];  % [ x y z azimuth tilt swing]
 %  flat camera. Looking from behind the camera, CCW rotation of the camera
 %  would provide a positve swing.
 
-%  Diagrams of these defintions are in Section 6 of the user manual. 
+%  Diagrams of these defintions are in Section 5 of the user manual. 
 
 
 
@@ -302,10 +302,10 @@ rms=sqrt(nanmean((xyzCheck-xyzReproj).^2));
 % Display the results
 disp(' ')
 disp('Horizontal GCP Reprojection Error')
-disp( (['GCP Num \ X Err \  YErr']))
+disp( (['GCP Num / X Err /  YErr']))
 
 for k=1:length(gcp)
-    disp( ([num2str(gcp(k).num) '\' num2str(gcp(k).xReprojError) '\' num2str(gcp(k).yReprojError) ]));
+    disp( ([num2str(gcp(k).num) '/' num2str(gcp(k).xReprojError) '/' num2str(gcp(k).yReprojError) ]));
 end
 
 

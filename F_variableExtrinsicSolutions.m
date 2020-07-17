@@ -81,7 +81,7 @@ addpath(genpath('./X_CoreFunctions/'))
 oname='uasDemo';
 
 %  Enter the directory where the IOEO file will be saved.
-odir= '.\X_UASDemoData\extrinsicsIntrinsics\';
+odir= './X_UASDemoData/extrinsicsIntrinsics/';
 
 
 
@@ -99,7 +99,7 @@ firstFrame= 'uasDemo_1443742140000.tif';
 
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
 %  C_singleExtrinsicSolution for image in impath. 
-ioeopath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_IOEOInitial.mat';
+ioeopath= './X_UASDemoData/extrinsicsIntrinsics/InitialValues/uasDemo_IOEOInitial.mat';
 
 
 
@@ -107,7 +107,7 @@ ioeopath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_IOEOInitia
 
 %   Enter the filepath of the Stabilization Control Points (SCP)  calculated
 %   for the image in impath found in E_scpSelection. 
-scppath= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_scpUVdInitial.mat';
+scppath= './X_UASDemoData/extrinsicsIntrinsics/InitialValues/uasDemo_scpUVdInitial.mat';
 
 % Enter the elevations, or z values for each SCP entry in the scp structure
 % saved in scppath. The first column is the corresponding scp.num and the
@@ -140,7 +140,7 @@ scpZcoord='NAVD88; m units';
 %  datenum or epochtime as output in A0_move2frames. Also, only have the 
 %  images in the folder. Nothing else.
 
-imageDirectory='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
+imageDirectory='./X_UASDemoData/collectionData/uasDemo_2Hz/';
 
 
 %  Enter the dt in seconds of the collect. If not known, leave as {}. Under
@@ -212,7 +212,7 @@ end
 %% Section 6: Initialize Extrinsic Values and Figures for Loop
 
 % Plot Initial Frame and SCP Locations
-In=imread(strcat(imageDirectory, '\', L(ffInd,:)));
+In=imread(strcat(imageDirectory, '/', L(ffInd,:)));
 f1=figure;
 imshow(In)
 hold on
@@ -263,7 +263,7 @@ scpUVdo=scpUVdn;
 
 
 %  Load the New Image
-In=imread(strcat(imageDirectory, '\', L(k,:)));
+In=imread(strcat(imageDirectory, '/', L(k,:)));
 
 
 % Find the new UVd coordinate for each SCPs
@@ -331,33 +331,33 @@ f2=figure;
 % XCoordinate
 subplot(6,1,1)
 plot(t,extrinsicsVariable(:,1)-extrinsicsVariable(1,1))
-ylabel('\Delta x')
+ylabel('/Delta x')
 title('Change in Extrinsics over Collection')
 
 % YCoordinate
 subplot(6,1,2)
 plot(t,extrinsicsVariable(:,2)-extrinsicsVariable(1,2))
-ylabel('\Delta y')
+ylabel('/Delta y')
 
 % ZCoordinate
 subplot(6,1,3)
 plot(t,extrinsicsVariable(:,3)-extrinsicsVariable(1,3))
-ylabel('\Delta z')
+ylabel('/Delta z')
 
 % Azimuth
 subplot(6,1,4)
 plot(t,rad2deg(extrinsicsVariable(:,4)-extrinsicsVariable(1,4)))
-ylabel('\Delta Azimuth [^o]')
+ylabel('/Delta Azimuth [^o]')
 
 % Tilt
 subplot(6,1,5)
 plot(t,rad2deg(extrinsicsVariable(:,5)-extrinsicsVariable(1,5)))
-ylabel('\Delta Tilt[^o]')
+ylabel('/Delta Tilt[^o]')
 
 % Swing
 subplot(6,1,6)
 plot(t,rad2deg(extrinsicsVariable(:,6)-extrinsicsVariable(1,6)))
-ylabel('\Delta Swing [^o]')
+ylabel('/Delta Swing [^o]')
 
 
 % Set grid and datetick if time is provided

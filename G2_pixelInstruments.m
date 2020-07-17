@@ -74,7 +74,7 @@ oname='uasDemo';
         
         
 %  Enter the directory where the instrument file will be saved.
-odir= '.\X_UASDemoData\output\';
+odir= './X_UASDemoData/output/';
         
 
 
@@ -83,7 +83,7 @@ odir= '.\X_UASDemoData\output\';
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
 %  C_singleExtrinsicSolution for fixed or F_variableExtrinsicSolutions for
 %  UAS.
-ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
+ioeopath{1}= './X_UASDemoData/extrinsicsIntrinsics/uasDemo_IOEOVariable.mat';
  
 
         
@@ -93,7 +93,7 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  F_variableExtrinsicSolutions. For fixed cameras, the directory should
 %  only have images in it, nothing else. 
 
-imageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
+imageDirectory{1}='./X_UASDemoData/collectionData/uasDemo_2Hz/';
 
 
 
@@ -132,7 +132,7 @@ zFixedCam={};
 % local coordinate system, and pulling z elevation values. THus, if you
 % have a spatially variable Z grid, you may want grid dx,dy resolutions to be
 % similar to your instruments. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_2mResolution.mat';
+gridPath='./X_UASDemoData/rectificationGrids/GRID_demo_NCSP_2mResolution.mat';
         
         
 
@@ -218,21 +218,21 @@ localFlag=1;
 
 %  oname='fixedMultCamDemo_rect2mResolution';
 %        
-%  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+%  odir= './X_FixedMultCamDemoData/output/fixedMultCamDemoRectified';
 % 
-% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
-% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
-% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
-% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
-% ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
-% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';%         
+% ioeopath{1}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C1_FixedMultiCamDemo.mat';
+% ioeopath{2}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C2_FixedMultiCamDemo.mat';
+% ioeopath{3}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C3_FixedMultiCamDemo.mat';
+% ioeopath{4}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C4_FixedMultiCamDemo.mat';
+% ioeopath{5}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C5_FixedMultiCamDemo.mat';
+% ioeopath{6}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C6_FixedMultiCamDemo.mat';%         
 % 
-%  imageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
-%  imageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
-%  imageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
-%  imageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
-%  imageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
-%  imageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
+%  imageDirectory{1}='./X_FixedMultCamDemoData/collectionData/c1';
+%  imageDirectory{2}='./X_FixedMultCamDemoData/collectionData/c2';
+%  imageDirectory{3}='./X_FixedMultCamDemoData/collectionData/c3';
+%  imageDirectory{4}='./X_FixedMultCamDemoData/collectionData/c4';
+%  imageDirectory{5}='./X_FixedMultCamDemoData/collectionData/c5';
+%  imageDirectory{6}='./X_FixedMultCamDemoData/collectionData/c6';
 % 
 % 
 %  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
@@ -316,7 +316,7 @@ end
 
 for k=1:camnum
 % Load and Display initial Oblique Distorted Image
-I=imread(strcat(imageDirectory{k}, '\', L{k}(1)));
+I=imread(strcat(imageDirectory{k}, '/', L{k}(1)));
 figure
 hold on
 
@@ -367,7 +367,7 @@ for j=1:length(L{1}(:))
     % For Each Camera
     for k=1:camnum
     % Load Image
-    I{k}=imread(strcat(imageDirectory{k}, '\', L{k}(j)));
+    I{k}=imread(strcat(imageDirectory{k}, '/', L{k}(j)));
     end
 
 %  Loop for Each Pixel Instrument
@@ -497,7 +497,7 @@ rectMeta.localOrigin=localOrigin;
 end
 
 
-save(strcat(odir, '\',oname, '_pixInst'), 'pixInst','rectMeta','t')
+save(strcat(odir, '/',oname, '_pixInst'), 'pixInst','rectMeta','t')
 
 
 
