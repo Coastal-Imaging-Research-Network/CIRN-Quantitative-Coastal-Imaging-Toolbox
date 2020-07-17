@@ -111,6 +111,11 @@ while k<=numFrames
     ts= (t-vto)+to; % Make sure time is referenced to user specified time
     % useful in case video encoded time is incorrect.
     
+    %Because of the way Matlab defines time. 
+    if k==numFrames
+        ts=ts+1./v.FrameRate;
+    end
+    
     % Record Time in millisecons (Avoid '.' in file names)
     ts=round(ts.*1000);
     
@@ -126,6 +131,8 @@ while k<=numFrames
     % Save timing information
     T(count)=ts/1000; % In Seconds
     count=count+1;
+    
+    
 end
 
 
