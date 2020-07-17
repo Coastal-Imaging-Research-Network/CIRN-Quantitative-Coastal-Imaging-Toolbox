@@ -75,7 +75,7 @@ oname='uasDemo_rect2mResolution';
 
 
 %  Enter the directory where the images will be saved.
-odir= '.\X_UASDemoData\output\uasDemoFlightRectified';
+odir= './X_UASDemoData/output/uasDemoFlightRectified';
          
 
 %  Enter if you would like individual frames rectified and output. 1= yes,
@@ -91,7 +91,7 @@ outputFlag=1;
 %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
 %  C_singleExtrinsicSolution for fixed or F_variableExtrinsicSolutions for
 %  UAS.
-ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
+ioeopath{1}= './X_UASDemoData/extrinsicsIntrinsics/uasDemo_IOEOVariable.mat';
 
 
 
@@ -103,7 +103,7 @@ ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\uasDemo_IOEOVariable.mat';
 %  names of the images must match those in imageNames output produced by
 %  F_variableExtrinsicSolutions. For fixed cameras, the directory should
 %  only have images in it, nothing else. 
-imageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
+imageDirectory{1}='./X_UASDemoData/collectionData/uasDemo_2Hz/';
 
 
 
@@ -114,7 +114,7 @@ imageDirectory{1}='.\X_UASDemoData\collectionData\uasDemo_2Hz\';
 % D1_gridGenExampleRectSingleCam  Grid world coordinates need to be same coordinates
 % as those in the extrinsics in ieopath. Grid needs to be meshgrid format
 % with variables X,Y, and Z. 
-gridPath='.\X_UASDemoData\rectificationGrids\GRID_demo_NCSP_2mResolution.mat';
+gridPath='./X_UASDemoData/rectificationGrids/GRID_demo_NCSP_2mResolution.mat';
 
 
         
@@ -166,21 +166,21 @@ zVariable={};
 
 %  oname='fixedMultCamDemo_rect2mResolution';
 %        
-%  odir= '.\X_FixedMultCamDemoData\output\fixedMultCamDemoRectified';
+%  odir= './X_FixedMultCamDemoData/output/fixedMultCamDemoRectified';
 % 
-% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
-% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
-% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
-% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
-% ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
-% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';%         
+% ioeopath{1}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C1_FixedMultiCamDemo.mat';
+% ioeopath{2}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C2_FixedMultiCamDemo.mat';
+% ioeopath{3}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C3_FixedMultiCamDemo.mat';
+% ioeopath{4}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C4_FixedMultiCamDemo.mat';
+% ioeopath{5}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C5_FixedMultiCamDemo.mat';
+% ioeopath{6}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C6_FixedMultiCamDemo.mat';%         
 % 
-%  imageDirectory{1}='.\X_FixedMultCamDemoData\collectionData\c1';
-%  imageDirectory{2}='.\X_FixedMultCamDemoData\collectionData\c2';
-%  imageDirectory{3}='.\X_FixedMultCamDemoData\collectionData\c3';
-%  imageDirectory{4}='.\X_FixedMultCamDemoData\collectionData\c4';
-%  imageDirectory{5}='.\X_FixedMultCamDemoData\collectionData\c5';
-%  imageDirectory{6}='.\X_FixedMultCamDemoData\collectionData\c6';
+%  imageDirectory{1}='./X_FixedMultCamDemoData/collectionData/c1';
+%  imageDirectory{2}='./X_FixedMultCamDemoData/collectionData/c2';
+%  imageDirectory{3}='./X_FixedMultCamDemoData/collectionData/c3';
+%  imageDirectory{4}='./X_FixedMultCamDemoData/collectionData/c4';
+%  imageDirectory{5}='./X_FixedMultCamDemoData/collectionData/c5';
+%  imageDirectory{6}='./X_FixedMultCamDemoData/collectionData/c6';
 % 
 % 
 %  t=[datenum(2015,10,8,14,30,0):.5/24:datenum(2015,10,8,22,00,0)];
@@ -244,7 +244,7 @@ for j=1:length(L{1}(:))
     % For Each Camera
     for k=1:camnum
     % Load Image
-    I{k}=imread(strcat(imageDirectory{k}, '\', L{k}(j)));
+    I{k}=imread(strcat(imageDirectory{k}, '/', L{k}(j)));
     end
 
 
@@ -320,7 +320,7 @@ else
 end
 
 % Save Image
-imwrite(flipud(Ir),strcat(odir, '\',oname, '_', iname,'.png'))
+imwrite(flipud(Ir),strcat(odir, '/',oname, '_', iname,'.png'))
 
 % Display progress
 disp([ 'Frame ' num2str(j) ' out of ' num2str(length(L{k}(:))) ' completed. ' num2str(round(j/length(L{k}(:))*1000)/10) '%'])
@@ -353,9 +353,9 @@ title('Dark')
 
 %% Section 13: Save Image Products + Meta Data
 % Save Products
-imwrite(flipud(iTimex),strcat(odir, '\',oname, '_timex.png'))
-imwrite(flipud(iBright),strcat(odir, '\',oname, '_bright.png'))
-imwrite(flipud(iDark),strcat(odir, '\',oname, '_dark.png'))
+imwrite(flipud(iTimex),strcat(odir, '/',oname, '_timex.png'))
+imwrite(flipud(iBright),strcat(odir, '/',oname, '_bright.png'))
+imwrite(flipud(iDark),strcat(odir, '/',oname, '_dark.png'))
 
 
 % Flip XYZ, note- once saved as an image, we will have to flipUD so the
@@ -382,7 +382,7 @@ end
 rectMeta.worldCoord=worldCoord;
 
 
-save(strcat(odir, '\',oname, '_gridMeta'), 'X','Y','Z','rectMeta','t')
+save(strcat(odir, '/',oname, '_gridMeta'), 'X','Y','Z','rectMeta','t')
 
 
 

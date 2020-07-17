@@ -45,7 +45,7 @@ addpath(genpath('./X_CoreFunctions/'))
 oname='uasDemo';
 
 %  Enter the directory where the mat file will be saved.
-odir= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations';
+odir= './X_UASDemoData/extrinsicsIntrinsics/IntrinsicCalculations';
 
 
 
@@ -55,7 +55,7 @@ odir= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations';
 %  Enter the filepath of the saved Caltech calibration results. If user is
 %  going to enter the LCP manually, leave iopath={}; and enter in
 %  Section 3. 
-iopath= '.\X_UASDemoData\extrinsicsIntrinsics\IntrinsicCalculations\uasDemo_Calib_Results.mat';
+iopath= './X_UASDemoData/extrinsicsIntrinsics/IntrinsicCalculations/uasDemo_Calib_Results.mat';
 
 
 

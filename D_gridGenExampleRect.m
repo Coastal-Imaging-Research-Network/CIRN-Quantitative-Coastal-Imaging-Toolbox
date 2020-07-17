@@ -83,7 +83,7 @@ oname='uasDemo_InitialFrame_2mdxdy';
 gname='demo_NCSP_2mResolution';
 
 %  Enter the directory where the grid and image files will be saved.
-odir= '.\X_UASDemoData\rectificationGrids';
+odir= './X_UASDemoData/rectificationGrids';
            
 
           
@@ -102,12 +102,12 @@ teachingMode=1;
 %  image used in B_gcpSelection and C_singleExtrinsicSolution (imagePath) 
 %  if you are doing a UAS collect or a moving camera. For a fixed camera, 
 %  it can be any image where intrinsics and extrinsics are valid. 
-imagePath{1}= '.\X_UASDemoData\collectionData\uasDemo_2Hz\uasDemo_1443742140000.tif';
+imagePath{1}= './X_UASDemoData/collectionData/uasDemo_2Hz/uasDemo_1443742140000.tif';
 
 
 %  Enter the filepath of the saved  IOEO calibration results produced by 
 %  C_singleExtrinsicSolution. 
-ioeopath{1}= '.\X_UASDemoData\extrinsicsIntrinsics\InitialValues\uasDemo_IOEOInitial.mat';
+ioeopath{1}= './X_UASDemoData/extrinsicsIntrinsics/InitialValues/uasDemo_IOEOInitial.mat';
 
 % NOTE: For multiple cameras, these values are entered as cell entries for 
 % each camera. The extrinsics for each camera should all be in the same 
@@ -202,30 +202,30 @@ iz=0;
 % % Output Name
 % oname='fixedMultCamDemo_2mdxdy';
 % % OutPut Directory
-% odir='.\X_FixedMultCamDemoData\rectificationGrids';
+% odir='./X_FixedMultCamDemoData/rectificationGrids';
 %  
 % % Image paths
 % % Each value in the CAM structure represents a different camera. It is up to
 % %  the user to ensure CAMERA IOEO and imagePaths match for the correct camera
 % %  as well as images are taken simultaneously. 
-% imagePath{1}= '.\X_FixedMultCamDemoData\collectionData\c1\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c1.timex.jpg';
-% imagePath{2}= '.\X_FixedMultCamDemoData\collectionData\c2\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c2.timex.jpg';
-% imagePath{3}= '.\X_FixedMultCamDemoData\collectionData\c3\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c3.timex.jpg';
-% imagePath{4}= '.\X_FixedMultCamDemoData\collectionData\c4\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c4.timex.jpg';
-% imagePath{5}= '.\X_FixedMultCamDemoData\collectionData\c5\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c5.timex.jpg';
-% imagePath{6}= '.\X_FixedMultCamDemoData\collectionData\c6\1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c6.timex.jpg';
+% imagePath{1}= './X_FixedMultCamDemoData/collectionData/c1/1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c1.timex.jpg';
+% imagePath{2}= './X_FixedMultCamDemoData/collectionData/c2/1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c2.timex.jpg';
+% imagePath{3}= './X_FixedMultCamDemoData/collectionData/c3/1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c3.timex.jpg';
+% imagePath{4}= './X_FixedMultCamDemoData/collectionData/c4/1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c4.timex.jpg';
+% imagePath{5}= './X_FixedMultCamDemoData/collectionData/c5/1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c5.timex.jpg';
+% imagePath{6}= './X_FixedMultCamDemoData/collectionData/c6/1444314601.Thu.Oct.08_14_30_01.GMT.2015.argus02b.c6.timex.jpg';
 % 
 % %  IOEO Solutions
 % %  Enter the filepath of the saved CIRN IOEO calibration results produced by 
 % %  C_singleExtrinsicSolution. Note extrinsics for all K cameras should be 
 % %  in same coordinate system.
 % 
-% ioeopath{1}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C1_FixedMultiCamDemo.mat';
-% ioeopath{2}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C2_FixedMultiCamDemo.mat';
-% ioeopath{3}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C3_FixedMultiCamDemo.mat';
-% ioeopath{4}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C4_FixedMultiCamDemo.mat';
-% ioeopath{5}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C5_FixedMultiCamDemo.mat';
-% ioeopath{6}=  '.\X_FixedMultCamDemoData\extrinsicsIntrinsics\C6_FixedMultiCamDemo.mat';
+% ioeopath{1}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C1_FixedMultiCamDemo.mat';
+% ioeopath{2}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C2_FixedMultiCamDemo.mat';
+% ioeopath{3}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C3_FixedMultiCamDemo.mat';
+% ioeopath{4}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C4_FixedMultiCamDemo.mat';
+% ioeopath{5}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C5_FixedMultiCamDemo.mat';
+% ioeopath{6}=  './X_FixedMultCamDemoData/extrinsicsIntrinsics/C6_FixedMultiCamDemo.mat';
 % 
 
 
