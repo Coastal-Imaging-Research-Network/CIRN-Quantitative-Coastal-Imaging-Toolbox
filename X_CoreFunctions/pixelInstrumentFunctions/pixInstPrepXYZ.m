@@ -5,9 +5,9 @@
 %  correct size for the function imageRectifier. The format of the input
 %  structure is described below. Note: if the z coordinate is not known,
 %  pixInst.z can be left empty.
-  
+
 %  Reference Slides:
-%  
+%
 
 %  Input:
 %  pixInst structure with each entry having the following format.
@@ -51,49 +51,49 @@ function [pixInst]=pixInstPrepXYZ(pixInst);
 
 for k=1:length(pixInst)
     
-   
-%% Section 2: Create Grid 
-if strcmp(pixInst(k).type,'Grid')==1
-    x=pixInst(k).xlim(1):pixInst(k).dx:pixInst(k).xlim(2);
-    y=pixInst(k).ylim(1):pixInst(k).dy:pixInst(k).ylim(2);
-    [pixInst(k).X pixInst(k).Y]=meshgrid(x,y);
+    
+    %% Section 2: Create Grid
+    if strcmp(pixInst(k).type,'Grid')==1
+        x=pixInst(k).xlim(1):pixInst(k).dx:pixInst(k).xlim(2);
+        y=pixInst(k).ylim(1):pixInst(k).dy:pixInst(k).ylim(2);
+        [pixInst(k).X pixInst(k).Y]=meshgrid(x,y);
+        
+    end
+    
+    
+    %% Section 3: Create Grid for XTransect
+    if strcmp(pixInst(k).type,'xTransect')==1
+        pixInst(k).X=[pixInst(k).xlim(1):pixInst(k).dx:pixInst(k).xlim(2)]';
+        pixInst(k).Y=pixInst(k).X.*0+pixInst(k).y;
+        pixInst(k).Irgb=[];
+    end
+    
+    
+    %% Section 4: Create Grid for YTransect
+    if strcmp(pixInst(k).type,'yTransect')==1
+        pixInst(k).Y=[pixInst(k).ylim(1):pixInst(k).dy:pixInst(k).ylim(2)]';
+        pixInst(k).X=pixInst(k).Y.*0+pixInst(k).x;
+    end
+    
+    
+    
+    %% Section 5: Assign Z value if present
+    if isempty(pixInst(k).z)==1
+        pixInst(k).Z=pixInst(k).X.*nan;
+    else
+        pixInst(k).Z=pixInst(k).X*0+pixInst(k).z;
+    end
+    
+    
     
 end
 
 
-%% Section 3: Create Grid for XTransect
-if strcmp(pixInst(k).type,'xTransect')==1
-         pixInst(k).X=[pixInst(k).xlim(1):pixInst(k).dx:pixInst(k).xlim(2)]';
-         pixInst(k).Y=pixInst(k).X.*0+pixInst(k).y;
-         pixInst(k).Irgb=[];
-end
-    
-    
-%% Section 4: Create Grid for YTransect
-if strcmp(pixInst(k).type,'yTransect')==1
-     pixInst(k).Y=[pixInst(k).ylim(1):pixInst(k).dy:pixInst(k).ylim(2)]';
-     pixInst(k).X=pixInst(k).Y.*0+pixInst(k).x;
-end
-       
-
-
-%% Section 5: Assign Z value if present
-if isempty(pixInst(k).z)==1
-    pixInst(k).Z=pixInst(k).X.*nan;
-else
-    pixInst(k).Z=pixInst(k).X*0+pixInst(k).z;
-end
-
-
-    
-end
 
 
 
 
-    
-    
-    
-    
+
+
 
 

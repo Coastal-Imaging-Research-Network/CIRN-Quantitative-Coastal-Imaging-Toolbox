@@ -1,29 +1,29 @@
 %% B_gcpSelection
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This function initializes the GCP structure for a given camera.  The user 
-% will load a distorted image, click on GCPS, and the function will save 
+% This function initializes the GCP structure for a given camera.  The user
+% will load a distorted image, click on GCPS, and the function will save
 % the distorted UVd coordinates and image metadata for a given camera.
 
-% How to use clicking mechanism: The user can zoom and move the image how 
-% they please and then hit 'Enter' to begin clicking mode. A left click 
-% will select a point, a right click will delete the nearest point to the 
-% click. After a left click, the user will be asked to enter a GCP number 
-% to identify the GCP in the command window. The user can then zoom again  
-% until hitting enter to select the next point. To end the collection, hit 
-% enter to enter clicking mode (the cross hairs) and click below the image 
-% where it says 'Click Here to End Collection.'  Be sure to be zoomed out 
-% completely when ending a collection. The user can click GCPs in any order 
+% How to use clicking mechanism: The user can zoom and move the image how
+% they please and then hit 'Enter' to begin clicking mode. A left click
+% will select a point, a right click will delete the nearest point to the
+% click. After a left click, the user will be asked to enter a GCP number
+% to identify the GCP in the command window. The user can then zoom again
+% until hitting enter to select the next point. To end the collection, hit
+% enter to enter clicking mode (the cross hairs) and click below the image
+% where it says 'Click Here to End Collection.'  Be sure to be zoomed out
+% completely when ending a collection. The user can click GCPs in any order
 % they would like.
 
 
 %  Input:
-% Input is entered by user into the script in Sections 1 and 2. Users will 
-% then enter information by clicking GCPs and entering an identifying 
-% number in the command window. 
+% Input is entered by user into the script in Sections 1 and 2. Users will
+% then enter information by clicking GCPs and entering an identifying
+% number in the command window.
 
 %  Output:
 %  A .mat file saved as directory/filename as specified by the user.
-%  'gcpUVdInitial' will be appended to the name. Will contain gcp 
+%  'gcpUVdInitial' will be appended to the name. Will contain gcp
 %  structure.
 
 %  Required CIRN Functions:
@@ -32,10 +32,10 @@
 %  Required MATLAB Toolboxes:
 %  None
 
-% This function is to be run second in the progression for each camera in a 
-% multi-camera fixed station or UAS flight (or if a recording mode was 
-% changed midflight). GCP calibration should occur any time a camera has 
-% moved for a fixed station, the first frame in a new UAS collect, or 
+% This function is to be run second in the progression for each camera in a
+% multi-camera fixed station or UAS flight (or if a recording mode was
+% changed midflight). GCP calibration should occur any time a camera has
+% moved for a fixed station, the first frame in a new UAS collect, or
 % intrinsics have changed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,8 +55,8 @@ addpath(genpath('./X_CoreFunctions/'))
 
 %% Section 1: User Input: Saving Information
 
-%  Enter the filename of the gcp .mat file that will be saved as. Name 
-%  should be descriptive of the camera/recording mode as well as GCP 
+%  Enter the filename of the gcp .mat file that will be saved as. Name
+%  should be descriptive of the camera/recording mode as well as GCP
 %  deployment.
 oname='uasDemo';
 
@@ -69,24 +69,24 @@ odir= './X_UASDemoData/extrinsicsIntrinsics/InitialValues';
 
 %% Section 2: User Input: GCP Image
 %  Enter the filepath of the saved image for clicking. For UAS, this should
-%  be the first image of the collect.For fixed station, it should be any 
-%  frame where GCPs are visible. 
+%  be the first image of the collect.For fixed station, it should be any
+%  frame where GCPs are visible.
 imagePath= './X_UASDemoData/collectionData/uasDemo_2Hz/uasDemo_1443742140000.tif';
 
 
 
 
 
-%% Section 4: Clicking and Saving GCPS: 
-    
-if isempty(imagePath)==0
+%% Section 4: Clicking and Saving GCPS:
 
-    % Display Image    
+if isempty(imagePath)==0
+    
+    % Display Image
     f1=figure;
     
     I=imread(imagePath);
     [r c t]=size(I);
-
+    
     imagesc(1:c,1:r,I)
     axis equal
     xlim([0 c])
@@ -94,26 +94,26 @@ if isempty(imagePath)==0
     xlabel({ 'Ud';'Click Here in Cross-Hair Mode To End Collection '})
     ylabel('Vd')
     hold on
-
+    
     % Clicking Mechanism
     x=1;
     y=1;
     button=1;
     UVclick=[];
-
+    
     while x<=c & y<=r % Clicking figure bottom will end clicking opportunity
-
+        
         % Allow User To Zoom
         title('Zoom axes as Needed. Press Enter to Initiate Click')
         pause
-
+        
         % Allow User to Click
         title('Left Click to Save. Right Click to Delete')
         [x,y,button] = ginput(1);
-
-
+        
+        
         % If a left click, ask user for number, store, and display
-        if button==1  & (x<=c & y<=r) 
+        if button==1  & (x<=c & y<=r)
             
             % Plot GCP in Image
             plot(x,y,'ro','markersize',10,'linewidth',3)
@@ -134,12 +134,12 @@ if isempty(imagePath)==0
             disp(' ')
             figure(f1)
             zoom out
-        end   
+        end
         
         % If a right click, program will delete nearest point, mark UVClick
         % Entry as unusable with value -99.
-        if button==3 & (x<=c & y<=r) 
-            % Find Nearest Marker 
+        if button==3 & (x<=c & y<=r)
+            % Find Nearest Marker
             Idx = knnsearch(UVclick(:,2:3),[x y]);
             
             % Turn the visual display off.
@@ -154,11 +154,11 @@ if isempty(imagePath)==0
             UVclick(Idx,1)=-99;
             zoom out
         end
-
-               
-
+        
+        
+        
     end
-     
+    
     % Filter out values that were to be deleted
     IND=find(UVclick(:,1) ~= -99);
     UVsave=UVclick(IND,:);
@@ -173,7 +173,7 @@ if isempty(imagePath)==0
         gcp(k).num=UVsave(k,1);
     end
     
-
+    
 end
 
 
@@ -188,22 +188,22 @@ disp(['GCPs Entered for ' oname ':'])
 disp(' ')
 
 for k=1:length(gcp)
-    disp(['gcp(' num2str(k) ').num = ' num2str(gcp(k).num(1)) ] )  
-    disp(['gcp(' num2str(k) ').UVd = [' num2str(gcp(k).UVd(1)) ' ' num2str(gcp(k).UVd(2)) ']'])   
+    disp(['gcp(' num2str(k) ').num = ' num2str(gcp(k).num(1)) ] )
+    disp(['gcp(' num2str(k) ').UVd = [' num2str(gcp(k).UVd(1)) ' ' num2str(gcp(k).UVd(2)) ']'])
 end
 
 
 
-          
+
 
 %% Section 6: Save File
 
 % Incorporate imagePath in structure
 for k=1:length(gcp)
-    if isempty(imagePath)==0  
-    gcp(k).imagePath=imagePath;
+    if isempty(imagePath)==0
+        gcp(k).imagePath=imagePath;
     else
-    gcp(k).imagePath=imagePath_noclick;    
+        gcp(k).imagePath=imagePath_noclick;
     end
 end
 

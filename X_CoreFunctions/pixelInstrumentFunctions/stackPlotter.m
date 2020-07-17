@@ -7,15 +7,15 @@
 %  image using imagesc or a grayscale image using pcolor depending on the
 %  what I is entered. User can also specify if what type of transect it is, x or y. This
 %  only dictates whether time is represneted on the vertical or horizontal
-%  axis. 
+%  axis.
 
-  
+
 %  Reference Slides:
-%  
+%
 
 %  Input:
-%  Ir= PxTx3  rgb pixel intensities or PxT matrix of grayscael pixel 
-%  intensities 
+%  Ir= PxTx3  rgb pixel intensities or PxT matrix of grayscael pixel
+%  intensities
 
 %  d= Vector of spatial coordinate (X or Y). Should be length 1xP.
 
@@ -23,13 +23,13 @@
 
 %  typ=String of 'x' or 'y' specifying if an cross-shore (x) or alongshore
 %  (y) transect. Dictates whether time is on the vertical (x) or horizontal
-%  (y) axis. 
+%  (y) axis.
 
 
 
 
 %  Output:
-%  Plotted rectified frame on current axes. 
+%  Plotted rectified frame on current axes.
 
 %  Required CIRN Functions:
 %  None
@@ -87,28 +87,28 @@ end
 
 % If user entered an rgb image
 if length(s)==3 % if the size vector has 3 dimenions.
-imagesc(hVect,vVect,Ip) 
+    imagesc(hVect,vVect,Ip)
 end
 
 
 % If The user entered a grayscale image
 if length(s)==2 % if the size vector has 2 dimenions.
-% make Grid for pcolor
-[H V]=meshgrid(hVect,vVect);
-pcolor(H,V,(Ip)) 
-shading flat
-colormap(gray)
+    % make Grid for pcolor
+    [H V]=meshgrid(hVect,vVect);
+    pcolor(H,V,(Ip))
+    shading flat
+    colormap(gray)
 end
 
 
- %% Section 3: Add Axes Limits
+%% Section 3: Add Axes Limits
 
-set(gca,'ydir','normal')        % Imagesc plots as imshow, with V increasing 
-                                % from top to bottom, we need to reset to 
-                                % normal axis direction, increasing from
-                                % bottom to top. 
+set(gca,'ydir','normal')        % Imagesc plots as imshow, with V increasing
+% from top to bottom, we need to reset to
+% normal axis direction, increasing from
+% bottom to top.
 xlim([min(min(hVect)) max(max(hVect))])
-ylim([min(min(vVect)) max(max(vVect))]) 
+ylim([min(min(vVect)) max(max(vVect))])
 xlabel(hAxis)
 ylabel(vAxis)
 
@@ -122,7 +122,7 @@ ylabel(vAxis)
 
 
 
-  
-    
-        
-    
+
+
+
+
