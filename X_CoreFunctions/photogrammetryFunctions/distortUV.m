@@ -5,7 +5,7 @@
 %  suggests whether the UVd coordinate is valid (not having tangential
 %  distortion values bigger than what is at the corners and being within
 %  the image).
-  
+
 %  Input:
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
@@ -44,7 +44,7 @@ t2=intrinsics(11);
 %% Section 2: Calculate Distorted Coordinates
 
 % Normalize Distances
-x = (U(:)-c0U)/fx; 
+x = (U(:)-c0U)/fx;
 y = (V(:)-c0V)/fy;
 
 % Radial Distortion
@@ -58,45 +58,44 @@ dy=t1*(r2+2*y.*y) + 2*t2*x.*y;
 %  Apply Correction, answer in chip pixel units
 xd = x.*fr + dx;
 yd = y.*fr + dy;
-Ud = xd*fx+c0U;       
+Ud = xd*fx+c0U;
 Vd = yd*fy+c0V;
 
 
 %% Section 3: Determine if Points are within the Image
 
-% Initialize Flag that all are accpetable. 
+% Initialize Flag that all are accpetable.
 flag=Ud.*0+1;
 
 % Find negative UV coordinates
-    bind=find(round(Ud)<=0 | round(Vd)<=0); 
-    flag(bind)=0;
+bind=find(round(Ud)<=0 | round(Vd)<=0);
+flag(bind)=0;
 
 % Find UVd coordinates greater than the image size
-    bind =find( round(Ud)>=NU | round(Vd)>= NV); 
-    flag(bind)=0;
+bind =find( round(Ud)>=NU | round(Vd)>= NV);
+flag(bind)=0;
 
-    
-    
+
+
 %% Section 4: Determine if Tangential Distortion is within Range
 
 %  Find Maximum possible tangential distortion at corners
-    Um=[0 0 NU NU ];
-    Vm=[0 NV NV 0];
-    
-    % Normalization
-    xm = (Um(:)-c0U)/fx; 
-    ym = (Vm(:)-c0V)/fy;
-    r2m = xm.*xm + ym.*ym;   
+Um=[0 0 NU NU ];
+Vm=[0 NV NV 0];
+
+% Normalization
+xm = (Um(:)-c0U)/fx;
+ym = (Vm(:)-c0V)/fy;
+r2m = xm.*xm + ym.*ym;
 
 
-    % Tangential Distortion
-    dxm=2*t1*xm.*ym + t2*(r2m+2*xm.*xm);
-    dym=t1*(r2m+2*ym.*ym) + 2*t2*xm.*ym;
-    
-    % Find Values Larger than those at corners
-    bind=find(abs(dy)>max(abs(dym)));
-    flag(bind)=0;
-   
-    bind=find(abs(dx)>max(abs(dxm)));
-    flag(bind)=0;
-    
+% Tangential Distortion
+dxm=2*t1*xm.*ym + t2*(r2m+2*xm.*xm);
+dym=t1*(r2m+2*ym.*ym) + 2*t2*xm.*ym;
+
+% Find Values Larger than those at corners
+bind=find(abs(dy)>max(abs(dym)));
+flag(bind)=0;
+
+bind=find(abs(dx)>max(abs(dxm)));
+flag(bind)=0;
