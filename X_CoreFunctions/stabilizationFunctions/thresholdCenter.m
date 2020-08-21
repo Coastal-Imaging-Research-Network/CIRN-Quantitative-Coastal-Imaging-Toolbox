@@ -56,11 +56,11 @@ vlim=[(Vdo-R) (Vdo+R)];
 
 % Check Image Size, set to image limits if radius too big
 s=size(I);
-if ulim(1)<=0
-    ulim(1)=0;
+if ulim(1)<=1
+    ulim(1)=1;
 end
-if vlim(1)<=0
-    vlim(1)=0;
+if vlim(1)<=1
+    vlim(1)=1;
 end
 if vlim(2)>s(1)
     vlim(2)=s(1);
