@@ -51,7 +51,6 @@ UV = UV./repmat(UV(3,:),3,1);  % Make Homogenenous
 [Ud,Vd,flag] = distortUV(UV(1,:),UV(2,:),intrinsics);
 
 % Find Negative Zc Camera Coordinates. Adds invalid point to flag (=0).
-[P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
 xyzC = R*IC*[xyz'; ones(1,size(xyz,1))];
 bind= find(xyzC (3,:)<=0);
 flag(bind)=0;
