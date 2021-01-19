@@ -14,7 +14,7 @@
 
 
 %  Output:
-%  P= [4 x 4] transformation matrix to convert XYZ coordinates to distorted
+%  P= [3 x 4] transformation matrix to convert XYZ coordinates to distorted
 %  UV coordinates.
 
 %  K=  [ 3 x 3] K matrix to convert XYZc Coordinates to distorted UV coordinates
