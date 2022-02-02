@@ -10,9 +10,9 @@
 %  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
 
-%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of the camera.
+%  IOEO = 1x7 Vector representing [ x y z azimuth tilt swing focallength] of the camera.
 %  XYZ should be in the same units as xyz points to be converted and azimuth,
-%  tilt and swing should be in radians.
+%  tilt and swing should be in radians. Focal length is in pixels
 
 %  UVd = Px2 list of distorted image UV coordinates of N points. Columns
 %  represent U and V coordinates.
@@ -34,15 +34,15 @@
 %  undistortUV
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [xyz] = distUV2XYZ(intrinsics,extrinsics,UVd,knownDim,knownVal)
+function [xyz] = distUV2XYZ(IOEO,UVd,knownDim,knownVal)
 
 %% Section 1: Undistort UV Coordinates
-% So the camera image we pulled pixel values from is distorted.
-% Our P matrix transformation assumes no distortion. We have to correct for
-% this. So we  undistorted UV coordinates to correctly enter them in the
-% transformation.
+% Do Not need to do since we are assuming no radial or tangentail
+% distortion.
 Ud=UVd(1,:);
 Vd=UVd(2,:);
+
+intrinsics=[IOEO(8),IOEO(9),IOEO(10),IOEO(11),IOEO(7),IOEO(7),-0.665526263011371,0.647364804595011,-0.393645087749413,-0.000981061984022499,-0.00190367914499015];
 [U,V] = undistortUV(Ud,Vd,intrinsics);
 
 
@@ -53,7 +53,7 @@ Vd=UVd(2,:);
 % Take Calibration Information, combine it into a sigular P matrix
 % containing both intrinsics and extrinsic information. Requires function
 % intrinsicsExtrinsics2P.
-[P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+[P, K, R, IC] = intrinsicsExtrinsics2P( IOEO );
 
 
 

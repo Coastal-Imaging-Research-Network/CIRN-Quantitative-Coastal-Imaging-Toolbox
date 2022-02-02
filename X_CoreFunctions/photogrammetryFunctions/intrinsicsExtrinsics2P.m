@@ -6,11 +6,11 @@
 
 
 %  Input:
-%  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
 
-%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of the camera.
-%  XYZ should be in the same units as xyz points to be converted and azimith,
-%  tilt, and swing should be in radians.
+
+%  IOEO = 1x7 Vector representing [ x y z azimuth tilt swing focallength] of the camera.
+%  XYZ should be in the same units as xyz points to be converted and azimuth,
+%  tilt and swing should be in radians. Focal length is in pixels
 
 
 %  Output:
@@ -29,14 +29,14 @@
 %  None
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics )
+function [P, K, R, IC] = intrinsicsExtrinsics2P( IOEO )
 
 
 %% Section 1: Format IO into K matrix
-fx=intrinsics(5);
-fy=intrinsics(6);
-c0U=intrinsics(3);
-c0V=intrinsics(4);
+fx=IOEO(7);
+fy=IOEO(8);
+c0U=IOEO(11);
+c0V=IOEO(12);
 
 K = [-fx 0 c0U;
     0 -fy c0V;
@@ -53,18 +53,18 @@ K = [-fx 0 c0U;
 % different angles, this is where that modifcation would occur. Any R that
 % converts World to XYZc would work correctly.
 
-azimuth= extrinsics(4);
-tilt=extrinsics(5);
-swing=extrinsics(6);
+azimuth= IOEO(4);
+tilt=IOEO(5);
+swing=IOEO(6);
 [R] = CIRNangles2R(azimuth,tilt,swing);
 
 
 
 
 %% Section 3: Format EO into Translation Matrix
-x=extrinsics(1);
-y=extrinsics(2);
-z=extrinsics(3);
+x=IOEO(1);
+y=IOEO(2);
+z=IOEO(3);
 
 IC = [eye(3) [-x -y -z]'];
 

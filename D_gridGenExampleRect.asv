@@ -242,12 +242,13 @@ for k=1:length(imagePath)
     
     % Save IOEO into larger structure
     % Take First Solution (Can be altered if non-first frame imagery desired
-    IOEOi{k}=IOEO(1,:);
+    IOEO{k}=IOEO(1,:);
     
 end
 
 % Rename IEEO to original EOIO name so names consistent
-IOEO=IOEOi;
+extrinsics=Extrinsics;
+intrinsics=Intrinsics;
 
 
 %% Section 6: Load and Assign Extrinsics
@@ -259,10 +260,10 @@ IOEO=IOEOi;
 
 for k=1:length(ioeopath)
     %  World Extrinsics
-    IOEO{k}=IOEO{k};
+    extrinsics{k}=extrinsics{k};
     
     %  Local Extrinsics
-    localIOEO{k} = localTransformExtrinsics(localOrigin,localAngle,1,IOEO{k});
+    localExtrinsics{k} = localTransformExtrinsics(localOrigin,localAngle,1,extrinsics{k});
 end
 
 
@@ -327,7 +328,7 @@ end
 % rectified output.
 
 % World Rectification
-[Ir]= imageRectifier(I,IOEO,X,Y,Z,teachingMode);
+[Ir]= imageRectifier(I,intrinsics,extrinsics,X,Y,Z,teachingMode);
 % Specify Title
 subplot(2,2,[2 4])
 title(worldCoord)
@@ -336,7 +337,7 @@ title(worldCoord)
 % Local Rectification (If specified)
 if localOrigin~=[0,0] & localAngle ~= 0
     
-    [localIr]= imageRectifier(I,localIOEO,localX,localY,localZ,teachingMode);
+    [localIr]= imageRectifier(I,intrinsics,localExtrinsics,localX,localY,localZ,teachingMode);
     
     % Specify Title
     subplot(2,2,[2 4])

@@ -45,13 +45,14 @@ function [extrinsicsOut]= localTransformExtrinsics(localOrigin,localAngle,direct
 if directionFlag==1
     
     % Initiate Vector
-    extrinsicsOut=nan(length(extrinsicsIn(:,1)),6);
+    extrinsicsOut=nan(length(extrinsicsIn(:,1)),11);
     
     % Transform X and Y coordinate of extrinsics
     [ extrinsicsOut(:,1) extrinsicsOut(:,2)]= localTransformPoints(localOrigin,localAngle,1,extrinsicsIn(:,1),extrinsicsIn(:,2));
     
-    % Z, Tilt and Swing are the Same Since Just Horizontal Rot. and Tran
-    extrinsicsOut(:,[ 3 5 6])= extrinsicsIn(:,[3 5 6]);
+    % Z, Tilt and Swing are the Same Since Just Horizontal Rot. and Tran.
+    % As are intrinsics
+    extrinsicsOut(:,[ 3 5 6 7 8 9 10 11 12 13 14 15 16 17])= extrinsicsIn(:,[3 5 6 7 8 9 10 11 12 13 14 15 16 17]);
     
     % Rotate Azimuth
     extrinsicsOut(:,4)= extrinsicsIn(:,4)+[deg2rad(localAngle)];
@@ -66,13 +67,13 @@ end
 if directionFlag==0
     
     % Initiate Vector
-    extrinsicsOut=nan(length(extrinsicsIn(:,1)),6);
+    extrinsicsOut=nan(length(extrinsicsIn(:,1)),11);
     
     % Transform X and Y coordinate of extrinsics
     [ extrinsicsOut(:,1) extrinsicsOut(:,2)]= localTransformPoints(localOrigin,localAngle,0,extrinsicsIn(:,1),extrinsicsIn(:,2));
     
     % Z, Tilt and Swing are the Same Since Just Horizontal Rot. and Tran
-    extrinsicsOut(:,[ 3 5 6])= extrinsicsIn(:,[3 5 6]);
+    extrinsicsOut(:,[ 3 5 6 7 8 9 10 11])= extrinsicsIn(:,[ 3 5 6 7 8 9 10 11]);
     
     % Rotate Azimuth
     extrinsicsOut(:,4)= extrinsicsIn(:,4)-[deg2rad(localAngle)];

@@ -48,26 +48,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function [Ir]= imageRectification(I,intrinsics,extrinsics,X,Y,Z,teachingMode)
+function [Ir]= imageRectification(I,IOEO,X,Y,Z,teachingMode)
 
 %% Section 1: Determine if MultiCam or Single Cam
 % If input is for a singular camera and not already a cell, it will make it
 % a single entry cell so the loops below will work.
 
-chk=iscell(intrinsics);
+chk=iscell(IOEO);
 if chk==1
-    camnum=length(intrinsics);
+    camnum=length(IOEO);
 else
     camnum=1;
     Ip=I;
-    extrinsicsp=extrinsics;
-    intrinsicsp=intrinsics;
+    IOEOp=IOEO;
     
-    clear I extrinsics intrinsics
+    
+    clear I IOEO extrinsics intrinsics
     I{1}=Ip;
-    extrinsics{1}=extrinsicsp;
-    intrinsics{1}=intrinsicsp;
-    
+    IOEO{1}=IOEOp;    
 end
 
 
@@ -90,7 +88,7 @@ xyz=cat(2,x',y',z');
 for k=1:camnum
     
     % Determine UVd Points
-    [UVd, flag] = xyz2DistUV(intrinsics{k},extrinsics{k},xyz);
+    [UVd, flag] = xyz2DistUV(IOEO{k},xyz);
     
     
     % Reshape UVd Matrix so in size of input X,Y,Z

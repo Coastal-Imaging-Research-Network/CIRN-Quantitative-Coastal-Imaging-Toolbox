@@ -7,11 +7,9 @@
 
 
 %  Input:
-%  intrinsics = 1x11 Intrinsics Vector Formatted as in A_formatIntrinsics
-
-%  extrinsics = 1x6 Vector representing [ x y z azimuth tilt swing] of the camera.
+%  IOEO = 1x7 Vector representing [ x y z azimuth tilt swing focallength] of the camera.
 %  XYZ should be in the same units as xyz points to be converted and azimuth,
-%  tilt, and swing should be in radians.
+%  tilt and swing should be in radians. Focal length is in pixels
 
 %  xyz = Px3 list of world coordinates of P points to be transformed to UV
 %  coordinates. Columns represent X,Y, and Z coordinates.
@@ -32,29 +30,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function  [UVd,flag] = xyz2DistUV(intrinsics,extrinsics,xyz)
+function  [UVd,flag] = xyz2DistUV(IOEO,xyz)
 
 % Take Calibration Information, combine it into a sigular P matrix
 % containing both intrinsics and extrinsic information. Requires function
 % intrinsicsExtrinsicsToP.
-[P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+[P, K, R, IC] = intrinsicsExtrinsics2P( IOEO );
 
 % Find the Undistorted UV Coordinates atributed to each xyz point.
 UV = P*[xyz'; ones(1,size(xyz,1))];
 UV = UV./repmat(UV(3,:),3,1);  % Make Homogenenous
 
-% So the camera image we are going to pull pixel values from is distorted.
-% Our P matrix transformation assumes no distortion. We have to correct for
-% this. So we distort our undistorted UV coordinates to pull the correct
-% pixel values from the distorted image. Flag highlights invalid points
-% (=0) using intrinsic criteria.
-[Ud,Vd,flag] = distortUV(UV(1,:),UV(2,:),intrinsics);
+% No Need to distort or undistort
 
-% Find Negative Zc Camera Coordinates. Adds invalid point to flag (=0).
-[P, K, R, IC] = intrinsicsExtrinsics2P( intrinsics, extrinsics );
+intrinsics=[IOEO(9),IOEO(10),IOEO(11),IOEO(12),IOEO(7),IOEO(8),IOEO(13),IOEO(14),IOEO(15),IOEO(16),IOEO(17)];
+[Ud,Vd,flag] = distortUV(UV(1,:),UV(2,:),intrinsics);
 xyzC = R*IC*[xyz'; ones(1,size(xyz,1))];
 bind= find(xyzC (3,:)<=0);
 flag(bind)=0;
+
 
 % Make into a singular matrix for use in the non-linear solver
 UVd = [Ud; Vd];

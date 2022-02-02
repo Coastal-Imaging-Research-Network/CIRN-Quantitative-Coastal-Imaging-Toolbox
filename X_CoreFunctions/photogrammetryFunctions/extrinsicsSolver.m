@@ -38,10 +38,15 @@
 %       -distortUV
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [extrinsics extrinsicsError]= extrinsicsSolver(extrinsicsInitialGuess,extrinsicsKnownsFlag,intrinsics,UV,xyz)
+function [IOEO IOEOError]= extrinsicsSolver(IOEOInitialGuess,IOEOKnownsFlag,UV,xyz)
 
+
+options.Tolfun = 1e-12;
+options.TolX = 1e-12;
+    
+    
 %% Section 1: If All Values of beta are Unknown
-if sum(extrinsicsKnownsFlag)==0  %all values are zero
+if sum(IOEOKnownsFlag)==0  %all values are zero
     
     %  The following command actually uses two functions: CIRN xyz2DistUV and
     %  nlinfit. xyzToDistUV transforms a set of real world coordinates (XYZ) to
@@ -54,12 +59,12 @@ if sum(extrinsicsKnownsFlag)==0  %all values are zero
     %  and xyz [@(extrinsics,xyz)], all input left out of those brackets (intrinsics) should
     %  not be solved for and taken as constants in this solution.
     
-    [extrinsics,R,J,CovB]   = nlinfit(xyz,[UV(:,1); UV(:,2)],@(extrinsics,xyz)xyz2DistUV(intrinsics,extrinsics,xyz), extrinsicsInitialGuess);
+    [IOEO,R,J,CovB]   = nlinfit(xyz,[UV(:,1); UV(:,2)],@(IOEO,xyz)xyz2DistUV(IOEO,xyz), IOEOInitialGuess,options);
     
     %   extrinsics is the solved camera EO where R,J,CovB are metrics of the solution
     %   and can be explored in nlinfit documentation.
     
-    extrinsicsError=sqrt(diag(CovB));
+    IOEOError=sqrt(diag(CovB));
     
 end
 
@@ -68,7 +73,7 @@ end
 
 
 %% Section 2: If any values of extrinsics are known
-if sum(extrinsicsKnownsFlag)>0  %if any value is not zero
+if sum(IOEOKnownsFlag)>0  %if any value is not zero
     
     % The following section essentially does the same thing as Section 1.
     % However, due to the limitations of nlinfit we have to be a bit clever. In
@@ -81,14 +86,14 @@ if sum(extrinsicsKnownsFlag)>0  %if any value is not zero
     
     
     % Parse out what part of extrinsics is known and what is unknown
-    knownInd=find(extrinsicsKnownsFlag==1); % knowns are 1s
-    unKnownInd=find(extrinsicsKnownsFlag==0);% unknowns are 0s
+    knownInd=find(IOEOKnownsFlag==1); % knowns are 1s
+    unKnownInd=find(IOEOKnownsFlag==0);% unknowns are 0s
     
-    extrinsicsKnown=extrinsicsInitialGuess(knownInd);
-    extrinsicsUnknownInitialGuess=extrinsicsInitialGuess(unKnownInd);
+    IOEOKnown=IOEOInitialGuess(knownInd);
+    IOEOUnknownInitialGuess=IOEOInitialGuess(unKnownInd);
     
     % Solve for Unknown Component
-    [eunknownSol,R,J,CovB]   = nlinfit(xyz,[UV(:,1); UV(:,2)],@(extrinsicsUnknown,xyz)xyz2DistUVforNLinFit(extrinsicsKnownsFlag,extrinsicsKnown,extrinsicsUnknown, intrinsics,xyz),extrinsicsUnknownInitialGuess);
+    [eunknownSol,R,J,CovB]   = nlinfit(xyz,[UV(:,1); UV(:,2)],@(IOEOUnknown,xyz)xyz2DistUVforNLinFit(IOEOKnownsFlag,IOEOKnown,IOEOUnknown,xyz),IOEOUnknownInitialGuess,options);
     
     %  Ultimately we are telling nlinfit- our UV results are a function of extrinsics
     %  Unknowns and xyz [@(extrinsicsUnknown,xyz)], all input left out of those
@@ -98,13 +103,13 @@ if sum(extrinsicsKnownsFlag)>0  %if any value is not zero
     eunknownSolError=sqrt(diag(CovB));
     
     % Put Back into extrinsics [1x6] format
-    extrinsics=nan(1,6);
-    extrinsics(knownInd)=extrinsicsKnown;
-    extrinsics(unKnownInd)=eunknownSol;
+    IOEO=nan(1,11);
+    IOEO(knownInd)=IOEOKnown;
+    IOEO(unKnownInd)=eunknownSol;
     
-    extrinsicsError=nan(1,6);
-    extrinsicsError(knownInd)=0; % Assumed Known so Error is 0
-    extrinsicsError(unKnownInd)=eunknownSolError;
+    IOEOError=nan(1,11);
+    IOEOError(knownInd)=0; % Assumed Known so Error is 0
+    IOEOError(unKnownInd)=eunknownSolError;
     
 end
 
@@ -113,19 +118,19 @@ end
 
 
 %% Section 3: Modified xyzToDistUV Function for nLinFit
-    function [UVd]= xyz2DistUVforNLinFit(extrinsicsKnownsFlag,extrinsicsKnown, extrinsicsUnknown, intrinsics,xyz)
+    function [UVd]= xyz2DistUVforNLinFit(IOEOKnownsFlag,IOEOKnown, IOEOUnknown, xyz)
         
         % Identify where in extrinsics does the knowns and unknowns belong
-        kInd=find(extrinsicsKnownsFlag==1);
-        ukInd=find(extrinsicsKnownsFlag==0);
+        kInd=find(IOEOKnownsFlag==1);
+        ukInd=find(IOEOKnownsFlag==0);
         
         % Formulate an intermediate extrinsics to put into xyzToDistUV
-        iextrinsics=nan(1,6);
-        iextrinsics(kInd)=extrinsicsKnown;
-        iextrinsics(ukInd)=extrinsicsUnknown;
+        iIOEO=nan(1,11);
+        iIOEO(kInd)=IOEOKnown;
+        iIOEO(ukInd)=IOEOUnknown;
         
         
-        [UVd]= xyz2DistUV(intrinsics,iextrinsics,xyz);
+        [UVd]= xyz2DistUV(iIOEO,xyz);
     end
 
 

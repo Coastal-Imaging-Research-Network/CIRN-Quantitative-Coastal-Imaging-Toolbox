@@ -1,8 +1,8 @@
 %% C_singleExtrinsicSolution
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This function solves the extrinsics (EO) for a given camera for use in
-% the toolbox.  The user will load gcp and intrinsic  (IO) information via
-% input files. The user will specify coordinate system information as well
+% This function solves the extrinsics (EO) and  intrinsics (IO) for a given camera for use in
+% the toolbox. Solving for IO, it assumes radial and tangential distortion are zero.
+% The user will specify coordinate system information as well
 % as initial extrinsic guesses. The function will output the solved
 % extrinsics in the form of the vector extrinsics, metadata  information in
 % initialCamSolutionMeta, and a reprojection error figure.
@@ -10,10 +10,10 @@
 
 %  Input:
 %  Entered by user below in Sections 1-4. Function requires output from
-%  A_ioInitialization (Section 2) and B_gcpSelection (Section 3).  In
+%   and B_gcpSelection (Section 3).  In
 %  addition, function requires corresponding GCP world coordinates via a
 %  text file created and specified by the user in Section 3.The user will
-%  provide an initial guess for extrinsics in Section 4.
+%  provide an initial guess for extrinsics and intrinsics in Section 4.
 
 %  Note, the extrinsics solution will be in the same coordinate system as
 %  the GCPs. Regardless of what the user enters, this will be referred to
@@ -81,14 +81,13 @@ odir= './X_UASDemoData/extrinsicsIntrinsics/InitialValues/';
 
 
 
-
-%% Section 2: User Input: Intrinsics
-%  Filepath of the intrinsics matfile output by A_formatIntrinsics. Matfile
-%  should contain at minimum the following variable. Note, the intrinsics
-%  should correspond to the recording mode and camera/lens for the image
-%  taken in B_gcpSelection, imagePath.
-iopath= './X_UASDemoData/extrinsicsIntrinsics/IntrinsicCalculations/uasDemo_IO.mat';
-
+%% Not Needed if Floating IO
+% %% Section 2: User Input: Intrinsics
+% %  Filepath of the intrinsics matfile output by A_formatIntrinsics. Matfile
+% %  should contain at minimum the following variable. Note, the intrinsics
+% %  should correspond to the recording mode and camera/lens for the image
+% %  taken in B_gcpSelection, imagePath.
+% iopath= './X_UASDemoData/extrinsicsIntrinsics/IntrinsicCalculations/uasDemo_IO.mat';
 
 
 
@@ -125,7 +124,7 @@ gcpsUsed=[1 2 3 4 5];
 
 
 
-%% Section 4: User Input: Solution Information
+%% Section 4: User Input: Extrinsics Solution Information
 %  Enter the initial guess of extrinsics, for the corresponding camera
 %  image. Extrinsics is formatted as [ x y z azimuth tilt swing] where xyz
 %  correspond to the same  world coordinate system as GCPs entered in
@@ -165,13 +164,17 @@ extrinsicsKnownsFlag= [ 0 0 0 0 0 0];  % [ x y z azimuth tilt swing]
 %  Diagrams of these defintions are in Section 5 of the user manual.
 
 
+%% Section 5: User Input: Intrinsics Solution Information
+intrinsicsInitialGuess= [ 1200 1200 ]; % [ fx fy ]
+intrinsicsKnownsFlag= [ 0 0 ];  % 
+
 
 
 
 %% Section 5: Load IO and GCP Files
 
-% Load IO
-load(iopath)
+% % Load IO
+% load(iopath)
 
 % Load GCP UV
 load(gcpUvdPath)
@@ -221,22 +224,37 @@ xyz = [x' y' z'];  % N x 3 matrix with rows= N gcps, columns= x,y,z
 UVd=reshape([gcp(gcpInd).UVd],2,length(x))'; % N x 2 matrix with rows=gcps, columns= U,V
 
 
+
+% Format IOEO Vector for new solution
+IOEOInitialGuess(1:6)=extrinsicsInitialGuess;
+IOEOInitialGuess(7:8)=intrinsicsInitialGuess(1:2);
+[r c cc]=size(imread(imagePath));
+IOEOInitialGuess(9:10)=[c r];
+IOEOInitialGuess(11:12)=IOEOInitialGuess(9:10)/2;
+IOEOInitialGuess(13:17)=0; % assume zero tangential and radial distortion
+
+IOEOKnownsFlag(1:6)=extrinsicsKnownsFlag;
+IOEOKnownsFlag(7:8)=intrinsicsKnownsFlag;
+IOEOKnownsFlag(9:10)=1;
+IOEOKnownsFlag(11:12)=1;
+IOEOKnownsFlag(13:17)=1;
+
 %  Function extrinsicsolver will solve for the unknown extrinsics EO as well as
 %  provide error estimates for each value. Function extrinsicsSolver requires the
 %  function xyzToDistUV, which requires intrinsicsExtrinsics2P and distortUV.
 
-[extrinsics extrinsicsError]= extrinsicsSolver(extrinsicsInitialGuess,extrinsicsKnownsFlag,intrinsics,UVd,xyz);
+[IOEO IOEOError]= extrinsicsSolver(IOEOInitialGuess,IOEOKnownsFlag,UVd,xyz);
 
 
 % Display the results
 disp(' ')
 disp('Solved Extrinsics and NLinfit Error')
-disp( [' x = ' num2str(extrinsics(1)) ' +- ' num2str(extrinsicsError(1))])
-disp( [' y = ' num2str(extrinsics(2)) ' +- ' num2str(extrinsicsError(2))])
-disp( [' z = ' num2str(extrinsics(3)) ' +- ' num2str(extrinsicsError(3))])
-disp( [' azimuth = ' num2str(rad2deg(extrinsics(4))) ' +- ' num2str(rad2deg(extrinsicsError(4))) ' degrees'])
-disp( [' tilt = ' num2str(rad2deg(extrinsics(5))) ' +- ' num2str(rad2deg(extrinsicsError(5))) ' degrees'])
-disp( [' swing = ' num2str(rad2deg(extrinsics(6))) ' +- ' num2str(rad2deg(extrinsicsError(6))) ' degrees'])
+disp( [' x = ' num2str(IOEO(1)) ' +- ' num2str(IOEOError(1))])
+disp( [' y = ' num2str(IOEO(2)) ' +- ' num2str(IOEOError(2))])
+disp( [' z = ' num2str(IOEO(3)) ' +- ' num2str(IOEOError(3))])
+disp( [' azimuth = ' num2str(rad2deg(IOEO(4))) ' +- ' num2str(rad2deg(IOEOError(4))) ' degrees'])
+disp( [' tilt = ' num2str(rad2deg(IOEO(5))) ' +- ' num2str(rad2deg(IOEOError(5))) ' degrees'])
+disp( [' swing = ' num2str(rad2deg(IOEO(6))) ' +- ' num2str(rad2deg(IOEOError(6))) ' degrees'])
 
 
 
@@ -255,7 +273,7 @@ zCheck=[gcp(:).z];
 xyzCheck = [xCheck' yCheck' zCheck'];  % N x 3 matrix with rows= N gcps, columns= x,y,z
 
 % Transform xyz World Coordinates to Distorted Image Coordinates
-[UVdReproj ] = xyz2DistUV(intrinsics,extrinsics,xyzCheck);
+[UVdReproj ] = xyz2DistUV(IOEO,xyzCheck);
 
 %  Reshape UVdCheck so easier to interpret
 UVdReproj = reshape(UVdReproj ,[],2);
@@ -288,7 +306,7 @@ legend([h1 h2],'Clicked UVd','Reprojected UVd')
 for k=1:length(gcp)
     
     % Assumes Z is the known value; Reproject World XYZ from Clicked UVd
-    [xyzReproj(k,:)] = distUV2XYZ(intrinsics,extrinsics,[gcp(k).UVd(1); gcp(k).UVd(2)],'z',gcp(k).z);
+    [xyzReproj(k,:)] = distUV2XYZ(IOEO,[gcp(k).UVd(1); gcp(k).UVd(2)],'z',gcp(k).z);
     
     % Calculate Difference from Surveyd GCP World Coordinates
     gcp(k).xReprojError=xyzCheck(k,1)-xyzReproj(k,1);
@@ -316,7 +334,7 @@ end
 
 % Construct the MetaData Structure
 % Identify files used for GCP XYZ and UV Coord
-initialCamSolutionMeta.iopath=iopath;
+% initialCamSolutionMeta.iopath=iopath;
 initialCamSolutionMeta.gcpUvPath=gcpUvdPath;
 initialCamSolutionMeta.gcpXyzPath=gcpXyzPath;
 
@@ -326,7 +344,9 @@ initialCamSolutionMeta.gcpRMSE=rms;
 initialCamSolutionMeta.gcps=gcp;
 initialCamSolutionMeta.extrinsicsInitialGuess=extrinsicsInitialGuess;
 initialCamSolutionMeta.extrinsicsKnownsFlag=extrinsicsKnownsFlag;
-initialCamSolutionMeta.extrinsicsUncert=extrinsicsError';
+initialCamSolutionMeta.intrinsicsInitialGuess=intrinsicsInitialGuess;
+initialCamSolutionMeta.intrinsicsKnownsFlag=intrinsicsKnownsFlag;
+initialCamSolutionMeta.IOEOUncert=IOEOError';
 initialCamSolutionMeta.imagePath=initialCamSolutionMeta.gcps(1).imagePath;
 
 % Coordinate System Information
@@ -335,7 +355,7 @@ initialCamSolutionMeta.worldCoordSys=gcpCoord;
 
 
 % Save Results
-save([odir '/' oname '_IOEOInitial' ],'initialCamSolutionMeta','extrinsics','intrinsics')
+save([odir '/' oname '_IOEOInitial' ],'initialCamSolutionMeta','IOEO')
 
 
 % Display
