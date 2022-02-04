@@ -217,19 +217,17 @@ for k=1:camnum
     % Check if fixed or variable. If fixed (length(extrinsics(:,1))==1), make
     % an extrinsic matrix the same length as L, just with initial extrinsics
     % repeated.
-    if length(extrinsics(:,1))==1
-        extrinsics=repmat(extrinsics,length(L{k}(:)),1);
+    if length(IOEO(:,1))==1
+        IOEO=repmat(IOEO,length(L{k}(:)),1);
     end
     if localFlag==1
-        extrinsics=localTransformExtrinsics(localOrigin,localAngle,1,extrinsics);
+        IOEO=localTransformExtrinsics(localOrigin,localAngle,1,IOEO);
     end
     
     % Aggreate Camera Extrinsics Together
-    Extrinsics{k}=extrinsics;
-    Intrinsics{k}=intrinsics;
+    IIOEO{k}=IOEO;
     
-    clear extrinsics
-    clear intrinsics
+   clear IOEO
 end
 
 
@@ -261,12 +259,11 @@ for j=1:length(L{1}(:))
     
     %Pull Correct Extrinsics out, Corresponding In time
     for k=1:camnum
-        extrinsics{k}=Extrinsics{k}(j,:);
+        IOEO{k}=IIOEO{k}(j,:);
     end
-    intrinsics=Intrinsics;
     
     
-    [Ir]= imageRectifier(I,intrinsics,extrinsics,X,Y,Z,0);
+    [Ir]= imageRectifier(I,IOEO,X,Y,Z,0);
     
     
     

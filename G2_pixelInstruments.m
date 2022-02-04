@@ -269,19 +269,18 @@ for k=1:camnum
     % Check if fixed or variable. If fixed (length(extrinsics(:,1))==1), make
     % an extrinsic matrix the same length as L, just with initial extrinsics
     % repeated.
-    if length(extrinsics(:,1))==1
-        extrinsics=repmat(extrinsics,length(L{k}(:)),1);
+    if length(IOEO(:,1))==1
+        IOEO=repmat(IOEO,length(L{k}(:)),1);
     end
     if localFlag==1
-        extrinsics=localTransformExtrinsics(localOrigin,localAngle,1,extrinsics);
+        IOEO=localTransformExtrinsics(localOrigin,localAngle,1,IOEO);
     end
     
     % Aggreate Camera Extrinsics Together
-    Extrinsics{k}=extrinsics;
+    IIOEO{k}=IOEO;
     Intrinsics{k}=intrinsics;
     
-    clear extrinsics
-    clear intrinsics
+    clear IOEO
 end
 
 
@@ -332,12 +331,12 @@ for k=1:camnum
         
         %Pull Correct Extrinsics out, Corresponding In time
         
-        extrinsics=Extrinsics{k}(1,:);
+        IOEO=IIOEO{k}(1,:);
         intrinsics=Intrinsics{k};
         
         
         % Determine UVd Points from intrinsics and initial extrinsics
-        [UVd] = xyz2DistUV(intrinsics,extrinsics,xyz);
+        [UVd] = xyz2DistUV(IOEO,xyz);
         
         % Make A size Suitable for Plotting
         UVd = reshape(UVd,[],2);
@@ -350,8 +349,7 @@ for k=1:camnum
     end
     legend(le)
     clear I
-    clear extrinsics
-    clear intrinsics
+    clear IOEO
 end
 
 % Allows for the instruments to be plotted before processing
@@ -383,12 +381,11 @@ for j=1:length(L{1}(:))
         
         %Pull Correct Extrinsics out, Corresponding In time
         for k=1:camnum
-            extrinsics{k}=Extrinsics{k}(j,:);
+            IOEO{k}=IIOEO{k}(j,:);
         end
-        intrinsics=Intrinsics;
         
         % Pull RGB Pixel Intensities
-        [Irgb]= imageRectifier(I,intrinsics,extrinsics,pixInst(p).X,pixInst(p).Y,pixInst(p).Z,0);
+        [Irgb]= imageRectifier(I,IOEO,pixInst(p).X,pixInst(p).Y,pixInst(p).Z,0);
         
         
         % Convert To Grayscale
