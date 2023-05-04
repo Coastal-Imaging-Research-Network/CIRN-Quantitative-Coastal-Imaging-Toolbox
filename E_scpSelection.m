@@ -156,11 +156,14 @@ if isempty(imagePath)==0
             % is satisfactory. (Its really a square width, not radius)
             Rn=75;
             h=rectangle('position',[x-Rn,y-Rn,2*Rn,2*Rn],'EdgeColor','r','linewidth',1);
+            figure(f1)
             while isempty(Rn)==0
                 R=Rn;
                 Rn=input('MovementRadius,leave empty if previous entry satisfactory:');
                 if isempty(Rn)==0
+                    
                     h.Position=[x-Rn,y-Rn,2*Rn,2*Rn];
+                    figure(f1)
                 end
             end
             
@@ -235,6 +238,7 @@ if isempty(imagePath)==0
                 cmap=cmap([1 100],:);
                 colormap(gca,cmap)
                 hh.Ticks=[0 1];
+                figure(f2)
                 % Have user Enter New Value
                 Tn=input('Color Threshold,leave empty if previous entry satisfactory:');
             end
