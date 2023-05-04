@@ -286,7 +286,7 @@ for k=ind(2:end)
     % scps as gcps
     extrinsicsInitialGuess=extrinsics_o;
     extrinsicsKnownsFlag=[0 0 0 0 0 0];
-    [extrinsics_n extrinsicsError]= extrinsicsSolver(extrinsicsInitialGuess,extrinsicsKnownsFlag,intrinsics,scpUVdo',xyzo);
+    [extrinsics_n extrinsicsError]= extrinsicsSolver(extrinsicsInitialGuess,extrinsicsKnownsFlag,intrinsics,scpUVdn',xyzo);
     
     
     % Save Extrinsics in Matrix
